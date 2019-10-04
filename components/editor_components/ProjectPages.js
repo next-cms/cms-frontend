@@ -11,7 +11,7 @@ import {withRouter} from "next/router";
 
 export const pageDetailsQuery = `
     query pageDetailsQuery($projectId: String!, $page: String!) {
-        page(id: $projectId, page: $page) {
+        page(projectId: $projectId, page: $page) {
             title
             slug
             children

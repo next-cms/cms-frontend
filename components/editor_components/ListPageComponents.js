@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from "react";
 import * as PropTypes from "prop-types";
 
-import {Button, message, Tree} from "antd";
+import {Button, Tree} from "antd";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import AddComponentModal from "./AddComponentModal";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
 const { TreeNode } = Tree;
 
@@ -20,7 +21,7 @@ const ListPageComponents = ({ pageDetails }) => {
     const [pageChildren, setPageChildren] = useState(
         pageDetails.children || []
     );
-    const [addComponent, pageDetailsData] = useMutation(ADD_COMPONENT);
+    const [addComponent] = useMutation(ADD_COMPONENT);
     const router = useRouter();
     const projectId = router.query.id;
     const pageName = router.query.pageName;
@@ -135,10 +136,7 @@ const ListPageComponents = ({ pageDetails }) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            message.error(
-                (result.httpError && result.httpError.statusText) ||
-                    (result.graphQLErrors && result.graphQLErrors[0].message)
-            );
+            handleGraphQLAPIErrors(result);
         }
     };
 

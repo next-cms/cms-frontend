@@ -3,15 +3,23 @@ import {Affix, Layout} from "antd";
 import "./layout.scss";
 import AsideLeft from "./aside/AsideLeft";
 import * as PropTypes from "prop-types";
+import DefaultMenuItems from "./aside/DefaultMenuItems";
+import {MenuContext} from "../../contexts/MenuContextProvider";
 
 const {Content, Sider} = Layout;
 
 const CommonLayout = ({navHeader, children, footer}) => {
     const [collapsed, setCollapsed] = useState(false);
+    const menuContext = React.useContext(MenuContext);
 
     const onCollapse = collapsed => {
         setCollapsed(collapsed);
     };
+
+    React.useEffect(() => {
+        menuContext.setMenuItems(DefaultMenuItems);
+        menuContext.setSelectedKeys([DefaultMenuItems.dashboard.key]);
+    }, []);
 
     return (
         <Layout>

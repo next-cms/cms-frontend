@@ -4,16 +4,13 @@ import * as PropTypes from "prop-types";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {clone, cloneDeep, set, startCase} from "lodash";
 import JsonComponentList from "./JsonComponent";
+import {useMutation} from "graphql-hooks";
+import {useRouter} from "next/router";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
-const SAVE_COMPONENT_PROPERTIES_QUERY = `
-mutation saveComponent($component: JSONObject!, $description: String, $websiteUrl: String!) {
-  createProject(title: $title, description: $description, websiteUrl: $websiteUrl) {
-    id
-    title
-    description
-    websiteUrl
-    createdAt
-  }
+const SAVE_COMPONENT = `
+mutation saveComponent($component: JSONObject!, $page: String!, $projectId: String!) {
+  saveComponent(component: $component, page: $page, projectId: $projectId)
 }`;
 
 const ListComponentProperties = ({pageDetails}) => {
@@ -22,6 +19,11 @@ const ListComponentProperties = ({pageDetails}) => {
     const selectedProjectItem = dataStoreContext.selectedProjectItem;
     const [visible, setVisible] = useState(false);
     const [item, setItem] = useState(cloneDeep(selectedProjectItem));
+    const [saveComponent] = useMutation(SAVE_COMPONENT);
+
+    const router = useRouter();
+    const projectId = router.query.id;
+    const pageName = router.query.pageName;
 
     useEffect(() => {
         setItem(cloneDeep(selectedProjectItem));
@@ -32,7 +34,6 @@ const ListComponentProperties = ({pageDetails}) => {
     };
 
     const handleTextInputChange = (object, path, value) => {
-        console.log("handleTextInputChange", object, path, value);
         const newObject = clone(object);
         set(newObject, path, value);
         setItem(newObject);
@@ -42,15 +43,27 @@ const ListComponentProperties = ({pageDetails}) => {
         setVisible(true);
     };
 
-    const handleSave = e => {
+    const handleSave = async e => {
         console.log(e);
         console.log("handleSave", item);
+        const result = await saveComponent({
+            variables: {
+                component: item,
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            dataStoreContext.setPageDetailsUpdated(true);
+        } else {
+            handleGraphQLAPIErrors(result);
+        }
     };
 
     const handleJsonInputOk = e => {
         console.log(e);
         setVisible(false);
-        handleSave(e);
+        return handleSave(e);
     };
 
     const handleJsonInputCancel = e => {

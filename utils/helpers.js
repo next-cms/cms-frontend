@@ -1,3 +1,10 @@
+import {message} from "antd";
+import {redirectTo} from "../components/common/Redirect";
+import getConfig from "next/config";
+
+const {publicRuntimeConfig} = getConfig();
+const {LOGIN_PATH} = publicRuntimeConfig;
+
 export function concatQueryParamsToPath(path, params) {
     let modifiedPath = path;
     let f = false;
@@ -37,5 +44,16 @@ export function injectParamsToPathOfNavs(navs, params) {
 export function injectParams(navs, params) {
     for (const nav of Object.values(navs)) {
         injectParamsToPathOfNav(nav, params);
+    }
+}
+
+export function handleGraphQLAPIErrors(error) {
+    message.error(
+        (error.httpError && error.httpError.statusText) ||
+        (error.graphQLErrors && error.graphQLErrors[0].message)
+    );
+    console.error(error);
+    if (error.graphQLErrors && error.graphQLErrors[0].extensions.code === "FORBIDDEN") {
+        return redirectTo(LOGIN_PATH);
     }
 }

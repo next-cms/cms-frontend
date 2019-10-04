@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import getConfig from "next/config";
 import {useRouter} from "next/router";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
-import {message, Tabs} from "antd";
+import {Button, Col, message, Row, Tabs} from "antd";
 import {useQuery} from "graphql-hooks";
 import dynamic from "next/dynamic";
 
@@ -15,14 +15,14 @@ const CodeEditor = dynamic(() => import("./CodeEditor"), {ssr: false});
 
 export const pageSourceCode = `
   query pageSourceCode($projectId: String!, $page: String!) {
-    pageSourceCode(id: $projectId, page: $page)
+    pageSourceCode(projectId: $projectId, page: $page)
   }
 `;
 
 const {API_NEXT_PROJECT_URL} = publicRuntimeConfig;
 
 const initStyle = {
-    height: "100vh"
+    height: "calc(100vh - 180px)"
 };
 
 const PreviewPageComponents = ({pageDetails, pageName}) => {
@@ -56,7 +56,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         if (!ref.current) return;
         ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
         setStyle({
-            height: "100vh",
+            ...initStyle,
             visibility: "visible",
             background: "url(/static/loader.gif) center center no-repeat"
         });
@@ -65,6 +65,23 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     useEffect(() => {
         if (dataStoreContext.pageDetailsUpdated) {
             refetch({variables: {projectId: projectId, page: pageName}});
+            if (ref.current) {
+                ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
+                setStyle({
+                    height: "100vh",
+                    visibility: "visible",
+                    background: "url(/static/loader.gif) center center no-repeat"
+                });
+            }
+        }
+    }, [dataStoreContext.pageDetailsUpdated]);
+
+    const onLoad = () => {
+        setStyle(initStyle);
+    };
+
+    const onRefreshClick = () => {
+        if (ref.current) {
             ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
             setStyle({
                 height: "100vh",
@@ -72,10 +89,6 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
                 background: "url(/static/loader.gif) center center no-repeat"
             });
         }
-    }, [dataStoreContext.pageDetailsUpdated]);
-
-    const onLoad = () => {
-        setStyle(initStyle);
     };
 
     const onTabChange = (key) => {
@@ -84,7 +97,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     };
 
     const onCodeEditorChange = (newValue) => {
-        console.log("change", newValue);
+        console.log("change");
     };
 
     return (
@@ -94,12 +107,17 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
                     mode="jsx"
                     onChange={onCodeEditorChange}
                     value={data ? data.pageSourceCode : ""}
-                    height="100vh"
+                    height="calc(100vh - 180px)"
                     width="100%"
                 />
             </TabPane>
             <TabPane tab="Preview" key="2">
                 <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>
+                <Row style={{paddingTop: "5px"}}>
+                    <Col>
+                        <Button type="primary" onClick={onRefreshClick}>Refresh/Reload</Button>
+                    </Col>
+                </Row>
             </TabPane>
         </Tabs>
     );
