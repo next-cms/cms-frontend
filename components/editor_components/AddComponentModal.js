@@ -28,8 +28,7 @@ const AddComponentModal = ({visible, handleOk, handleCancel}) => {
             title="Component Lists"
             visible={visible}
             onOk={_handleOk}
-            onCancel={handleCancel}
-        >
+            onCancel={handleCancel}>
             <AvailableComponentList onSelect={onSelect} selectedComponents={selectedComponents}/>
         </Modal>
     );

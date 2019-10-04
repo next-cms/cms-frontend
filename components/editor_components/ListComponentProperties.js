@@ -1,11 +1,11 @@
-import React, { useContext, useState, Fragment } from "react";
-import { Collapse, Input, Button, Icon } from "antd";
+import React, {Fragment, useContext, useState} from "react";
+import {Button, Collapse, Icon, Input} from "antd";
 import * as PropTypes from "prop-types";
-import { DataStoreContext } from "../../contexts/DataStoreContextProvider";
-import { startCase } from "lodash";
+import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
+import {startCase} from "lodash";
 import JsonComponentList from "./JsonComponent";
 
-const ListComponentProperties = ({ pageDetails }) => {
+const ListComponentProperties = ({pageDetails}) => {
     const dataStoreContext = useContext(DataStoreContext);
     const [openKeys, setOpenKeys] = useState([Object.keys(pageDetails)[0]]);
 
@@ -35,35 +35,41 @@ const ListComponentProperties = ({ pageDetails }) => {
     };
 
     const generatePanelItem = item => {
-        if (!item.attributes) return null;
-        return item.attributes.map(attr => {
+        if (!item.props) return null;
+        return Object.keys(item.props).map(attr => {
             return (
-                <Fragment key={attr.name}>
-                    <span>{startCase(attr.name)}: </span>
-                    <span>
-                        {attr.name === "style" ? (
-                            <Button onClick={showModal}>
-                                <Icon type="edit" />
-                            </Button>
+                <Fragment key={attr}>
+                    <div>{startCase(attr)}:</div>
+                    <div>
+                        {(item.props[attr].type === "object" || item.props[attr].type === "element") ? (
+                            <>
+                                <Input disabled={true}
+                                       style={{width: 190}}
+                                       defaultValue={item.props[attr].value ? item.props[attr].value.value : attr}
+                                />
+                                <Button onClick={showModal}>
+                                    <Icon type="edit"/>
+                                </Button>
+                            </>
                         ) : (
                             <>
                                 <Input
-                                    style={{ width: 200 }}
-                                    defaultValue={attr.name}
+                                    style={{width: 190}}
+                                    defaultValue={item.props[attr].value ? item.props[attr].value.value : attr}
                                 />
-                                <Button style={{ border: "1px solid green" }}>
+                                <Button style={{border: "1px solid green"}}>
                                     <b>
                                         <Icon
                                             type="check"
-                                            style={{ color: "green" }}
+                                            style={{color: "green"}}
                                         />
                                     </b>
                                 </Button>
                             </>
                         )}
-                    </span>
-                    <br />
-                    <br />
+                    </div>
+                    <br/>
+                    <br/>
                     <JsonComponentList
                         visible={visible}
                         handleOk={handleOk}
@@ -79,7 +85,7 @@ const ListComponentProperties = ({ pageDetails }) => {
         <Collapse
             defaultActiveKey={openKeys}
             onChange={onChange}
-            style={{ flex: "0 0 100%" }}
+            style={{flex: "0 0 100%"}}
         >
             {generatePanelItem(selectedProjectItem)}
         </Collapse>
