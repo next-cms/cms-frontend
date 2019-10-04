@@ -30,6 +30,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     const router = useRouter();
     const projectId = router.query.id;
     const [style, setStyle] = React.useState(initStyle);
+    const [tab, setTab] = React.useState("1");
     const dataStoreContext = useContext(DataStoreContext);
 
     const {loading, error, data, refetch} = useQuery(pageSourceCode, {
@@ -54,14 +55,22 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     useEffect(() => {
         if (!ref.current) return;
         ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
-        setStyle({visibility: "visible", background: "url(/static/loader.gif) center center no-repeat"});
-    }, [pageName]);
+        setStyle({
+            height: "100vh",
+            visibility: "visible",
+            background: "url(/static/loader.gif) center center no-repeat"
+        });
+    }, [pageName, tab]);
 
     useEffect(() => {
         if (dataStoreContext.pageDetailsUpdated) {
             refetch({variables: {projectId: projectId, page: pageName}});
             ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
-            setStyle({visibility: "visible", background: "url(/static/loader.gif) center center no-repeat"});
+            setStyle({
+                height: "100vh",
+                visibility: "visible",
+                background: "url(/static/loader.gif) center center no-repeat"
+            });
         }
     }, [dataStoreContext.pageDetailsUpdated]);
 
@@ -71,6 +80,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
 
     const onTabChange = (key) => {
         console.log(key);
+        setTab(key);
     };
 
     const onCodeEditorChange = (newValue) => {
