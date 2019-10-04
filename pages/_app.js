@@ -8,11 +8,9 @@ import DataStoreContextProvider from "../contexts/DataStoreContextProvider";
 import Router from "next/router";
 import NProgress from "nprogress";
 import MenuContextProvider from "../contexts/MenuContextProvider";
-import NavHeader from "../components/layout/header/DefaultNavHeader";
-import CustomFooter from "../components/layout/Footer";
-import CommonLayout from "../components/layout/CommonLayout";
 import ProjectLayout from "../components/layout/ProjectLayout";
 import getConfig from "next/config";
+import DefaultLayout from "../components/layout/DefaultLayout";
 
 const {publicRuntimeConfig} = getConfig();
 const {PROJECT_PATH} = publicRuntimeConfig;
@@ -80,9 +78,9 @@ class CMSApp extends App {
                     <Component {...pageProps} />
                 </ProjectLayout>;
             } else {
-                return <CommonLayout navHeader={<NavHeader/>} footer={<CustomFooter/>}>
+                return <DefaultLayout>
                     <Component {...pageProps} />
-                </CommonLayout>;
+                </DefaultLayout>;
             }
         }
 

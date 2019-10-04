@@ -4,16 +4,16 @@ import {withAuthSync} from "../../utils/withAuthSync";
 import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
-import ProjectHeaders from "../../components/editor_components/ProjectHeaders";
+import ProjectMediaGallery from "../../components/editor_components/ProjectMediaGallery";
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const Headers = (props) => {
+const MediaGallery = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([WrappedHeaders.routeInfo.slug]);
+        menuContext.setSelectedKeys([WrappedMediaGallery.routeInfo.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -24,21 +24,22 @@ const Headers = (props) => {
             minHeight: "calc(100vh - 80px)",
             padding: 0
         }}>
-            <ProjectHeaders project={props.project}/>
+            <ProjectMediaGallery project={props.project}/>
         </PageWrapper>
     );
 };
 
-Headers.propTypes = {
+MediaGallery.propTypes = {
     project: PropTypes.object
 };
 
-const WrappedHeaders = withAuthSync(Headers);
+const WrappedMediaGallery = withAuthSync(MediaGallery);
 
-WrappedHeaders.routeInfo = {
-    slug: "headers",
-    path: "/project/headers",
-    pathAs: "/project/headers"
+WrappedMediaGallery.routeInfo = {
+    slug: "gallery",
+    path: "/project/gallery",
+    pathAs: "/project/gallery",
+    title: "Media Gallery"
 };
 
-export default WrappedHeaders;
+export default WrappedMediaGallery;

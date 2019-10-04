@@ -4,16 +4,16 @@ import {withAuthSync} from "../../utils/withAuthSync";
 import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
-import ProjectFooters from "../../components/editor_components/ProjectFooters";
+import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const Footers = (props) => {
+const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([WrappedFooters.routeInfo.slug]);
+        menuContext.setSelectedKeys([WrappedDataStore.routeInfo.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -24,21 +24,22 @@ const Footers = (props) => {
             minHeight: "calc(100vh - 80px)",
             padding: 0
         }}>
-            <ProjectFooters project={props.project}/>
+            <ProjectDataStore project={props.project}/>
         </PageWrapper>
     );
 };
 
-Footers.propTypes = {
+DataStore.propTypes = {
     project: PropTypes.object
 };
 
-const WrappedFooters = withAuthSync(Footers);
+const WrappedDataStore = withAuthSync(DataStore);
 
-WrappedFooters.routeInfo = {
-    slug: "footers",
-    path: "/project/footers",
-    pathAs: "/project/footers"
+WrappedDataStore.routeInfo = {
+    slug: "datastore",
+    path: "/project/datastore",
+    pathAs: "/project/datastore",
+    title: "Data Store"
 };
 
-export default WrappedFooters;
+export default WrappedDataStore;

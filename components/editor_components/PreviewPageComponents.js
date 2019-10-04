@@ -5,17 +5,23 @@ import getConfig from "next/config";
 import {useRouter} from "next/router";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {Button, Col, message, Row, Tabs} from "antd";
-import {useQuery} from "graphql-hooks";
+import {useMutation, useQuery} from "graphql-hooks";
 import dynamic from "next/dynamic";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
 const {TabPane} = Tabs;
 const {publicRuntimeConfig} = getConfig();
 
 const CodeEditor = dynamic(() => import("./CodeEditor"), {ssr: false});
 
-export const pageSourceCode = `
+export const PAGE_SOURCE_CODE = `
   query pageSourceCode($projectId: String!, $page: String!) {
     pageSourceCode(projectId: $projectId, page: $page)
+  }
+`;
+export const SAVE_PAGE_SOURCE_CODE = `
+  mutation savePageSourceCode($sourceCode: String!, $projectId: String!, $page: String!) {
+    savePageSourceCode(sourceCode: $sourceCode, projectId: $projectId, page: $page)
   }
 `;
 
@@ -27,13 +33,15 @@ const initStyle = {
 
 const PreviewPageComponents = ({pageDetails, pageName}) => {
     const ref = useRef();
-    const router = useRouter();
-    const projectId = router.query.id;
     const [style, setStyle] = React.useState(initStyle);
     const [tab, setTab] = React.useState("1");
     const dataStoreContext = useContext(DataStoreContext);
 
-    const {loading, error, data, refetch} = useQuery(pageSourceCode, {
+    const router = useRouter();
+    const projectId = router.query.id;
+
+    const [savePageSourceCode] = useMutation(SAVE_PAGE_SOURCE_CODE);
+    const {loading, error, data, refetch} = useQuery(PAGE_SOURCE_CODE, {
         variables: {projectId: projectId, page: pageName}
     });
 
@@ -100,10 +108,26 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         console.log("change");
     };
 
+    const onSaveCodeEditor = async (code) => {
+        const result = await savePageSourceCode({
+            variables: {
+                sourceCode: code,
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            dataStoreContext.setPageDetailsUpdated(true);
+        } else {
+            handleGraphQLAPIErrors(result);
+        }
+    };
+
     return (
         <Tabs onChange={onTabChange} type="card" style={{flex: "1 1 auto"}}>
             <TabPane tab="Source Code" key="1">
                 <CodeEditor
+                    onSave={onSaveCodeEditor}
                     mode="jsx"
                     onChange={onCodeEditorChange}
                     value={data ? data.pageSourceCode : ""}
@@ -113,7 +137,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
             </TabPane>
             <TabPane tab="Preview" key="2">
                 <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>
-                <Row style={{paddingTop: "5px"}}>
+                <Row>
                     <Col>
                         <Button type="primary" onClick={onRefreshClick}>Refresh/Reload</Button>
                     </Col>

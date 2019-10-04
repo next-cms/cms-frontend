@@ -1,15 +1,15 @@
 import ProjectSettings from "../components/editor_components/ProjectSettings";
 import ProjectPages from "../components/editor_components/ProjectPages";
-import ProjectHeaders from "../components/editor_components/ProjectHeaders";
-import ProjectFooters from "../components/editor_components/ProjectFooters";
+import ProjectDataStore from "../components/editor_components/ProjectDataStore";
+import ProjectMediaGallery from "../components/editor_components/ProjectMediaGallery";
 import ErrorPage from "../components/error_page/ErrorPage";
 import React from "react";
 
 const ProjectSubRoutes = {
     "default": ProjectSettings,
     "pages": ProjectPages,
-    "header": ProjectHeaders,
-    "footer": ProjectFooters,
+    "datastore": ProjectDataStore,
+    "gallery": ProjectMediaGallery,
 };
 
 export const getComponentForRoute = ({ component }) => {
