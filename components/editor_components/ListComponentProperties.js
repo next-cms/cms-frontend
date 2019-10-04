@@ -1,35 +1,59 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import {Button, Collapse, Icon, Input} from "antd";
 import * as PropTypes from "prop-types";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
-import {startCase} from "lodash";
+import {clone, cloneDeep, set, startCase} from "lodash";
 import JsonComponentList from "./JsonComponent";
+
+const SAVE_COMPONENT_PROPERTIES_QUERY = `
+mutation saveComponent($component: JSONObject!, $description: String, $websiteUrl: String!) {
+  createProject(title: $title, description: $description, websiteUrl: $websiteUrl) {
+    id
+    title
+    description
+    websiteUrl
+    createdAt
+  }
+}`;
 
 const ListComponentProperties = ({pageDetails}) => {
     const dataStoreContext = useContext(DataStoreContext);
     const [openKeys, setOpenKeys] = useState([Object.keys(pageDetails)[0]]);
+    const selectedProjectItem = dataStoreContext.selectedProjectItem;
+    const [visible, setVisible] = useState(false);
+    const [item, setItem] = useState(cloneDeep(selectedProjectItem));
 
-    const onChange = key => {
+    useEffect(() => {
+        setItem(cloneDeep(selectedProjectItem));
+    }, [selectedProjectItem]);
+
+    const collapseOnChange = (key) => {
         console.log(key);
     };
 
-    const selectedProjectItem = dataStoreContext.selectedProjectItem;
-
-    //console.log("Data context is: ", selectedProjectItem.name);
-    //console.log("Name is : ", selectedProjectItem.attributes.name)
-
-    const [visible, setVisible] = useState(false);
+    const handleTextInputChange = (object, path, value) => {
+        console.log("handleTextInputChange", object, path, value);
+        const newObject = clone(object);
+        set(newObject, path, value);
+        setItem(newObject);
+    };
 
     const showModal = () => {
         setVisible(true);
     };
 
-    const handleOk = e => {
+    const handleSave = e => {
         console.log(e);
-        setVisible(false);
+        console.log("handleSave", item);
     };
 
-    const handleCancel = e => {
+    const handleJsonInputOk = e => {
+        console.log(e);
+        setVisible(false);
+        handleSave(e);
+    };
+
+    const handleJsonInputCancel = e => {
         console.log(e);
         setVisible(false);
     };
@@ -45,7 +69,7 @@ const ListComponentProperties = ({pageDetails}) => {
                             <>
                                 <Input disabled={true}
                                        style={{width: 190}}
-                                       defaultValue={item.props[attr].value ? item.props[attr].value.value : attr}
+                                       value={item.props[attr].value ? item.props[attr].value.value : attr}
                                 />
                                 <Button onClick={showModal}>
                                     <Icon type="edit"/>
@@ -54,10 +78,11 @@ const ListComponentProperties = ({pageDetails}) => {
                         ) : (
                             <>
                                 <Input
+                                    onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}
                                     style={{width: 190}}
-                                    defaultValue={item.props[attr].value ? item.props[attr].value.value : attr}
+                                    value={item.props[attr].value ? item.props[attr].value.value : attr}
                                 />
-                                <Button style={{border: "1px solid green"}}>
+                                <Button style={{border: "1px solid green"}} onClick={handleSave}>
                                     <b>
                                         <Icon
                                             type="check"
@@ -72,22 +97,22 @@ const ListComponentProperties = ({pageDetails}) => {
                     <br/>
                     <JsonComponentList
                         visible={visible}
-                        handleOk={handleOk}
-                        handleCancel={handleCancel}
+                        handleOk={handleJsonInputOk}
+                        handleCancel={handleJsonInputCancel}
                     />
                 </Fragment>
             );
         });
     };
-    if (!selectedProjectItem)
+    if (!item)
         return <p>Select an item to view the properties</p>;
     return (
         <Collapse
             defaultActiveKey={openKeys}
-            onChange={onChange}
+            onChange={collapseOnChange}
             style={{flex: "0 0 100%"}}
         >
-            {generatePanelItem(selectedProjectItem)}
+            {generatePanelItem(item)}
         </Collapse>
     );
 };

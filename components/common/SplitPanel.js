@@ -5,7 +5,7 @@ import "./splitter.scss";
 
 export const SplitPanel = ({onChange, children}) => {
     const [splitPosition1, setSplitPosition1] = useState(16.3);
-    const [splitPosition2, setSplitPosition2] = useState(16.3);
+    const [splitPosition2, setSplitPosition2] = useState(20);
 
     const [dragging, setDragging] = useState(null);
     // const [dragStartX, setDragStartX] = useState(null);

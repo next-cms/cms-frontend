@@ -5,6 +5,7 @@ import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import getConfig from "next/config";
 import Link from "next/link";
 import DeleteWarningModal from "./DeleteWarningModal";
+import {redirectTo} from "../common/Redirect";
 
 const { publicRuntimeConfig } = getConfig();
 const { PROJECT_PATH } = publicRuntimeConfig;
@@ -68,32 +69,11 @@ const RecentProjects = () => {
     if (error || !data) return <Row gutter={4} />;
     const { projects, _projectsMeta } = data;
 
-    //-------------- Keeping it for future task --------------
-
-    // const showDeleteConfirm = (id ) => {
-    //     confirm({
-    //         title: "Are you sure delete this task?",
-    //         content: "",
-    //         okText: "Yes",
-    //         okType: "danger",
-    //         cancelText: "No",
-    //         onOk() {
-    //             console.log("Id from onOk:",id);
-    //             deleteProject({ variables: { id } });
-    //             dataStoreContext.setProjectListUpdated(true);
-    //             //refetch({ variables: { skip, limit: 4 } });
-    //         },
-    //         onCancel() {
-    //             console.log("Cancel");
-    //         }
-    //     });
-    // };
-
     const onCancel = () => {
         setVisible(false);
     };
 
-    const handleClick = (project_handle) => {
+    const handleDeleteClick = (project_handle) => {
         setVisible(true);
         setProject(project_handle);
     };
@@ -101,12 +81,14 @@ const RecentProjects = () => {
         setVisible(false);
     };
 
+
     return (
         <Fragment>
             <Row gutter={4}>
                 {projects.map(project => (
                     <Col key={project.id} xs={24} sm={6}>
                         <Card
+                            onClick={() => redirectTo(`${PROJECT_PATH}?id=${project.id}`)}
                             cover={
                                 <img
                                     alt="Default Project Cover"
@@ -122,7 +104,7 @@ const RecentProjects = () => {
                                 <Button style={{border: 0, padding: 0}}
                                     onClick={() => {
                                         console.log("Id is: ", project);
-                                        handleClick(project);
+                                        handleDeleteClick(project);
                                     }}
                                 >
                                     <Icon type="delete" />
