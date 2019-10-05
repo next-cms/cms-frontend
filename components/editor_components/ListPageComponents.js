@@ -1,27 +1,33 @@
 import React, {useContext, useEffect, useState} from "react";
 import * as PropTypes from "prop-types";
 
-import {Button, Tree} from "antd";
+import {Button, Col, Divider, Row, Tree} from "antd";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import AddComponentModal from "./AddComponentModal";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
-const { TreeNode } = Tree;
+const {TreeNode} = Tree;
 
 const ADD_COMPONENT = `
 mutation addComponents($componentIds: [String!], $parent: JSONObject, $projectId: String!, $page: String!) {
   addComponents(componentIds: $componentIds, parent: $parent, projectId: $projectId, page: $page)
 }`;
 
-const ListPageComponents = ({ pageDetails }) => {
+const DELETE_COMPONENT = `
+mutation deleteComponent($component: JSONObject, $projectId: String!, $page: String!) {
+  deleteComponent(component: $component, projectId: $projectId, page: $page)
+}`;
+
+const ListPageComponents = ({pageDetails}) => {
     const dataStoreContext = useContext(DataStoreContext);
-    const [openKeys, setOpenKeys] = useState([]);
+    const [openKeys, setOpenKeys] = useState(["-"]);
     const [pageChildren, setPageChildren] = useState(
         pageDetails.children || []
     );
     const [addComponent] = useMutation(ADD_COMPONENT);
+    const [deleteComponent] = useMutation(DELETE_COMPONENT);
     const router = useRouter();
     const projectId = router.query.id;
     const pageName = router.query.pageName;
@@ -45,14 +51,15 @@ const ListPageComponents = ({ pageDetails }) => {
         }
     };
 
-    const onSelect = (
-        selectedKeys,
-        { selected, selectedNodes, node, event }
-    ) => {
+    const onSelect = (selectedKeys, {selected, selectedNodes, node, event}) => {
         console.log("Onselect called");
-        dataStoreContext.setSelectedProjectItem(
-            retrieveItemByKey(pageDetails, node.props.eventKey.split("-"), 0)
-        );
+        if (node.props.eventKey === "-") {
+            dataStoreContext.setSelectedProjectItem(pageDetails);
+        } else {
+            dataStoreContext.setSelectedProjectItem(
+                retrieveItemByKey(pageDetails, node.props.eventKey.split("-"), 0)
+            );
+        }
     };
 
     const onDragEnter = info => {
@@ -151,13 +158,29 @@ const ListPageComponents = ({ pageDetails }) => {
                     </TreeNode>
                 );
             }
-            return <TreeNode key={key} title={item.name} />;
+            return <TreeNode key={key} title={item.name}/>;
         });
 
     const [visible, setVisible] = useState(false);
 
-    const showModal = () => {
+    const showAddComponentModal = () => {
         setVisible(true);
+    };
+
+    const onClickDeleteComponent = async () => {
+        const selectedProjectItem = dataStoreContext.selectedProjectItem;
+        const result = await deleteComponent({
+            variables: {
+                component: selectedProjectItem,
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            dataStoreContext.setPageDetailsUpdated(true);
+        } else {
+            handleGraphQLAPIErrors(result);
+        }
     };
 
     const handleOk = e => {
@@ -172,7 +195,7 @@ const ListPageComponents = ({ pageDetails }) => {
     };
 
     return (
-        <div style={{ flex: "0 0 100%" }}>
+        <div style={{flex: "0 0 100%"}}>
             <Tree
                 className="draggable-tree"
                 defaultExpandedKeys={openKeys}
@@ -181,19 +204,32 @@ const ListPageComponents = ({ pageDetails }) => {
                 onDragEnter={onDragEnter}
                 onDrop={onDrop}
                 onSelect={onSelect}
+                style={{height: "calc(100% - 50px)"}}
             >
-                <TreeNode title={pageDetails.title} key={pageDetails.slug}>
+                <TreeNode title={pageDetails.title} key="-">
                     {loop(pageChildren)}
                 </TreeNode>
             </Tree>
+            <Divider style={{margin: "5px 0"}}/>
+            <Row justify="space-between" type="flex" style={{padding: "0 5px"}}>
+                <Col xs={12}>
+                    <Button type="primary" onClick={showAddComponentModal}
+                            style={{width: "100%", maxWidth: "100px"}}>
+                        Add
+                    </Button>
+                </Col>
+                <Col xs={12}>
+                    <Button type="primary" onClick={onClickDeleteComponent}
+                            style={{marginLeft: "5px", width: "100%", maxWidth: "100px"}}>
+                        Delete
+                    </Button>
+                </Col>
+            </Row>
             <AddComponentModal
                 visible={visible}
                 handleOk={handleOk}
                 handleCancel={handleCancel}
             />
-            <Button type="primary" onClick={showModal}>
-                Add Component
-            </Button>
         </div>
     );
 };

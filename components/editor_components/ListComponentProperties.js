@@ -123,7 +123,7 @@ const ListComponentProperties = ({pageDetails}) => {
         <Collapse
             defaultActiveKey={openKeys}
             onChange={collapseOnChange}
-            style={{flex: "0 0 100%"}}
+            style={{flex: "0 0 100%", padding: "5px"}}
         >
             {generatePanelItem(item)}
         </Collapse>
