@@ -8,7 +8,7 @@ const CodeEditor = dynamic(() => import("./CodeEditor"), {ssr: false});
 const { Panel } = Collapse;
 const { Option } = Select;
 
-const JsonComponentList = ({ visible, handleOk, handleCancel }) => {
+const JsonComponentEditorModal = ({visible, handleOk, handleCancel}) => {
     const onCodeEditorChange = (newValue) => {
         console.log("change");
     };
@@ -54,10 +54,10 @@ const JsonComponentList = ({ visible, handleOk, handleCancel }) => {
     );
 };
 
-JsonComponentList.propTypes = {
+JsonComponentEditorModal.propTypes = {
     visible: PropTypes.bool,
     handleOk: PropTypes.func,
     handleCancel: PropTypes.func
 };
 
-export default JsonComponentList;
+export default JsonComponentEditorModal;

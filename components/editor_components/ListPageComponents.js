@@ -211,7 +211,7 @@ const ListPageComponents = ({pageDetails}) => {
                 </TreeNode>
             </Tree>
             <Divider style={{margin: "5px 0"}}/>
-            <Row justify="space-between" type="flex" style={{padding: "0 5px"}}>
+            <Row justify="center" type="flex" gutter={5} style={{padding: "0 5px", margin: "auto"}}>
                 <Col xs={12}>
                     <Button type="primary" onClick={showAddComponentModal}
                             style={{width: "100%", maxWidth: "100px"}}>
@@ -219,8 +219,8 @@ const ListPageComponents = ({pageDetails}) => {
                     </Button>
                 </Col>
                 <Col xs={12}>
-                    <Button type="primary" onClick={onClickDeleteComponent}
-                            style={{marginLeft: "5px", width: "100%", maxWidth: "100px"}}>
+                    <Button type="danger" onClick={onClickDeleteComponent}
+                            style={{width: "100%", maxWidth: "100px", float: "right"}}>
                         Delete
                     </Button>
                 </Col>

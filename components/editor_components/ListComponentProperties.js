@@ -1,9 +1,9 @@
 import React, {Fragment, useContext, useEffect, useState} from "react";
-import {Button, Collapse, Icon, Input} from "antd";
+import {Button, Collapse, Divider, Icon, Input} from "antd";
 import * as PropTypes from "prop-types";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {clone, cloneDeep, set, startCase} from "lodash";
-import JsonComponentList from "./JsonComponent";
+import JsonComponentEditorModal from "./JsonComponentEditorModal";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
@@ -79,23 +79,23 @@ const ListComponentProperties = ({pageDetails}) => {
                     <div>{startCase(attr)}:</div>
                     <div>
                         {(item.props[attr].type === "object" || item.props[attr].type === "element") ? (
-                            <>
+                            <Fragment>
                                 <Input disabled={true}
-                                       style={{width: 190}}
+                                       style={{width: "180px"}}
                                        value={item.props[attr].value ? item.props[attr].value.value : attr}
                                 />
-                                <Button onClick={showModal}>
+                                <Button onClick={showModal} style={{float: "right"}}>
                                     <Icon type="edit"/>
                                 </Button>
-                            </>
+                            </Fragment>
                         ) : (
-                            <>
+                            <Fragment>
                                 <Input
                                     onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}
-                                    style={{width: 190}}
+                                    style={{width: "180px"}}
                                     value={item.props[attr].value ? item.props[attr].value.value : attr}
                                 />
-                                <Button style={{border: "1px solid green"}} onClick={handleSave}>
+                                <Button style={{border: "1px solid green", float: "right"}} onClick={handleSave}>
                                     <b>
                                         <Icon
                                             type="check"
@@ -103,12 +103,11 @@ const ListComponentProperties = ({pageDetails}) => {
                                         />
                                     </b>
                                 </Button>
-                            </>
+                            </Fragment>
                         )}
                     </div>
-                    <br/>
-                    <br/>
-                    <JsonComponentList
+                    <Divider style={{margin: "5px 0"}}/>
+                    <JsonComponentEditorModal
                         visible={visible}
                         handleOk={handleJsonInputOk}
                         handleCancel={handleJsonInputCancel}
@@ -123,7 +122,7 @@ const ListComponentProperties = ({pageDetails}) => {
         <Collapse
             defaultActiveKey={openKeys}
             onChange={collapseOnChange}
-            style={{flex: "0 0 100%", padding: "5px"}}
+            style={{flex: "0 0 100%", padding: "5px", minWidth: "242px"}}
         >
             {generatePanelItem(item)}
         </Collapse>
