@@ -91,12 +91,12 @@ const Dashboard = () => {
             key: "description"
         },
         {
-            title: "WebsiteUrl",
+            title: "Website URL",
             dataIndex: "websiteUrl",
             key: "websiteUrl"
         },
         {
-            title: "ModifiedAt",
+            title: "Modified At",
             dataIndex: "modifiedAt",
             key: "modifiedAt"
         },
@@ -125,7 +125,7 @@ const Dashboard = () => {
     const pageHeader = (
         <PageHeader
             title="Dashboard"
-            subTitle="This is a subtitle"
+            subTitle="Choose a project or create a new one"
             extra={
                 <Link href={CREATE_PROJECT_PATH}>
                     <Button type="primary">New Project</Button>
