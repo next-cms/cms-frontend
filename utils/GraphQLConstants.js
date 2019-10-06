@@ -44,16 +44,20 @@ mutation saveComponent($component: JSONObject!, $page: String!, $projectId: Stri
   saveComponent(component: $component, page: $page, projectId: $projectId)
 }`;
 
+export const UPDATE_COMPONENT_PLACEMENT = `
+mutation updateComponentPlacement($components: [JSONObject], $page: String!, $projectId: String!) {
+  updateComponentPlacement(components: $components, page: $page, projectId: $projectId)
+}`;
+
 export const AVAILABLE_COMPONENTS = `
-  query availableComponentQuery($projectId: String!, $limit: Int!, $skip: Int!) {
-    allAvailableComponents(projectId: $projectId, limit: $limit, skip: $skip) {
-      id
-      importSignature
-      name
-      props
-    }
+query availableComponentQuery($projectId: String!, $limit: Int!, $skip: Int!) {
+  allAvailableComponents(projectId: $projectId, limit: $limit, skip: $skip) {
+    id
+    importSignature
+    name
+    props
   }
-`;
+}`;
 
 export const ADD_COMPONENT = `
 mutation addComponents($componentIds: [String!], $parent: JSONObject, $projectId: String!, $page: String!) {

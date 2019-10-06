@@ -135,7 +135,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
 
     const deleteButton = <Button type="danger" onClick={onDeletePage}>Delete Page</Button>;
     return (
-        <Tabs onChange={onTabChange} type="card" style={{flex: "1 1 auto"}} activeKey={tab} size="small"
+        <Tabs onChange={onTabChange} type="card" style={{flex: "1 1 auto"}} activeKey={tab}
               tabBarExtraContent={deleteButton}>
             <TabPane tab="Preview" key="1">
                 <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>

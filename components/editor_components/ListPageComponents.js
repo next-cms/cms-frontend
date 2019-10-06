@@ -7,7 +7,7 @@ import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import AddComponentModal from "./AddComponentModal";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
-import {ADD_COMPONENT, DELETE_COMPONENT} from "../../utils/GraphQLConstants";
+import {ADD_COMPONENT, DELETE_COMPONENT, UPDATE_COMPONENT_PLACEMENT} from "../../utils/GraphQLConstants";
 
 const {TreeNode} = Tree;
 
@@ -19,6 +19,7 @@ const ListPageComponents = ({pageDetails}) => {
     );
     const [addComponent] = useMutation(ADD_COMPONENT);
     const [deleteComponent] = useMutation(DELETE_COMPONENT);
+    const [updateComponentPlacement] = useMutation(UPDATE_COMPONENT_PLACEMENT);
     const router = useRouter();
     const projectId = router.query.id;
     const pageName = router.query.pageName;
@@ -59,6 +60,21 @@ const ListPageComponents = ({pageDetails}) => {
         // this.setState({
         //   expandedKeys: info.expandedKeys,
         // });
+    };
+
+    const requestUpdateComponentPlacement = async (data) => {
+        const result = await updateComponentPlacement({
+            variables: {
+                components: data,
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            dataStoreContext.setPageDetailsUpdated(true);
+        } else {
+            handleGraphQLAPIErrors(result);
+        }
     };
 
     const onDrop = info => {
@@ -117,8 +133,8 @@ const ListPageComponents = ({pageDetails}) => {
                 ar.splice(i + 1, 0, dragObj);
             }
         }
-
         setPageChildren(data);
+        return requestUpdateComponentPlacement(data);
     };
 
     const addComponentRequest = async (selectedComponentIds) => {
