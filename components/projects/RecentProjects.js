@@ -1,33 +1,17 @@
 import React, {Fragment, useContext, useEffect, useState} from "react";
-import {Button, Card, Col, Icon, message, Modal, Row} from "antd";
+import {Button, Card, Col, Icon, message, Row} from "antd";
 import {useQuery} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import getConfig from "next/config";
 import Link from "next/link";
 import DeleteWarningModal from "./DeleteWarningModal";
 import {redirectTo} from "../common/Redirect";
+import {RECENT_PROJECTS} from "../../utils/GraphQLConstants";
 
 const { publicRuntimeConfig } = getConfig();
 const { PROJECT_PATH } = publicRuntimeConfig;
 
 const { Meta } = Card;
-const { confirm } = Modal;
-
-export const recentProjectsQuery = `
-  query recentProjectsQuery($limit: Int!, $skip: Int!) {
-    projects(limit: $limit, skip: $skip) {
-      id
-      title
-      description
-      websiteUrl
-      modifiedAt
-    }
-    _projectsMeta {
-      count
-    }
-  }
-`;
-
 
 const RecentProjects = () => {
     const [skip, setSkip] = useState(0);
@@ -35,7 +19,7 @@ const RecentProjects = () => {
     const dataStoreContext = useContext(DataStoreContext);
     const [project, setProject] = useState({});
 
-    const { loading, error, data, refetch } = useQuery(recentProjectsQuery, {
+    const {loading, error, data, refetch} = useQuery(RECENT_PROJECTS, {
         variables: { skip, limit: 4 },
         updateData: (prevResult, result) => ({
             ...result,

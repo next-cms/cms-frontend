@@ -7,19 +7,13 @@ import {useMutation} from "graphql-hooks";
 import getConfig from "next/config";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import * as PropTypes from "prop-types";
+import {UPDATE_PROJECT} from "../../utils/GraphQLConstants";
 
 const {publicRuntimeConfig} = getConfig();
 const {} = publicRuntimeConfig;
 
 const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;
-
-const UPDATE_PROJECT = `
-mutation UpdateProject($id: String!, $title: String!, $description: String, $websiteUrl: String!, $siteMeta: String, $brand: BrandInput) {
-  updateProject(id: $id, title: $title, description: $description, websiteUrl: $websiteUrl, siteMeta: $siteMeta, brand: $brand) {
-    id
-  }
-}`;
 
 const ProjectSettingForm = (props) => {
 

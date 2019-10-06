@@ -8,24 +8,16 @@ import {Button, Col, message, Row, Tabs} from "antd";
 import {useMutation, useQuery} from "graphql-hooks";
 import dynamic from "next/dynamic";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import {DELETE_PAGE, PAGE_SOURCE_CODE, SAVE_PAGE_SOURCE_CODE} from "../../utils/GraphQLConstants";
+import {MenuContext} from "../../contexts/MenuContextProvider";
+import {redirectTo} from "../common/Redirect";
 
 const {TabPane} = Tabs;
 const {publicRuntimeConfig} = getConfig();
 
 const CodeEditor = dynamic(() => import("./CodeEditor"), {ssr: false});
 
-export const PAGE_SOURCE_CODE = `
-  query pageSourceCode($projectId: String!, $page: String!) {
-    pageSourceCode(projectId: $projectId, page: $page)
-  }
-`;
-export const SAVE_PAGE_SOURCE_CODE = `
-  mutation savePageSourceCode($sourceCode: String!, $projectId: String!, $page: String!) {
-    savePageSourceCode(sourceCode: $sourceCode, projectId: $projectId, page: $page)
-  }
-`;
-
-const {API_NEXT_PROJECT_URL} = publicRuntimeConfig;
+const {API_NEXT_PROJECT_URL, PROJECT_SETTINGS_PATH} = publicRuntimeConfig;
 
 const initStyle = {
     height: "calc(100vh - 180px)"
@@ -34,13 +26,15 @@ const initStyle = {
 const PreviewPageComponents = ({pageDetails, pageName}) => {
     const ref = useRef();
     const [style, setStyle] = React.useState(initStyle);
-    const [tab, setTab] = React.useState("1");
+    const [tab, setTab] = React.useState("2");
     const dataStoreContext = useContext(DataStoreContext);
+    const menuContext = useContext(MenuContext);
 
     const router = useRouter();
     const projectId = router.query.id;
 
     const [savePageSourceCode] = useMutation(SAVE_PAGE_SOURCE_CODE);
+    const [deletePage] = useMutation(DELETE_PAGE);
     const {loading, error, data, refetch} = useQuery(PAGE_SOURCE_CODE, {
         variables: {projectId: projectId, page: pageName}
     });
@@ -123,9 +117,35 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         }
     };
 
+    const onDeletePage = async () => {
+        const result = await deletePage({
+            variables: {
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            menuContext.deleteFromPageMenu(menuContext.selectedKeys && menuContext.selectedKeys[0]);
+            await redirectTo(`${PROJECT_SETTINGS_PATH}?id=${projectId}`);
+            message.success(`Deleted page '${pageName}' successfully!`);
+        } else {
+            handleGraphQLAPIErrors(result);
+        }
+    };
+
+    const deleteButton = <Button type="danger" onClick={onDeletePage}>Delete Page</Button>;
     return (
-        <Tabs onChange={onTabChange} type="card" style={{flex: "1 1 auto"}}>
-            <TabPane tab="Source Code" key="1">
+        <Tabs onChange={onTabChange} type="card" style={{flex: "1 1 auto"}} activeKey={tab} size="small"
+              tabBarExtraContent={deleteButton}>
+            <TabPane tab="Preview" key="1">
+                <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>
+                <Row>
+                    <Col>
+                        <Button type="primary" onClick={onRefreshClick}>Refresh/Reload</Button>
+                    </Col>
+                </Row>
+            </TabPane>
+            <TabPane tab="Source Code" key="2">
                 <CodeEditor
                     onSave={onSaveCodeEditor}
                     mode="jsx"
@@ -134,14 +154,6 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
                     height="calc(100vh - 180px)"
                     width="100%"
                 />
-            </TabPane>
-            <TabPane tab="Preview" key="2">
-                <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>
-                <Row>
-                    <Col>
-                        <Button type="primary" onClick={onRefreshClick}>Refresh/Reload</Button>
-                    </Col>
-                </Row>
             </TabPane>
         </Tabs>
     );

@@ -7,18 +7,9 @@ import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import AddComponentModal from "./AddComponentModal";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import {ADD_COMPONENT, DELETE_COMPONENT} from "../../utils/GraphQLConstants";
 
 const {TreeNode} = Tree;
-
-const ADD_COMPONENT = `
-mutation addComponents($componentIds: [String!], $parent: JSONObject, $projectId: String!, $page: String!) {
-  addComponents(componentIds: $componentIds, parent: $parent, projectId: $projectId, page: $page)
-}`;
-
-const DELETE_COMPONENT = `
-mutation deleteComponent($component: JSONObject, $projectId: String!, $page: String!) {
-  deleteComponent(component: $component, projectId: $projectId, page: $page)
-}`;
 
 const ListPageComponents = ({pageDetails}) => {
     const dataStoreContext = useContext(DataStoreContext);

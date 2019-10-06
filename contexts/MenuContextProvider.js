@@ -31,6 +31,20 @@ class MenuContextProvider extends Component {
         this.setState({openedKeys});
     };
 
+    deleteFromPageMenu = (key) => {
+        if (key) {
+            this.setState({
+                menuItems: {
+                    ...this.state.menuItems,
+                    pages: {
+                        ...this.state.menuItems.pages,
+                        subMenu: this.state.menuItems["pages"].subMenu.filter((item) => item.key !== key)
+                    }
+                }
+            });
+        }
+    };
+
     render() {
         return (
             <MenuContext.Provider
@@ -39,6 +53,7 @@ class MenuContextProvider extends Component {
                     selectedKeys: this.state.selectedKeys,
                     openedKeys: this.state.openedKeys,
                     setMenuItems: this.setMenuItems,
+                    deleteFromPageMenu: this.deleteFromPageMenu,
                     setSelectedKeys: this.setSelectedKeys,
                     setOpenedKeys: this.setOpenedKeys,
                 }}

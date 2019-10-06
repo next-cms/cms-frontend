@@ -1,24 +1,16 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Button, Form, Input, Alert } from "antd";
+import {Button, Form, Input} from "antd";
 
 import "../static/scss/signup.scss";
-import { useMutation } from "graphql-hooks";
-import { redirectTo } from "../components/common/Redirect";
+import {useMutation} from "graphql-hooks";
+import {redirectTo} from "../components/common/Redirect";
 import * as PropTypes from "prop-types";
 import getConfig from "next/config";
+import {SIGNUP} from "../utils/GraphQLConstants";
 
 const { publicRuntimeConfig } = getConfig();
 const { LOGIN_PATH } = publicRuntimeConfig;
-
-const SIGNUP = `
-mutation signUp($name: String!, $email: String!, $password: String!) {
-  signUp(name: $name, email: $email, password: $password) {
-    name 
-    email
-    password
-  }
-}`;
 
 const SignUp = props => {
     const [state, setState] = useState(false);
@@ -33,9 +25,9 @@ const SignUp = props => {
                 const result = await signUp({
                     variables: values
                 });
-                
+
                 if (!result.error) {
-                    return await redirectTo("/login", { status: 200 }); 
+                    return await redirectTo("/login", {status: 200});
                 }
             }
         });

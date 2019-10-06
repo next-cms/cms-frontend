@@ -9,26 +9,11 @@ import {withAuthSync} from "../utils/withAuthSync";
 import {useQuery} from "graphql-hooks";
 import {DataStoreContext} from "../contexts/DataStoreContextProvider";
 import DeleteWarningModal from "../components/projects/DeleteWarningModal";
+import {ALL_PROJECTS_QUERY} from "../utils/GraphQLConstants";
 
 const { publicRuntimeConfig } = getConfig();
 const { CREATE_PROJECT_PATH, PROJECT_PATH } = publicRuntimeConfig;
 const { Title } = Typography;
-
-export const projectsQuery = `
-  query projectsQuery($limit: Int!, $skip: Int!) {
-      projects(limit: $limit, skip: $skip) {
-          id
-          title
-          description
-          websiteUrl
-          modifiedAt
-        }
-        _projectsMeta {
-      count
-    }
-}
-`;
-
 
 const Dashboard = () => {
     const [skip, setSkip] = useState(0);
@@ -38,7 +23,7 @@ const Dashboard = () => {
     const [visible, setVisible] = useState(false);
     const [project, setProject] = useState({});
 
-    const { loading, error, data, refetch } = useQuery(projectsQuery, {
+    const {loading, error, data, refetch} = useQuery(ALL_PROJECTS_QUERY, {
         variables: {skip, limit: pageSize}
     });
 

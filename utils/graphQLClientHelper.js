@@ -1,5 +1,6 @@
 import {redirectTo} from "../components/common/Redirect";
 import getConfig from "next/config";
+import {ADD_PAGE, PROJECT_PAGES} from "./GraphQLConstants";
 
 const {publicRuntimeConfig} = getConfig();
 const {LOGIN_PATH} = publicRuntimeConfig;
@@ -13,17 +14,8 @@ export async function executeAllPagesQuery(graphQLClient, projectId) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                query: `
-                query projectPages {
-                    allPages {
-                        slug
-                        key
-                        title
-                        path
-                        pathAs
-                        pathParam
-                    }
-                }`,
+                query: PROJECT_PAGES,
+                variables: {projectId},
                 projectId: projectId
             })
         }).then(r => r.json())
@@ -49,17 +41,8 @@ export async function executeCreateNewPageQuery(graphQLClient, projectId) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                query: `
-                mutation addPage {
-                    addPage {
-                        slug
-                        key
-                        title
-                        path
-                        pathAs
-                        pathParam
-                    }
-                }`,
+                query: ADD_PAGE,
+                variables: {projectId},
                 projectId: projectId
             })
         }).then(r => r.json())

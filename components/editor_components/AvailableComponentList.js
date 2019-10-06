@@ -3,17 +3,7 @@ import {Checkbox, Col, message, Row} from "antd";
 import * as PropTypes from "prop-types";
 import {useQuery} from "graphql-hooks";
 import {useRouter} from "next/router";
-
-export const availableComponentQuery = `
-  query availableComponentQuery($projectId: String!, $limit: Int!, $skip: Int!) {
-    allAvailableComponents(projectId: $projectId, limit: $limit, skip: $skip) {
-      id
-      importSignature
-      name
-      props
-    }
-  }
-`;
+import {AVAILABLE_COMPONENTS} from "../../utils/GraphQLConstants";
 
 const AvailableComponentList = ({onSelect, selectedComponents}) => {
     const [skip, setSkip] = useState(0);
@@ -23,16 +13,9 @@ const AvailableComponentList = ({onSelect, selectedComponents}) => {
     const projectId = router.query.id;
 
     const { loading, error, data, refetch } = useQuery(
-        availableComponentQuery,
+        AVAILABLE_COMPONENTS,
         {
             variables: {projectId, skip, limit: limit},
-            // updateData: (prevResult, result) => ({
-            //     ...result,
-            //     allAvailableComponents: [
-            //         ...prevResult.allAvailableComponents,
-            //         ...result.allAvailableComponents
-            //     ]
-            // })
         }
     );
 

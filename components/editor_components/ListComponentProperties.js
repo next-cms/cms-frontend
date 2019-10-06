@@ -7,11 +7,7 @@ import JsonComponentEditorModal from "./JsonComponentEditorModal";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
-
-const SAVE_COMPONENT = `
-mutation saveComponent($component: JSONObject!, $page: String!, $projectId: String!) {
-  saveComponent(component: $component, page: $page, projectId: $projectId)
-}`;
+import {SAVE_COMPONENT} from "../../utils/GraphQLConstants";
 
 const ListComponentProperties = ({pageDetails}) => {
     const dataStoreContext = useContext(DataStoreContext);

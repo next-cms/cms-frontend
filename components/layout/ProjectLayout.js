@@ -9,31 +9,15 @@ import {getProjectMenuItems} from "../../components/layout/aside/ProjectMenuItem
 import CommonLayout from "../../components/layout/CommonLayout";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
+import {PROJECT_DETAILS} from "../../utils/GraphQLConstants";
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-export const projectDetailsQuery = `
-    query projectDetailsQuery($projectId: String!) {
-        project(id: $projectId) {
-            id
-            title
-            description
-            websiteUrl
-            brand {
-                icon
-                siteTitle
-            }
-            siteMeta
-            modifiedAt
-        }
-    }
-`;
-
 const ProjectLayout = ({router, children}) => {
     let projectId = router.query.id;
 
-    const {loading, error, data, refetch} = useQuery(projectDetailsQuery, {
+    const {loading, error, data, refetch} = useQuery(PROJECT_DETAILS, {
         variables: {projectId: projectId},
         updateData: (prevResult, result) => ({
             project: result.project
