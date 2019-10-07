@@ -34,7 +34,9 @@ function create(initialState, token) {
             } else if (result.graphQLErrors) {
                 result.graphQLErrors.forEach((error) => {
                     message.error(error.message);
-                    error.extensions && error.extensions.code === "FORBIDDEN" && redirectTo(LOGIN_PATH);
+                    if (error.extensions && error.extensions.code === "FORBIDDEN") {
+                        return redirectTo(LOGIN_PATH);
+                    }
                 });
             }
         }

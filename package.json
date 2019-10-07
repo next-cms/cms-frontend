@@ -8,6 +8,8 @@
     "dependencies": {
         "antd": "^3.23.6",
         "babel-plugin-import": "^1.12.2",
+        "bluebird": "^3.7.0",
+        "core-js": "^3.2.1",
         "dotenv": "^8.1.0",
         "eslint": "^5.16.0",
         "eslint-config-standard-jsx": "^7.0.0",

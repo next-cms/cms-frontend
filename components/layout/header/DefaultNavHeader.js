@@ -5,12 +5,13 @@ import Link from "next/link";
 import "./nav_header.scss";
 import {AuthContext} from "../../../contexts/AuthContextProvider";
 import getConfig from "next/config";
+
 const {publicRuntimeConfig} = getConfig();
 const {PROFILE_PATH} = publicRuntimeConfig;
 
 const {Header} = Layout;
 
-const NavHeader = () => {
+const DefaultNavHeader = () => {
 
     const authContext = useContext(AuthContext);
 
@@ -42,4 +43,4 @@ const NavHeader = () => {
     );
 };
 
-export default NavHeader;
+export default DefaultNavHeader;
