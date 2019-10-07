@@ -27,6 +27,7 @@ const ListPageComponents = ({pageDetails}) => {
     useEffect(() => {
         console.log("useEffect called");
         setPageChildren(pageDetails.children);
+        dataStoreContext.setSelectedProjectItem(pageDetails);
     }, [pageDetails]);
 
     const retrieveItemByKey = (itemList, keys, p) => {
@@ -44,12 +45,12 @@ const ListPageComponents = ({pageDetails}) => {
     };
 
     const onSelect = (selectedKeys, {selected, selectedNodes, node, event}) => {
-        console.log("Onselect called");
+        console.log("Onselect called", selectedKeys, selected, selectedNodes, node, event);
         if (node.props.eventKey === "-") {
-            dataStoreContext.setSelectedProjectItem(pageDetails);
+            dataStoreContext.setSelectedProjectItem(selected ? pageDetails : null);
         } else {
-            dataStoreContext.setSelectedProjectItem(
-                retrieveItemByKey(pageDetails, node.props.eventKey.split("-"), 0)
+            dataStoreContext.setSelectedProjectItem(selected ?
+                retrieveItemByKey(pageDetails, node.props.eventKey.split("-"), 0) : null
             );
         }
     };
@@ -213,7 +214,7 @@ const ListPageComponents = ({pageDetails}) => {
                 onSelect={onSelect}
                 style={{height: "calc(100% - 50px)"}}
             >
-                <TreeNode title={pageDetails.title} key="-">
+                <TreeNode title={pageDetails.name} key="-">
                     {loop(pageChildren)}
                 </TreeNode>
             </Tree>

@@ -47,13 +47,19 @@ export function injectParams(navs, params) {
     }
 }
 
-export function handleGraphQLAPIErrors(error) {
-    message.error(
-        (error.httpError && error.httpError.statusText) ||
-        (error.graphQLErrors && error.graphQLErrors[0].message)
-    );
-    console.error(error);
-    if (error.graphQLErrors && error.graphQLErrors[0].extensions.code === "FORBIDDEN") {
-        return redirectTo(LOGIN_PATH);
+export function handleGraphQLAPIErrors(errors) {
+    const isBrowser = typeof window !== "undefined";
+    if (!isBrowser) return;
+    if (errors.httpError) {
+        message.error(errors.httpError.statusText);
+    } else if (errors.fetchError) {
+        message.error(errors.fetchError.message);
+    } else if (errors.graphQLErrors) {
+        errors.graphQLErrors.forEach((error) => {
+            message.error(error.message);
+            if (error.extensions && error.extensions.code === "FORBIDDEN") {
+                return redirectTo(LOGIN_PATH);
+            }
+        });
     }
 }

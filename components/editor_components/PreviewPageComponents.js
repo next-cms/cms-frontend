@@ -15,7 +15,7 @@ import {redirectTo} from "../common/Redirect";
 const {TabPane} = Tabs;
 const {publicRuntimeConfig} = getConfig();
 
-const CodeEditor = dynamic(() => import("./CodeEditor"), {ssr: false});
+const CodeEditor = dynamic(() => import("../common/CodeEditor"), {ssr: false});
 
 const {API_NEXT_PROJECT_URL, PROJECT_SETTINGS_PATH} = publicRuntimeConfig;
 

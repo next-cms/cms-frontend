@@ -31,14 +31,34 @@ class MenuContextProvider extends Component {
         this.setState({openedKeys});
     };
 
-    deleteFromPageMenu = (key) => {
+    deleteFromPageMenu = (pageKey) => {
         if (key) {
             this.setState({
                 menuItems: {
                     ...this.state.menuItems,
                     pages: {
                         ...this.state.menuItems.pages,
-                        subMenu: this.state.menuItems["pages"].subMenu.filter((item) => item.key !== key)
+                        subMenu: this.state.menuItems["pages"].subMenu.filter((item) => item.key !== pageKey)
+                    }
+                }
+            });
+        }
+    };
+
+    updateInPageMenu = (pageKey, modifiedPage) => {
+        if (pageKey) {
+            this.setState({
+                menuItems: {
+                    ...this.state.menuItems,
+                    pages: {
+                        ...this.state.menuItems.pages,
+                        subMenu: this.state.menuItems["pages"].subMenu.map((item) => {
+                            if (item.key === pageKey) {
+                                return modifiedPage;
+                            } else {
+                                return item;
+                            }
+                        })
                     }
                 }
             });
@@ -54,6 +74,7 @@ class MenuContextProvider extends Component {
                     openedKeys: this.state.openedKeys,
                     setMenuItems: this.setMenuItems,
                     deleteFromPageMenu: this.deleteFromPageMenu,
+                    updateInPageMenu: this.updateInPageMenu,
                     setSelectedKeys: this.setSelectedKeys,
                     setOpenedKeys: this.setOpenedKeys,
                 }}

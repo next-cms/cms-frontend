@@ -4,7 +4,7 @@ import "brace/mode/json";
 import "brace/theme/github";
 import AceEditor from "react-ace";
 import React, {Fragment, useEffect, useState} from "react";
-import {Button, Col, Row} from "antd";
+import {Button, Col, Icon, Row} from "antd";
 
 const CodeEditor = (props) => {
     const [readOnly, setReadOnly] = useState(true);
@@ -52,7 +52,12 @@ const CodeEditor = (props) => {
             <Row style={{paddingTop: "5px"}}>
                 <Col>
                     <Button type="primary" onClick={onSaveClick}
-                            style={{width: "100px"}}>{readOnly ? "Edit" : "Save"}</Button>
+                            style={{width: "100px"}}>
+                        {!readOnly && <b><Icon type="check"
+                                               style={{marginRight: "5px"}}
+                        /></b>}
+                        {readOnly ? "Edit" : "Save"}
+                    </Button>
                     <Button type="secondary" onClick={onCancelClick} hidden={readOnly}
                             style={{width: "100px", marginLeft: "5px"}}>Cancel</Button>
                 </Col>

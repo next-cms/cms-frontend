@@ -3,7 +3,7 @@ import {Collapse, Icon, Modal, Select} from "antd";
 import * as PropTypes from "prop-types";
 import dynamic from "next/dynamic";
 
-const CodeEditor = dynamic(() => import("./CodeEditor"), {ssr: false});
+const CodeEditor = dynamic(() => import("./../common/CodeEditor"), {ssr: false});
 
 const { Panel } = Collapse;
 const { Option } = Select;

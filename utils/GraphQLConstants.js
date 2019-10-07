@@ -69,15 +69,27 @@ mutation deleteComponent($component: JSONObject, $projectId: String!, $page: Str
   deleteComponent(component: $component, projectId: $projectId, page: $page)
 }`;
 
-
 export const PAGE_DETAILS = `
 query pageDetailsQuery($projectId: String!, $page: String!) {
     page(projectId: $projectId, page: $page) {
-        title
+        key
+        name
         slug
         children
         hooks
         effects
+    }
+}`;
+
+export const UPDATE_PAGE_DETAILS = `
+mutation updatePageDetails($pageDetails: PageDetailsInput, $projectId: String!, $page: String!) {
+    updatePage(pageDetails: $pageDetails, projectId: $projectId, page: $page) {
+        slug
+        key
+        title
+        path
+        pathAs
+        pathParam
     }
 }`;
 

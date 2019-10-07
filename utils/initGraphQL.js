@@ -35,6 +35,7 @@ function create(initialState, token) {
                 result.graphQLErrors.forEach((error) => {
                     message.error(error.message);
                     if (error.extensions && error.extensions.code === "FORBIDDEN") {
+
                         return redirectTo(LOGIN_PATH);
                     }
                 });
