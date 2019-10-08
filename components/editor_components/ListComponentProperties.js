@@ -164,10 +164,10 @@ const ListComponentProperties = ({pageDetails}) => {
         <div style={{flex: "0 0 100%", padding: "5px", minWidth: "242px"}}>
             {isPageComponent(item) ? <Title level={4}>Page: {startCase(item.name)}</Title> :
                 <Title level={4}>Component: {startCase(item.name)}</Title>}
-            <div style={{height: "calc(100vh - 172px)"}}>
+            <Divider style={{margin: "5px 0"}}/>
+            <div style={{height: "calc(100vh - 172px)", overflowY: "auto"}}>
                 {generatePanelItem(item)}
             </div>
-            <Divider style={{margin: "5px 0"}}/>
             <Button type="primary" onClick={handleSave}>
                 <b><Icon type="check"
                          style={{marginRight: "5px"}}

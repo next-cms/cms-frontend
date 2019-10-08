@@ -6,6 +6,7 @@ import WrappedSettings from "../../../pages/project/settings";
 import WrappedPages from "../../../pages/project/pages";
 import WrappedMediaGallery from "../../../pages/project/gallery";
 import WrappedDataStore from "../../../pages/project/datastore";
+import WrappedAvailableComponents from "../../../pages/project/available-components";
 
 export const getProjectMenuItems = (params, graphQLClient) => {
     const menuItems = {
@@ -86,6 +87,13 @@ export const getProjectMenuItems = (params, graphQLClient) => {
             title: WrappedMediaGallery.routeInfo.title,
             icon: <Icon type="picture"/>,
             path: WrappedMediaGallery.routeInfo.path,
+            subMenu: null
+        },
+        availableComponents: {
+            key: WrappedAvailableComponents.routeInfo.slug,
+            title: WrappedAvailableComponents.routeInfo.title,
+            path: WrappedAvailableComponents.routeInfo.path,
+            icon: <Icon type="block"/>,
             subMenu: null
         }
     };

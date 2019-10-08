@@ -41,7 +41,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
 
     useEffect(() => {
         if (error) {
-            message.error("Error loading page data.");
+            handleGraphQLAPIErrors(error);
         }
         let hideMessage;
         if (loading) {

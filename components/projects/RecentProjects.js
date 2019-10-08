@@ -7,6 +7,7 @@ import Link from "next/link";
 import DeleteWarningModal from "./DeleteWarningModal";
 import {redirectTo} from "../common/Redirect";
 import {RECENT_PROJECTS} from "../../utils/GraphQLConstants";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
 const { publicRuntimeConfig } = getConfig();
 const { PROJECT_PATH } = publicRuntimeConfig;
@@ -36,7 +37,7 @@ const RecentProjects = () => {
 
     useEffect(() => {
         if (error) {
-            message.error("Error loading recent projects.");
+            handleGraphQLAPIErrors(error);
         }
         console.log("loading:", loading);
         let hideMessage;

@@ -5,13 +5,11 @@ import PageWrapper from "../components/common/PageWrapper";
 import ProjectCreateForm from "../components/projects/ProjectCreateForm";
 import {withAuthSync} from "../utils/withAuthSync";
 import {MenuContext} from "../contexts/MenuContextProvider";
-import DefaultMenuItems from "../components/layout/aside/DefaultMenuItems";
 
 const CreateProject = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setMenuItems(DefaultMenuItems);
         menuContext.setSelectedKeys([CreateProject.routeInfo.slug]);
     }, []);
 

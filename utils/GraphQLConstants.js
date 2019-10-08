@@ -49,10 +49,32 @@ mutation updateComponentPlacement($components: [JSONObject], $page: String!, $pr
   updateComponentPlacement(components: $components, page: $page, projectId: $projectId)
 }`;
 
+export const DEFAULT_AVAILABLE_COMPONENTS = `
+query availableComponentQuery($limit: Int!, $skip: Int!) {
+  allAvailableComponents(limit: $limit, skip: $skip) {
+    id
+    vendor
+    importSignature
+    name
+    props
+  }
+  _allAvailableComponentsMeta {
+    count
+  }
+}`;
+
 export const AVAILABLE_COMPONENTS = `
 query availableComponentQuery($projectId: String!, $limit: Int!, $skip: Int!) {
-  allAvailableComponents(projectId: $projectId, limit: $limit, skip: $skip) {
+  allAvailableComponents(limit: $limit, skip: $skip) {
     id
+    vendor
+    importSignature
+    name
+    props
+  }
+  allProjectAvailableComponents(projectId: $projectId, limit: $limit, skip: $skip) {
+    id
+    vendor
     importSignature
     name
     props
