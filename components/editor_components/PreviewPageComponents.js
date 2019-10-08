@@ -113,7 +113,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -129,7 +129,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
             await redirectTo(`${PROJECT_SETTINGS_PATH}?id=${projectId}`);
             message.success(`Deleted page '${pageName}' successfully!`);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 

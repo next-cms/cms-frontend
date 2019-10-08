@@ -60,7 +60,7 @@ const ListComponentProperties = ({pageDetails}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -86,7 +86,7 @@ const ListComponentProperties = ({pageDetails}) => {
                 });
             }
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 

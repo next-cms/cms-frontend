@@ -74,7 +74,7 @@ const ListPageComponents = ({pageDetails}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -151,7 +151,7 @@ const ListPageComponents = ({pageDetails}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -187,7 +187,7 @@ const ListPageComponents = ({pageDetails}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
