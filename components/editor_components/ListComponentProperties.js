@@ -168,6 +168,7 @@ const ListComponentProperties = ({pageDetails}) => {
             <div style={{height: "calc(100vh - 172px)", overflowY: "auto"}}>
                 {generatePanelItem(item)}
             </div>
+            <Divider style={{margin: "5px 0"}}/>
             <Button type="primary" onClick={handleSave}>
                 <b><Icon type="check"
                          style={{marginRight: "5px"}}
