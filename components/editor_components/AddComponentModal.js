@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Modal} from "antd";
 import * as PropTypes from "prop-types";
-import AvailableComponentList from "./AvailableComponentList";
+import AvailableComponentPicker from "./AvailableComponentPicker";
 
 const AddComponentModal = ({visible, handleOk, handleCancel}) => {
     const [selectedComponents, setSelectedComponents] = useState([]);
@@ -29,7 +29,7 @@ const AddComponentModal = ({visible, handleOk, handleCancel}) => {
             visible={visible}
             onOk={_handleOk}
             onCancel={handleCancel}>
-            <AvailableComponentList onSelect={onSelect} selectedComponents={selectedComponents}/>
+            <AvailableComponentPicker onSelect={onSelect} selectedComponents={selectedComponents}/>
         </Modal>
     );
 };

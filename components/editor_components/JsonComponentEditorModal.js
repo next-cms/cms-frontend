@@ -1,13 +1,22 @@
 import React from "react";
 import {Collapse, Icon, Modal, Select} from "antd";
-import JSONInput from "react-json-editor-ajrm";
-import locale from "react-json-editor-ajrm/locale/en";
 import * as PropTypes from "prop-types";
+import dynamic from "next/dynamic";
+
+const CodeEditor = dynamic(() => import("./../common/CodeEditor"), {ssr: false});
 
 const { Panel } = Collapse;
 const { Option } = Select;
 
-const JsonComponentList = ({ visible, handleOk, handleCancel }) => {
+const JsonComponentEditorModal = ({visible, handleOk, handleCancel}) => {
+    const onCodeEditorChange = (newValue) => {
+        console.log("change");
+    };
+
+    const onSaveCodeEditor = async (code) => {
+        console.log("save", code);
+    };
+
     return (
         <div>
             <Modal
@@ -23,16 +32,19 @@ const JsonComponentList = ({ visible, handleOk, handleCancel }) => {
                     )}
                 >
                     <Panel header="Json Data" key="1">
-                        <JSONInput
-                            id="a_unique_id"
-                            locale={locale}
+                        <CodeEditor
+                            onSave={onSaveCodeEditor}
+                            name="jsonEditor"
+                            mode="json"
+                            onChange={onCodeEditorChange}
+                            value={""}
                             height="300px"
-                            width="450px"
+                            width="440px"
                         />
                     </Panel>
                 </Collapse>
 
-                <Select defaultValue="Model" style={{ width: 470 }}>
+                <Select defaultValue="Model" style={{width: "472px"}}>
                     <Option value="Option 1">Option 1</Option>
                     <Option value="Option 2">Option 2</Option>
                     <Option value="Option 3">Option 3</Option>
@@ -42,10 +54,10 @@ const JsonComponentList = ({ visible, handleOk, handleCancel }) => {
     );
 };
 
-JsonComponentList.propTypes = {
+JsonComponentEditorModal.propTypes = {
     visible: PropTypes.bool,
     handleOk: PropTypes.func,
     handleCancel: PropTypes.func
 };
 
-export default JsonComponentList;
+export default JsonComponentEditorModal;

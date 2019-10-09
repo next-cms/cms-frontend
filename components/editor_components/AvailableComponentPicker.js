@@ -3,19 +3,10 @@ import {Checkbox, Col, message, Row} from "antd";
 import * as PropTypes from "prop-types";
 import {useQuery} from "graphql-hooks";
 import {useRouter} from "next/router";
+import {AVAILABLE_COMPONENTS} from "../../utils/GraphQLConstants";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
-export const availableComponentQuery = `
-  query availableComponentQuery($projectId: String!, $limit: Int!, $skip: Int!) {
-    allAvailableComponents(projectId: $projectId, limit: $limit, skip: $skip) {
-      id
-      importSignature
-      name
-      props
-    }
-  }
-`;
-
-const AvailableComponentList = ({onSelect, selectedComponents}) => {
+const AvailableComponentPicker = ({onSelect, selectedComponents}) => {
     const [skip, setSkip] = useState(0);
     const [limit, setLimit] = useState(10);
     //const dataStoreContext = useContext(DataStoreContext);
@@ -23,22 +14,15 @@ const AvailableComponentList = ({onSelect, selectedComponents}) => {
     const projectId = router.query.id;
 
     const { loading, error, data, refetch } = useQuery(
-        availableComponentQuery,
+        AVAILABLE_COMPONENTS,
         {
             variables: {projectId, skip, limit: limit},
-            // updateData: (prevResult, result) => ({
-            //     ...result,
-            //     allAvailableComponents: [
-            //         ...prevResult.allAvailableComponents,
-            //         ...result.allAvailableComponents
-            //     ]
-            // })
         }
     );
 
     useEffect(() => {
         if (error) {
-            message.error("Error retrieving available components.");
+            handleGraphQLAPIErrors(error);
         }
         console.log("loading:", loading);
         let hideMessage;
@@ -76,9 +60,9 @@ const AvailableComponentList = ({onSelect, selectedComponents}) => {
     );
 };
 
-AvailableComponentList.propTypes = {
+AvailableComponentPicker.propTypes = {
     onSelect: PropTypes.func,
     selectedComponents: PropTypes.array
 };
 
-export default AvailableComponentList;
+export default AvailableComponentPicker;

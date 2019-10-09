@@ -1,26 +1,25 @@
 import React, {useContext, useEffect, useState} from "react";
 import * as PropTypes from "prop-types";
 
-import {Button, message, Tree} from "antd";
+import {Button, Col, Divider, Row, Tree} from "antd";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import AddComponentModal from "./AddComponentModal";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import {ADD_COMPONENT, DELETE_COMPONENT, UPDATE_COMPONENT_PLACEMENT} from "../../utils/GraphQLConstants";
 
-const { TreeNode } = Tree;
+const {TreeNode} = Tree;
 
-const ADD_COMPONENT = `
-mutation addComponents($componentIds: [String!], $parent: JSONObject, $projectId: String!, $page: String!) {
-  addComponents(componentIds: $componentIds, parent: $parent, projectId: $projectId, page: $page)
-}`;
-
-const ListPageComponents = ({ pageDetails }) => {
+const ListPageComponents = ({pageDetails}) => {
     const dataStoreContext = useContext(DataStoreContext);
-    const [openKeys, setOpenKeys] = useState([]);
+    const [openKeys, setOpenKeys] = useState(["-"]);
     const [pageChildren, setPageChildren] = useState(
         pageDetails.children || []
     );
-    const [addComponent, pageDetailsData] = useMutation(ADD_COMPONENT);
+    const [addComponent] = useMutation(ADD_COMPONENT);
+    const [deleteComponent] = useMutation(DELETE_COMPONENT);
+    const [updateComponentPlacement] = useMutation(UPDATE_COMPONENT_PLACEMENT);
     const router = useRouter();
     const projectId = router.query.id;
     const pageName = router.query.pageName;
@@ -28,6 +27,7 @@ const ListPageComponents = ({ pageDetails }) => {
     useEffect(() => {
         console.log("useEffect called");
         setPageChildren(pageDetails.children);
+        dataStoreContext.setSelectedProjectItem(pageDetails);
     }, [pageDetails]);
 
     const retrieveItemByKey = (itemList, keys, p) => {
@@ -44,14 +44,15 @@ const ListPageComponents = ({ pageDetails }) => {
         }
     };
 
-    const onSelect = (
-        selectedKeys,
-        { selected, selectedNodes, node, event }
-    ) => {
-        console.log("Onselect called");
-        dataStoreContext.setSelectedProjectItem(
-            retrieveItemByKey(pageDetails, node.props.eventKey.split("-"), 0)
-        );
+    const onSelect = (selectedKeys, {selected, selectedNodes, node, event}) => {
+        console.log("Onselect called", selectedKeys, selected, selectedNodes, node, event);
+        if (node.props.eventKey === "-") {
+            dataStoreContext.setSelectedProjectItem(selected ? pageDetails : null);
+        } else {
+            dataStoreContext.setSelectedProjectItem(selected ?
+                retrieveItemByKey(pageDetails, node.props.eventKey.split("-"), 0) : null
+            );
+        }
     };
 
     const onDragEnter = info => {
@@ -60,6 +61,21 @@ const ListPageComponents = ({ pageDetails }) => {
         // this.setState({
         //   expandedKeys: info.expandedKeys,
         // });
+    };
+
+    const requestUpdateComponentPlacement = async (data) => {
+        const result = await updateComponentPlacement({
+            variables: {
+                components: data,
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            dataStoreContext.setPageDetailsUpdated(true);
+        } else {
+            handleGraphQLAPIErrors(result.error);
+        }
     };
 
     const onDrop = info => {
@@ -118,8 +134,8 @@ const ListPageComponents = ({ pageDetails }) => {
                 ar.splice(i + 1, 0, dragObj);
             }
         }
-
         setPageChildren(data);
+        return requestUpdateComponentPlacement(data);
     };
 
     const addComponentRequest = async (selectedComponentIds) => {
@@ -135,10 +151,7 @@ const ListPageComponents = ({ pageDetails }) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            message.error(
-                (result.httpError && result.httpError.statusText) ||
-                    (result.graphQLErrors && result.graphQLErrors[0].message)
-            );
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -153,13 +166,29 @@ const ListPageComponents = ({ pageDetails }) => {
                     </TreeNode>
                 );
             }
-            return <TreeNode key={key} title={item.name} />;
+            return <TreeNode key={key} title={item.name}/>;
         });
 
     const [visible, setVisible] = useState(false);
 
-    const showModal = () => {
+    const showAddComponentModal = () => {
         setVisible(true);
+    };
+
+    const onClickDeleteComponent = async () => {
+        const selectedProjectItem = dataStoreContext.selectedProjectItem;
+        const result = await deleteComponent({
+            variables: {
+                component: selectedProjectItem,
+                projectId: projectId,
+                page: pageName
+            }
+        });
+        if (!result.error) {
+            dataStoreContext.setPageDetailsUpdated(true);
+        } else {
+            handleGraphQLAPIErrors(result.error);
+        }
     };
 
     const handleOk = e => {
@@ -174,7 +203,7 @@ const ListPageComponents = ({ pageDetails }) => {
     };
 
     return (
-        <div style={{ flex: "0 0 100%" }}>
+        <div style={{flex: "0 0 100%"}}>
             <Tree
                 className="draggable-tree"
                 defaultExpandedKeys={openKeys}
@@ -183,19 +212,32 @@ const ListPageComponents = ({ pageDetails }) => {
                 onDragEnter={onDragEnter}
                 onDrop={onDrop}
                 onSelect={onSelect}
+                style={{height: "calc(100% - 50px)"}}
             >
-                <TreeNode title={pageDetails.title} key={pageDetails.slug}>
+                <TreeNode title={pageDetails.name} key="-">
                     {loop(pageChildren)}
                 </TreeNode>
             </Tree>
+            <Divider style={{margin: "5px 0"}}/>
+            <Row justify="center" type="flex" gutter={5} style={{padding: "0 5px", margin: "auto"}}>
+                <Col xs={12}>
+                    <Button type="primary" onClick={showAddComponentModal}
+                            style={{width: "100%", maxWidth: "100px"}}>
+                        Add
+                    </Button>
+                </Col>
+                <Col xs={12}>
+                    <Button type="danger" onClick={onClickDeleteComponent}
+                            style={{width: "100%", maxWidth: "100px", float: "right"}}>
+                        Delete
+                    </Button>
+                </Col>
+            </Row>
             <AddComponentModal
                 visible={visible}
                 handleOk={handleOk}
                 handleCancel={handleCancel}
             />
-            <Button type="primary" onClick={showModal}>
-                Add Component
-            </Button>
         </div>
     );
 };

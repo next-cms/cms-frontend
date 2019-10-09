@@ -3,12 +3,7 @@ import {message, Modal} from "antd";
 import * as PropTypes from "prop-types";
 import {useMutation} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider.js";
-
-const DELETE_PROJECT = `
-  mutation DeleteProject($id: ID!){
-    deleteProject(id: $id)
-  }
-`;
+import {DELETE_PROJECT} from "../../utils/GraphQLConstants";
 
 const DeleteWarningModal = ({visible, project, handleCancel, onSuccess}) => {
     const dataStoreContext = useContext(DataStoreContext);

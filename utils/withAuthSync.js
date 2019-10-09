@@ -2,7 +2,6 @@
 import React from "react";
 import {auth} from "./auth";
 
-
 const getDisplayName = Component =>
     Component.displayName || Component.name || "Component";
 

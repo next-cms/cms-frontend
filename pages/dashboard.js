@@ -9,36 +9,24 @@ import {withAuthSync} from "../utils/withAuthSync";
 import {useQuery} from "graphql-hooks";
 import {DataStoreContext} from "../contexts/DataStoreContextProvider";
 import DeleteWarningModal from "../components/projects/DeleteWarningModal";
+import {ALL_PROJECTS_QUERY} from "../utils/GraphQLConstants";
+import {MenuContext} from "../contexts/MenuContextProvider";
+import {handleGraphQLAPIErrors} from "../utils/helpers";
 
 const { publicRuntimeConfig } = getConfig();
 const { CREATE_PROJECT_PATH, PROJECT_PATH } = publicRuntimeConfig;
 const { Title } = Typography;
 
-export const projectsQuery = `
-  query projectsQuery($limit: Int!, $skip: Int!) {
-      projects(limit: $limit, skip: $skip) {
-          id
-          title
-          description
-          websiteUrl
-          modifiedAt
-        }
-        _projectsMeta {
-      count
-    }
-}
-`;
-
-
 const Dashboard = () => {
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const dataStoreContext = useContext(DataStoreContext);
+    const menuContext = useContext(MenuContext);
     const [current, setCurrent] = useState(1);
     const [visible, setVisible] = useState(false);
     const [project, setProject] = useState({});
 
-    const { loading, error, data, refetch } = useQuery(projectsQuery, {
+    const {loading, error, data, refetch} = useQuery(ALL_PROJECTS_QUERY, {
         variables: {skip, limit: pageSize}
     });
 
@@ -49,7 +37,10 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        console.log("Effect 1 called");
+        menuContext.setSelectedKeys([Dashboard.routeInfo.slug]);
+    }, []);
+
+    useEffect(() => {
         if (dataStoreContext.projectListUpdated) {
             dataStoreContext.setProjectListUpdated(false);
             refetch({variables: {skip, limit: pageSize}});
@@ -57,9 +48,8 @@ const Dashboard = () => {
     }, [dataStoreContext.projectListUpdated]);
 
     useEffect(() => {
-        console.log("Effect 2 called");
         if (error) {
-            message.error("Error loading recent projects.");
+            handleGraphQLAPIErrors(error);
         }
         console.log("loading:", loading);
         let hideMessage;
@@ -89,16 +79,10 @@ const Dashboard = () => {
     };
 
     const columns = [
-        // {
-        //     title: "Id",
-        //     dataIndex: "id",
-        //     key: "id"
-        // },
         {
             title: "Title",
             dataIndex: "title",
-            key: "title",
-            editable: true
+            key: "title"
         },
         {
             title: "Description",
@@ -106,12 +90,12 @@ const Dashboard = () => {
             key: "description"
         },
         {
-            title: "WebsiteUrl",
+            title: "Website URL",
             dataIndex: "websiteUrl",
             key: "websiteUrl"
         },
         {
-            title: "ModifiedAt",
+            title: "Modified At",
             dataIndex: "modifiedAt",
             key: "modifiedAt"
         },
@@ -140,7 +124,7 @@ const Dashboard = () => {
     const pageHeader = (
         <PageHeader
             title="Dashboard"
-            subTitle="This is a subtitle"
+            subTitle="Choose a project or create a new one"
             extra={
                 <Link href={CREATE_PROJECT_PATH}>
                     <Button type="primary">New Project</Button>

@@ -9,23 +9,13 @@ import {redirectTo} from "../common/Redirect";
 import getConfig from "next/config";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import * as PropTypes from "prop-types";
+import {CREATE_PROJECT} from "../../utils/GraphQLConstants";
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
 const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;
-
-const CREATE_PROJECT = `
-mutation createProject($title: String!, $description: String, $websiteUrl: String!) {
-  createProject(title: $title, description: $description, websiteUrl: $websiteUrl) {
-    id
-    title
-    description
-    websiteUrl
-    createdAt
-  }
-}`;
 
 const ProjectCreateForm = (props) => {
 
