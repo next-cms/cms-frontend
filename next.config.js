@@ -1,4 +1,4 @@
-const getURLConstants = require("./constants/URLs");
+const getURLConstants = require("./server/URLs");
 
 const withSass = require("@zeit/next-sass");
 const withCss = require("@zeit/next-css");

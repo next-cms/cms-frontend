@@ -105,6 +105,45 @@ const ListComponentProperties = ({pageDetails}) => {
         return !!item.slug;
     };
 
+    function renderConditionalElements(item, attr) {
+        const types = item.props[attr].type.split("|");
+        for (const type of types) {
+            switch (type) {
+                case "string":
+                    return <Input value={item.props[attr].value ? item.props[attr].value.value : attr}
+                                  onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                case "number":
+                    return <Input type="number" value={item.props[attr].value ? item.props[attr].value.value : attr}
+                                  onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                case "object":
+                    return <Fragment>
+                        <Input contentEditable={false}
+                               value={item.props[attr].value ? item.props[attr].value.value : attr}/>
+                        <Button onClick={showModal} style={{float: "right"}}>
+                            <Icon type="edit"/>
+                        </Button>
+                    </Fragment>;
+                case "element":
+                    return <Fragment>
+                        <Input contentEditable={false}
+                               value={item.props[attr].value ? item.props[attr].value.value : attr}/>
+                        <Button onClick={showModal} style={{float: "right"}}>
+                            <Icon type="edit"/>
+                        </Button>
+                    </Fragment>;
+                case "image":
+                    return <Fragment>
+                        <Input value={item.props[attr].value ? item.props[attr].value.value : attr}
+                               onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                        <Button onClick={showModal} style={{float: "right"}}>
+                            <Icon type="edit"/>
+                        </Button>
+                    </Fragment>;
+
+            }
+        }
+    }
+
     const generatePanelItem = item => {
         if (isPageComponent(item)) {
             return <Fragment>
@@ -131,21 +170,7 @@ const ListComponentProperties = ({pageDetails}) => {
                         <Fragment key={attr}>
                             <div>{startCase(attr)}:</div>
                             <div style={{display: "flex"}}>
-                                {(item.props[attr].type === "object" || item.props[attr].type === "element") ? (
-                                    <Fragment>
-                                        <Input disabled={true}
-                                               value={item.props[attr].value ? item.props[attr].value.value : attr}
-                                        />
-                                        <Button onClick={showModal} style={{float: "right"}}>
-                                            <Icon type="edit"/>
-                                        </Button>
-                                    </Fragment>
-                                ) : (
-                                <Input
-                                    onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}
-                                    value={item.props[attr].value ? item.props[attr].value.value : attr}
-                                />
-                                )}
+                                {renderConditionalElements(item, attr)}
                             </div>
                             <Divider style={{margin: "5px 0"}}/>
                             <JsonComponentEditorModal
