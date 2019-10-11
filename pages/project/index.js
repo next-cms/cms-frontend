@@ -7,7 +7,7 @@ import {useRouter} from "next/router";
 const {publicRuntimeConfig} = getConfig();
 const {PROJECT_SETTINGS_PATH} = publicRuntimeConfig;
 
-const Project = (props) => {
+export const Project = (props) => {
     const router = useRouter();
     console.log(router);
     return {};

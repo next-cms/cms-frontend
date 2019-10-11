@@ -7,7 +7,7 @@ import {MenuContext} from "../contexts/MenuContextProvider";
 import AvailableComponentList from "../components/common/AvailableComponentList";
 import {DEFAULT_AVAILABLE_COMPONENTS} from "../utils/GraphQLConstants";
 
-const AvailableComponents = () => {
+export const AvailableComponents = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {

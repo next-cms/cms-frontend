@@ -9,7 +9,7 @@ import ProjectMediaGallery from "../../components/editor_components/ProjectMedia
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const MediaGallery = (props) => {
+export const MediaGallery = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {

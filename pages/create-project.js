@@ -6,7 +6,7 @@ import ProjectCreateForm from "../components/projects/ProjectCreateForm";
 import {withAuthSync} from "../utils/withAuthSync";
 import {MenuContext} from "../contexts/MenuContextProvider";
 
-const CreateProject = () => {
+export const CreateProject = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {

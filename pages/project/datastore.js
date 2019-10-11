@@ -9,7 +9,7 @@ import ProjectDataStore from "../../components/editor_components/ProjectDataStor
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const DataStore = (props) => {
+export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {

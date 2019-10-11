@@ -2,7 +2,7 @@ import React from "react";
 import {MenuContext} from "../contexts/MenuContextProvider";
 import DefaultMenuItems from "../components/layout/aside/DefaultMenuItems";
 
-const About = () => {
+export const About = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {

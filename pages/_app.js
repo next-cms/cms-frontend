@@ -50,7 +50,7 @@ if (typeof window !== "undefined") {
     else window.addEventListener("load", loadDeferredStyles);
 }
 
-class CMSApp extends App {
+export class CMSApp extends App {
     static async getInitialProps({Component, ctx}) {
         const {token, user} = nextCookie(ctx);
 

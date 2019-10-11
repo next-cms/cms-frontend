@@ -9,7 +9,7 @@ import {useRouter} from "next/router";
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const Pages = (props) => {
+export const Pages = (props) => {
     const menuContext = React.useContext(MenuContext);
     const router = useRouter();
 

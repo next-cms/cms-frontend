@@ -6,7 +6,7 @@ import {MetaRedirect} from "../components/common/Redirect";
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const Home = () => <MetaRedirect to={DASHBOARD_PATH}/>;
+export const Home = () => <MetaRedirect to={DASHBOARD_PATH}/>;
 
 // Home.getInitialProps = async (ctx) => {
 //     return redirectTo(DASHBOARD_PATH, ctx);

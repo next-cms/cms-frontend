@@ -17,7 +17,7 @@ const { publicRuntimeConfig } = getConfig();
 const { CREATE_PROJECT_PATH, PROJECT_PATH } = publicRuntimeConfig;
 const { Title } = Typography;
 
-const Dashboard = () => {
+export const Dashboard = () => {
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const dataStoreContext = useContext(DataStoreContext);

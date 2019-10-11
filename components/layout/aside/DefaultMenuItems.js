@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon} from "antd";
 import getConfig from "next/config";
-import AvailableComponents from "../../../pages/available-components";
+import {AvailableComponents} from "../../../pages/available-components";
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH, ABOUT_PATH, AVAILABLE_COMPONENTS_PATH} = publicRuntimeConfig;

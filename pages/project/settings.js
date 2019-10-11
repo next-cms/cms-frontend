@@ -9,7 +9,7 @@ import ProjectSettings from "../../components/editor_components/ProjectSettings"
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
 
-const Settings = (props) => {
+export const Settings = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
