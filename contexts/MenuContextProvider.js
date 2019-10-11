@@ -32,7 +32,7 @@ class MenuContextProvider extends Component {
     };
 
     deleteFromPageMenu = (pageKey) => {
-        if (key) {
+        if (pageKey) {
             this.setState({
                 menuItems: {
                     ...this.state.menuItems,
