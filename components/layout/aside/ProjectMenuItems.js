@@ -2,11 +2,11 @@ import React from "react";
 import {Icon, message} from "antd";
 import {executeAllPagesQuery, executeCreateNewPageQuery} from "../../../utils/graphQLClientHelper";
 import {injectParams} from "../../../utils/helpers";
-import WrappedSettings from "../../../pages/project/settings";
-import WrappedPages from "../../../pages/project/pages";
-import WrappedMediaGallery from "../../../pages/project/gallery";
-import WrappedDataStore from "../../../pages/project/datastore";
-import WrappedAvailableComponents from "../../../pages/project/available-components";
+import {Settings} from "../../../pages/project/settings";
+import {Pages} from "../../../pages/project/pages";
+import {MediaGallery} from "../../../pages/project/gallery";
+import {DataStore} from "../../../pages/project/datastore";
+import {AvailableComponents} from "../../../pages/project/available-components";
 
 export const getProjectMenuItems = (params, graphQLClient) => {
     const menuItems = {
@@ -14,14 +14,14 @@ export const getProjectMenuItems = (params, graphQLClient) => {
             key: "settings",
             title: "Project Setting",
             icon: <Icon type="setting"/>,
-            path: WrappedSettings.routeInfo.path,
+            path: Settings.routeInfo.path,
             subMenu: null
         },
         pages: {
             key: "pages",
             title: "Pages",
             icon: <Icon type="snippets"/>,
-            path: WrappedPages.routeInfo.path,
+            path: Pages.routeInfo.path,
             lazySubmenu: true,
             subMenu: [{
                 key: "create-new-page",
@@ -76,23 +76,23 @@ export const getProjectMenuItems = (params, graphQLClient) => {
             }
         },
         header: {
-            key: WrappedDataStore.routeInfo.slug,
-            title: WrappedDataStore.routeInfo.title,
+            key: DataStore.routeInfo.slug,
+            title: DataStore.routeInfo.title,
             icon: <Icon type="database"/>,
-            path: WrappedDataStore.routeInfo.path,
+            path: DataStore.routeInfo.path,
             subMenu: null
         },
         footer: {
-            key: WrappedMediaGallery.routeInfo.slug,
-            title: WrappedMediaGallery.routeInfo.title,
+            key: MediaGallery.routeInfo.slug,
+            title: MediaGallery.routeInfo.title,
             icon: <Icon type="picture"/>,
-            path: WrappedMediaGallery.routeInfo.path,
+            path: MediaGallery.routeInfo.path,
             subMenu: null
         },
         availableComponents: {
-            key: WrappedAvailableComponents.routeInfo.slug,
-            title: WrappedAvailableComponents.routeInfo.title,
-            path: WrappedAvailableComponents.routeInfo.path,
+            key: AvailableComponents.routeInfo.slug,
+            title: AvailableComponents.routeInfo.title,
+            path: AvailableComponents.routeInfo.path,
             icon: <Icon type="block"/>,
             subMenu: null
         }
