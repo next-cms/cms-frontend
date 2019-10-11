@@ -73,9 +73,9 @@ const RecentProjects = () => {
                 {projects.map(project => (
                     <Col key={project.id} xs={24} sm={6}>
                         <Card
-                            onClick={() => redirectTo(`${PROJECT_PATH}?id=${project.id}`)}
                             cover={
                                 <img
+                                    onClick={() => redirectTo(`${PROJECT_PATH}?id=${project.id}`)}
                                     alt="Default Project Cover"
                                     src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
                                 />
@@ -98,6 +98,7 @@ const RecentProjects = () => {
                             hoverable
                         >
                             <Meta
+                                onClick={() => redirectTo(`${PROJECT_PATH}?id=${project.id}`)}
                                 title={project.title}
                                 description={project.description}
                             />
