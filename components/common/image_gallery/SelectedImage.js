@@ -1,29 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const Checkmark = ({ selected }) => (
-    <div
-        style={
-            selected
-                ? { left: "4px", top: "4px", position: "absolute", zIndex: "1" }
-                : { display: "none" }
-        }
-    >
-        <svg
-            style={{ fill: "white", position: "absolute" }}
-            width="24px"
-            height="24px"
-        >
-            <circle cx="12.5" cy="12.2" r="8.292" />
-        </svg>
-        <svg
-            style={{ fill: "#06befa", position: "absolute" }}
-            width="24px"
-            height="24px"
-        >
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-        </svg>
-    </div>
-);
+import { Icon } from "antd";
 
 const imgStyle = {
     transition: "transform .135s cubic-bezier(0.0,0.0,0.2,1),opacity linear .15s"
@@ -35,10 +11,10 @@ const selectedImgStyle = {
 };
 
 const cont = {
-    backgroundColor: "#eee",
-    cursor: "pointer",
     overflow: "hidden",
-    position: "relative"
+    position: "relative",
+    backgroundColor: "#eee",
+    cursor: "pointer"
 };
 
 const SelectedImage = ({
@@ -49,7 +25,8 @@ const SelectedImage = ({
     top,
     left,
     selected,
-    onSelectPhoto
+    onSelectPhoto,
+    onViewImage
 }) => {
     const [isSelected, setIsSelected] = useState(selected);
 
@@ -64,34 +41,66 @@ const SelectedImage = ({
         cont.top = top;
     }
 
-    const handleOnClick = e => {
-
+    const handleOnSelectClick = () => {
         setIsSelected(!isSelected);
         onSelectPhoto(index, !isSelected, photo);
-
     };
+
+    const handleOnViewClick = () => {
+        onViewImage(index);
+    }
 
     useEffect(() => {
         setIsSelected(selected);
         onSelectPhoto(index, selected, photo);
-
     }, [selected]);
 
     return (
         <div
             style={{ margin, height: photo.height, width: photo.width, ...cont }}
-            className={!isSelected ? "not-selected" : ""}
+            className={!isSelected ? "gallery-item not-selected" : "gallery-item"}
         >
-            <Checkmark selected={isSelected ? true : false} />
+
+            <Icon 
+                className="select-icon"
+                type="check-circle" 
+                theme="filled"
+                onClick={handleOnSelectClick} 
+                style={{
+                    position: "absolute",
+                    visibility: `${isSelected ? 'visible' : ''}`,
+                    color: `${isSelected ? '#3e90ff' : '#eeeeee'}`,
+                    backgroundColor: `${isSelected ? '#eeeeee' : '#3e90ff'}`,
+                    top: "5px",
+                    left: "5px",
+                    fontSize: "20px",
+                    borderRadius: "50%",
+                    zIndex: "1"
+                }}
+            />
             <img
                 alt={photo.title}
                 style={
                     isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
                 }
                 {...photo}
-                onClick={handleOnClick}
+                onClick={handleOnViewClick}
             />
-            <style>{`.not-selected:hover{outline:2px solid #06befa}`}</style>
+            <style jsx global>
+            {
+                `   
+                    .gallery-item .select-icon {
+                        visibility: hidden;
+                    }
+
+                    .gallery-item:hover .select-icon {
+                        visibility: visible;
+                    }
+
+                    .not-selected:hover{outline:2px solid #06befa};
+                `
+            }
+            </style>
         </div>
     );
 };

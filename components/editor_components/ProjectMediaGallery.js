@@ -1,6 +1,7 @@
-import React, { useState, useCallback, Fragment } from "react";
+import React, { useState, useCallback, useEffect} from "react";
 
 import Gallery from "react-photo-gallery";
+import Carousel, { Modal, ModalGateway } from "react-images";
 import SelectedImage from "../common/image_gallery/SelectedImage";
 import { Checkbox, Row, Col, Button } from "antd";
 
@@ -8,6 +9,19 @@ function ProjectMediaGallery({ photos }) {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+
+    const [currentImage, setCurrentImage] = useState(0);
+    const [viewerIsOpen, setViewerIsOpen] = useState(false);
+    
+    const openLightbox = (index) => {
+      setCurrentImage(index);
+      setViewerIsOpen(true);
+    };
+
+    const closeLightbox = () => {
+      setCurrentImage(0);
+      setViewerIsOpen(false);
+    };
 
     const toggleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -52,6 +66,7 @@ function ProjectMediaGallery({ photos }) {
                 left={left}
                 top={top}
                 onSelectPhoto={onSelectPhoto}
+                onViewImage={openLightbox}
             />
         ),
         [selectAll]
@@ -71,6 +86,20 @@ function ProjectMediaGallery({ photos }) {
                 </Col>
             </Row>
             <Gallery photos={photos} renderImage={imageRenderer} />
+            <ModalGateway>
+                {viewerIsOpen ? (
+                <Modal onClose={closeLightbox}>
+                    <Carousel
+                    currentIndex={currentImage}
+                    views={photos.map(x => ({
+                        ...x,
+                        srcset: x.srcSet,
+                        caption: x.title
+                    }))}
+                    />
+                </Modal>
+                ) : null}
+            </ModalGateway>
         </div>
     );
 };
