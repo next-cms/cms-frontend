@@ -13,7 +13,7 @@ const Settings = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([WrappedSettings.routeInfo.slug]);
+        menuContext.setSelectedKeys([Settings.routeInfo.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -33,12 +33,10 @@ Settings.propTypes = {
     project: PropTypes.object
 };
 
-const WrappedSettings = withAuthSync(Settings);
-
-WrappedSettings.routeInfo = {
+Settings.routeInfo = {
     slug: "settings",
     path: "/project/settings",
     pathAs: "/project/settings"
 };
 
-export default WrappedSettings;
+export default withAuthSync(Settings);

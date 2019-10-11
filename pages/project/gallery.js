@@ -13,7 +13,7 @@ const MediaGallery = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([WrappedMediaGallery.routeInfo.slug]);
+        menuContext.setSelectedKeys([MediaGallery.routeInfo.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -33,13 +33,11 @@ MediaGallery.propTypes = {
     project: PropTypes.object
 };
 
-const WrappedMediaGallery = withAuthSync(MediaGallery);
-
-WrappedMediaGallery.routeInfo = {
+MediaGallery.routeInfo = {
     slug: "gallery",
     path: "/project/gallery",
     pathAs: "/project/gallery",
     title: "Media Gallery"
 };
 
-export default WrappedMediaGallery;
+export default withAuthSync(MediaGallery);

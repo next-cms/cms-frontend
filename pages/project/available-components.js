@@ -11,7 +11,7 @@ const AvailableComponents = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([WrappedAvailableComponents.routeInfo.slug]);
+        menuContext.setSelectedKeys([AvailableComponents.routeInfo.slug]);
     }, []);
 
     const pageHeader = <PageHeader title="Available Components" subTitle="List of supported and available components"/>;
@@ -23,13 +23,11 @@ const AvailableComponents = () => {
     );
 };
 
-const WrappedAvailableComponents = withAuthSync(AvailableComponents);
-
-WrappedAvailableComponents.routeInfo = {
+AvailableComponents.routeInfo = {
     slug: "available-components",
     path: "/project/available-components",
     pathAs: "/project/available-components",
     title: "Browse Components"
 };
 
-export default WrappedAvailableComponents;
+export default withAuthSync(AvailableComponents);

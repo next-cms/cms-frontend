@@ -13,7 +13,7 @@ const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([WrappedDataStore.routeInfo.slug]);
+        menuContext.setSelectedKeys([DataStore.routeInfo.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -33,13 +33,11 @@ DataStore.propTypes = {
     project: PropTypes.object
 };
 
-const WrappedDataStore = withAuthSync(DataStore);
-
-WrappedDataStore.routeInfo = {
+DataStore.routeInfo = {
     slug: "datastore",
     path: "/project/datastore",
     pathAs: "/project/datastore",
     title: "Data Store"
 };
 
-export default WrappedDataStore;
+export default withAuthSync(DataStore);

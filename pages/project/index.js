@@ -17,12 +17,10 @@ Project.getInitialProps = async (ctx) => {
     return await redirectTo(`${PROJECT_SETTINGS_PATH}?id=${ctx.query.id}`, ctx);
 };
 
-const WrappedProject = withAuthSync(Project);
-
-WrappedProject.routeInfo = {
+Project.routeInfo = {
     slug: "project",
     path: "/project",
     pathAs: "/project"
 };
 
-export default WrappedProject;
+export default withAuthSync(Project);

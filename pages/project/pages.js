@@ -14,7 +14,7 @@ const Pages = (props) => {
     const router = useRouter();
 
     React.useEffect(() => {
-        menuContext.setOpenedKeys([WrappedPages.routeInfo.slug]);
+        menuContext.setOpenedKeys([Pages.routeInfo.slug]);
         if (router.query.pageName) {
             menuContext.setSelectedKeys([router.query.pageName]);
         }
@@ -34,12 +34,10 @@ const Pages = (props) => {
 
 Pages.propTypes = {};
 
-const WrappedPages = withAuthSync(Pages);
-
-WrappedPages.routeInfo = {
+Pages.routeInfo = {
     slug: "pages",
     path: "/project/pages",
     pathAs: "/project/pages"
 };
 
-export default WrappedPages;
+export default withAuthSync(Pages);

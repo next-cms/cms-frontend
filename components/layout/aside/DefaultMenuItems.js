@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon} from "antd";
 import getConfig from "next/config";
-import WrappedAvailableComponents from "../../../pages/available-components";
+import AvailableComponents from "../../../pages/available-components";
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH, ABOUT_PATH, AVAILABLE_COMPONENTS_PATH} = publicRuntimeConfig;
@@ -15,9 +15,9 @@ const DefaultMenuItems = {
         subMenu: null
     },
     availableComponents: {
-        key: WrappedAvailableComponents.routeInfo.slug,
-        title: WrappedAvailableComponents.routeInfo.title,
-        path: WrappedAvailableComponents.routeInfo.path,
+        key: AvailableComponents.routeInfo.slug,
+        title: AvailableComponents.routeInfo.title,
+        path: AvailableComponents.routeInfo.path,
         icon: <Icon type="block"/>,
         subMenu: null
     },
