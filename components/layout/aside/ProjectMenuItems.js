@@ -4,7 +4,7 @@ import {executeAllPagesQuery, executeCreateNewPageQuery} from "../../../utils/gr
 import {injectParams} from "../../../utils/helpers";
 import {Settings} from "../../../pages/project/settings";
 import {Pages} from "../../../pages/project/pages";
-import {MediaGallery} from "../../../pages/project/gallery";
+import {GallaryPage} from "../../../pages/project/gallery";
 import {DataStore} from "../../../pages/project/datastore";
 import {AvailableComponents} from "../../../pages/project/available-components";
 
@@ -83,10 +83,10 @@ export const getProjectMenuItems = (params, graphQLClient) => {
             subMenu: null
         },
         footer: {
-            key: MediaGallery.routeInfo.slug,
-            title: MediaGallery.routeInfo.title,
+            key: GallaryPage.routeInfo.slug,
+            title: GallaryPage.routeInfo.title,
             icon: <Icon type="picture"/>,
-            path: MediaGallery.routeInfo.path,
+            path: GallaryPage.routeInfo.path,
             subMenu: null
         },
         availableComponents: {
