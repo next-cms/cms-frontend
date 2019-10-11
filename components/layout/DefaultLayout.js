@@ -11,7 +11,6 @@ const DefaultLayout = ({navHeader, children}) => {
 
     React.useEffect(() => {
         menuContext.setMenuItems(DefaultMenuItems);
-        menuContext.setSelectedKeys([DefaultMenuItems.dashboard.key]);
     }, []);
 
     return (

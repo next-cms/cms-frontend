@@ -4,8 +4,9 @@ import * as PropTypes from "prop-types";
 import {useQuery} from "graphql-hooks";
 import {useRouter} from "next/router";
 import {AVAILABLE_COMPONENTS} from "../../utils/GraphQLConstants";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
-const AvailableComponentList = ({onSelect, selectedComponents}) => {
+const AvailableComponentPicker = ({onSelect, selectedComponents}) => {
     const [skip, setSkip] = useState(0);
     const [limit, setLimit] = useState(10);
     //const dataStoreContext = useContext(DataStoreContext);
@@ -21,7 +22,7 @@ const AvailableComponentList = ({onSelect, selectedComponents}) => {
 
     useEffect(() => {
         if (error) {
-            message.error("Error retrieving available components.");
+            handleGraphQLAPIErrors(error);
         }
         console.log("loading:", loading);
         let hideMessage;
@@ -59,9 +60,9 @@ const AvailableComponentList = ({onSelect, selectedComponents}) => {
     );
 };
 
-AvailableComponentList.propTypes = {
+AvailableComponentPicker.propTypes = {
     onSelect: PropTypes.func,
     selectedComponents: PropTypes.array
 };
 
-export default AvailableComponentList;
+export default AvailableComponentPicker;

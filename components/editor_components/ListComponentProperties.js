@@ -60,7 +60,7 @@ const ListComponentProperties = ({pageDetails}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -86,7 +86,7 @@ const ListComponentProperties = ({pageDetails}) => {
                 });
             }
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -104,6 +104,45 @@ const ListComponentProperties = ({pageDetails}) => {
     const isPageComponent = (item) => {
         return !!item.slug;
     };
+
+    function renderConditionalElements(item, attr) {
+        const types = item.props[attr].type.split("|");
+        for (const type of types) {
+            switch (type) {
+                case "string":
+                    return <Input value={item.props[attr].value ? item.props[attr].value.value : attr}
+                                  onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                case "number":
+                    return <Input type="number" value={item.props[attr].value ? item.props[attr].value.value : attr}
+                                  onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                case "object":
+                    return <Fragment>
+                        <Input contentEditable={false}
+                               value={item.props[attr].value ? item.props[attr].value.value : attr}/>
+                        <Button onClick={showModal} style={{float: "right"}}>
+                            <Icon type="edit"/>
+                        </Button>
+                    </Fragment>;
+                case "element":
+                    return <Fragment>
+                        <Input contentEditable={false}
+                               value={item.props[attr].value ? item.props[attr].value.value : attr}/>
+                        <Button onClick={showModal} style={{float: "right"}}>
+                            <Icon type="edit"/>
+                        </Button>
+                    </Fragment>;
+                case "image":
+                    return <Fragment>
+                        <Input value={item.props[attr].value ? item.props[attr].value.value : attr}
+                               onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                        <Button onClick={showModal} style={{float: "right"}}>
+                            <Icon type="edit"/>
+                        </Button>
+                    </Fragment>;
+
+            }
+        }
+    }
 
     const generatePanelItem = item => {
         if (isPageComponent(item)) {
@@ -131,21 +170,7 @@ const ListComponentProperties = ({pageDetails}) => {
                         <Fragment key={attr}>
                             <div>{startCase(attr)}:</div>
                             <div style={{display: "flex"}}>
-                                {(item.props[attr].type === "object" || item.props[attr].type === "element") ? (
-                                    <Fragment>
-                                        <Input disabled={true}
-                                               value={item.props[attr].value ? item.props[attr].value.value : attr}
-                                        />
-                                        <Button onClick={showModal} style={{float: "right"}}>
-                                            <Icon type="edit"/>
-                                        </Button>
-                                    </Fragment>
-                                ) : (
-                                <Input
-                                    onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}
-                                    value={item.props[attr].value ? item.props[attr].value.value : attr}
-                                />
-                                )}
+                                {renderConditionalElements(item, attr)}
                             </div>
                             <Divider style={{margin: "5px 0"}}/>
                             <JsonComponentEditorModal
@@ -164,7 +189,8 @@ const ListComponentProperties = ({pageDetails}) => {
         <div style={{flex: "0 0 100%", padding: "5px", minWidth: "242px"}}>
             {isPageComponent(item) ? <Title level={4}>Page: {startCase(item.name)}</Title> :
                 <Title level={4}>Component: {startCase(item.name)}</Title>}
-            <div style={{height: "calc(100vh - 172px)"}}>
+            <Divider style={{margin: "5px 0"}}/>
+            <div style={{height: "calc(100vh - 172px)", overflowY: "auto"}}>
                 {generatePanelItem(item)}
             </div>
             <Divider style={{margin: "5px 0"}}/>

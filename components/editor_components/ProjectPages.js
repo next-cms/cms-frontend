@@ -9,6 +9,7 @@ import ListComponentProperties from "./ListComponentProperties";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {withRouter} from "next/router";
 import {PAGE_DETAILS} from "../../utils/GraphQLConstants";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
 const ProjectPages = ({router}) => {
     // console.log("router", router);
@@ -24,7 +25,7 @@ const ProjectPages = ({router}) => {
 
     useEffect(() => {
         if (error) {
-            message.error("Error loading page data.");
+            handleGraphQLAPIErrors(error);
         }
         let hideMessage;
         if (loading) {

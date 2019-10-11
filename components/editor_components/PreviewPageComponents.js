@@ -20,7 +20,7 @@ const CodeEditor = dynamic(() => import("../common/CodeEditor"), {ssr: false});
 const {API_NEXT_PROJECT_URL, PROJECT_SETTINGS_PATH} = publicRuntimeConfig;
 
 const initStyle = {
-    height: "calc(100vh - 180px)"
+    height: "calc(100vh - 174px)"
 };
 
 const PreviewPageComponents = ({pageDetails, pageName}) => {
@@ -41,7 +41,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
 
     useEffect(() => {
         if (error) {
-            message.error("Error loading page data.");
+            handleGraphQLAPIErrors(error);
         }
         let hideMessage;
         if (loading) {
@@ -70,7 +70,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
             if (ref.current) {
                 ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
                 setStyle({
-                    height: "100vh",
+                    ...initStyle,
                     visibility: "visible",
                     background: "url(/static/loader.gif) center center no-repeat"
                 });
@@ -86,7 +86,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         if (ref.current) {
             ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
             setStyle({
-                height: "100vh",
+                ...initStyle,
                 visibility: "visible",
                 background: "url(/static/loader.gif) center center no-repeat"
             });
@@ -113,7 +113,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         if (!result.error) {
             dataStoreContext.setPageDetailsUpdated(true);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -129,7 +129,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
             await redirectTo(`${PROJECT_SETTINGS_PATH}?id=${projectId}`);
             message.success(`Deleted page '${pageName}' successfully!`);
         } else {
-            handleGraphQLAPIErrors(result);
+            handleGraphQLAPIErrors(result.error);
         }
     };
 
@@ -151,7 +151,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
                     mode="jsx"
                     onChange={onCodeEditorChange}
                     value={data ? data.pageSourceCode : ""}
-                    height="calc(100vh - 180px)"
+                    height="calc(100vh - 174px)"
                     width="100%"
                 />
             </TabPane>
