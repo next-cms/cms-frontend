@@ -27,14 +27,16 @@ const ProjectCreateForm = (props) => {
         e.preventDefault();
 
         props.form.validateFieldsAndScroll(async (err, values) => {
-
+            let hideMessage;
             if (!err) {
+                hideMessage = message.loading("Creating new project...", 0);
                 const result = await createProject({
                     variables: values
                 });
                 if (!result.error) {
                     dataStoreContext.setProjectListUpdated(true);
-                    return await redirectTo(DASHBOARD_PATH, {status: 200});
+                    message.success("Project creation successful.");
+                    await redirectTo(DASHBOARD_PATH, {status: 200});
                 } else {
                     message.error((result.httpError && result.httpError.statusText) ||
                         (result.graphQLErrors && result.graphQLErrors[0].message));
@@ -43,6 +45,7 @@ const ProjectCreateForm = (props) => {
                 console.error(err);
                 message.error("Unexpected error!");
             }
+            hideMessage && hideMessage();
         });
     };
 

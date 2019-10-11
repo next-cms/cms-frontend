@@ -214,7 +214,7 @@ const ListPageComponents = ({pageDetails}) => {
                 onSelect={onSelect}
                 style={{height: "calc(100% - 50px)"}}
             >
-                <TreeNode title={pageDetails.name} key="-">
+                <TreeNode title={pageDetails.name || "Page"} key="-">
                     {loop(pageChildren)}
                 </TreeNode>
             </Tree>
