@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect} from "react";
+import React, { useState, useCallback } from "react";
 
 import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
-import SelectedImage from "../common/image_gallery/SelectedImage";
+import SelectedImage from "./MediaSelectionHandle";
 import { Checkbox, Row, Col, Button } from "antd";
 
-function ProjectMediaGallery({ photos }) {
+const MediaGallery = ({ photos }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -104,7 +104,7 @@ function ProjectMediaGallery({ photos }) {
     );
 };
 
-ProjectMediaGallery.defaultProps = {
+MediaGallery.defaultProps = {
     photos: [
         {
             src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
@@ -154,4 +154,4 @@ ProjectMediaGallery.defaultProps = {
     ]
 }
 
-export default ProjectMediaGallery;
+export default MediaGallery;

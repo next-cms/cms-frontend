@@ -1,8 +1,11 @@
-import React, { Fragment } from "react";
+import React, { useState } from "react";
 import { Row, Col, Table } from "antd";
 import { Button } from "antd";
+import ModalComponent from "../common/ModalComponent";
 
 const ProjectDataStore = () => {
+
+    const [isModal, setIsModal] = useState(false);
 
     const dataSource = [
         {
@@ -37,6 +40,20 @@ const ProjectDataStore = () => {
         },
     ];
 
+    const _handleCancel = () => {
+        setIsModal(false);
+    }
+
+    const _handleOk = (e) => {
+        console.log(e);
+        setIsModal(false);
+    }
+
+    const openModal = () => {
+        setIsModal(true);
+    }
+
+
 
     return (
         <div style={{width: "100%", padding: "10px"}}>
@@ -45,10 +62,18 @@ const ProjectDataStore = () => {
                     <h2>Title</h2>
                 </Col>
                 <Col>
-                    <Button type="primary">Create Data Model</Button>
+                    <Button onClick={openModal} type="primary">Create Data Model</Button>
                 </Col>
             </Row>
             <Table dataSource={dataSource} columns={columns} />
+            <ModalComponent
+                handleCancel={_handleCancel}
+                handleOk={_handleOk}
+                visible={isModal}
+                title="Data Model Form"
+            >
+                <h2>I'm data model form modal.</h2>
+            </ModalComponent>
         </div>
     );
 };
