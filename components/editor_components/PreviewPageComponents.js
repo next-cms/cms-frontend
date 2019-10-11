@@ -46,7 +46,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         let hideMessage;
         if (loading) {
             hideMessage && hideMessage();
-            hideMessage = message.loading("Loading page data...", 0);
+            hideMessage = message.loading("Loading page source code...", 0);
         } else {
             hideMessage && hideMessage();
             hideMessage = null;

@@ -6,7 +6,7 @@ import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
 import AddComponentModal from "./AddComponentModal";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import {handleGraphQLAPIErrors, isPageComponent} from "../../utils/helpers";
 import {ADD_COMPONENT, DELETE_COMPONENT, UPDATE_COMPONENT_PLACEMENT} from "../../utils/GraphQLConstants";
 
 const {TreeNode} = Tree;
@@ -143,7 +143,7 @@ const ListPageComponents = ({pageDetails}) => {
         const result = await addComponent({
             variables: {
                 componentIds: selectedComponentIds,
-                parent: selectedProjectItem,
+                parent: isPageComponent(selectedProjectItem) ? null : selectedProjectItem,
                 projectId: projectId,
                 page: pageName
             }

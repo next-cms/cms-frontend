@@ -6,7 +6,7 @@ import {clone, cloneDeep, set, startCase} from "lodash";
 import JsonComponentEditorModal from "./JsonComponentEditorModal";
 import {useMutation} from "graphql-hooks";
 import {useRouter} from "next/router";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import {handleGraphQLAPIErrors, isPageComponent} from "../../utils/helpers";
 import {SAVE_COMPONENT, UPDATE_PAGE_DETAILS} from "../../utils/GraphQLConstants";
 import {redirectTo} from "../common/Redirect";
 import getConfig from "next/config";
@@ -99,10 +99,6 @@ const ListComponentProperties = ({pageDetails}) => {
     const handleJsonInputCancel = e => {
         console.log(e);
         setVisible(false);
-    };
-
-    const isPageComponent = (item) => {
-        return !!item.slug;
     };
 
     function renderConditionalElements(item, attr) {

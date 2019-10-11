@@ -47,6 +47,10 @@ export function injectParams(navs, params) {
     }
 }
 
+export const isPageComponent = (item) => {
+    return !!item.slug;
+};
+
 export function handleGraphQLAPIErrors(errors) {
     const isBrowser = typeof window !== "undefined";
     if (!isBrowser) return;
