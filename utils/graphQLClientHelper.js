@@ -1,9 +1,6 @@
 import {redirectTo} from "../components/common/Redirect";
-import getConfig from "next/config";
 import {ADD_PAGE, PROJECT_PAGES} from "./GraphQLConstants";
-
-const {publicRuntimeConfig} = getConfig();
-const {LOGIN_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../constants/RoutesInfo";
 
 export async function executeAllPagesQuery(graphQLClient, projectId) {
     return new Promise((resolve, reject) => {
@@ -22,7 +19,7 @@ export async function executeAllPagesQuery(graphQLClient, projectId) {
             .then(response => {
                 if (response.errors) {
                     response.errors.forEach((err) => {
-                        err.extensions && err.extensions.code === "FORBIDDEN" && redirectTo(LOGIN_PATH);
+                        err.extensions && err.extensions.code === "FORBIDDEN" && redirectTo(RoutesInfo.Login.path);
                     });
                     reject(response.errors);
                 } else {
@@ -49,7 +46,7 @@ export async function executeCreateNewPageQuery(graphQLClient, projectId) {
             .then(response => {
                 if (response.errors) {
                     response.errors.forEach((err) => {
-                        err.extensions && err.extensions.code === "FORBIDDEN" && redirectTo(LOGIN_PATH);
+                        err.extensions && err.extensions.code === "FORBIDDEN" && redirectTo(RoutesInfo.Login.path);
                     });
                     reject(response.errors);
                 } else {

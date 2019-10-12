@@ -14,7 +14,7 @@ const AvailableComponentList = ({router, query}) => {
     const [infiniteLoading, setInfiniteLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
-    const projectId = router.query.id;
+    const projectId = router.query.projectId;
 
     const {loading, error, data, refetch} = useQuery(
         query,

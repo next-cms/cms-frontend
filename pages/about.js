@@ -1,13 +1,14 @@
 import React from "react";
 import {MenuContext} from "../contexts/MenuContextProvider";
 import DefaultMenuItems from "../components/layout/aside/DefaultMenuItems";
+import RoutesInfo from "../constants/RoutesInfo";
 
-export const About = () => {
+const About = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
         menuContext.setMenuItems(DefaultMenuItems);
-        menuContext.setSelectedKeys([About.routeInfo.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.About.slug]);
     }, []);
 
     return (
@@ -36,9 +37,4 @@ export const About = () => {
     );
 };
 
-About.routeInfo = {
-    slug: "about",
-    path: "/about",
-    pathAs: "/about"
-};
 export default About;

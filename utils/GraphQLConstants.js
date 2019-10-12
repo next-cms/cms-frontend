@@ -190,3 +190,13 @@ mutation signUp($name: String!, $email: String!, $password: String!) {
     password
   }
 }`;
+
+export const ALL_MEDIA = `
+query allMedia($projectId: String!, $limit: Int!, $skip: Int!) {
+  allMedia(projectId: $projectId, limit: $limit, skip: $skip) {
+    name
+    src
+    height
+    width
+  }
+}`;

@@ -1,19 +1,16 @@
 import React from "react";
 import PageWrapper from "../../components/common/PageWrapper";
 import {withAuthSync} from "../../utils/withAuthSync";
-import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import ProjectSettings from "../../components/editor_components/ProjectSettings";
+import RoutesInfo from "../../constants/RoutesInfo";
 
-const {publicRuntimeConfig} = getConfig();
-const {DASHBOARD_PATH} = publicRuntimeConfig;
-
-export const Settings = (props) => {
+const Settings = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([Settings.routeInfo.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.ProjectSettings.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -31,12 +28,6 @@ export const Settings = (props) => {
 
 Settings.propTypes = {
     project: PropTypes.object
-};
-
-Settings.routeInfo = {
-    slug: "settings",
-    path: "/project/settings",
-    pathAs: "/project/settings"
 };
 
 export default withAuthSync(Settings);

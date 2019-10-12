@@ -1,9 +1,6 @@
 import {message} from "antd";
 import {redirectTo} from "../components/common/Redirect";
-import getConfig from "next/config";
-
-const {publicRuntimeConfig} = getConfig();
-const {LOGIN_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../constants/RoutesInfo";
 
 export function concatQueryParamsToPath(path, params) {
     let modifiedPath = path;
@@ -62,7 +59,7 @@ export function handleGraphQLAPIErrors(errors) {
         errors.graphQLErrors.forEach((error) => {
             message.error(error.message);
             if (error.extensions && error.extensions.code === "FORBIDDEN") {
-                return redirectTo(LOGIN_PATH);
+                return redirectTo(RoutesInfo.Login.path);
             }
         });
     }

@@ -21,7 +21,7 @@ const ListPageComponents = ({pageDetails}) => {
     const [deleteComponent] = useMutation(DELETE_COMPONENT);
     const [updateComponentPlacement] = useMutation(UPDATE_COMPONENT_PLACEMENT);
     const router = useRouter();
-    const projectId = router.query.id;
+    const projectId = router.query.projectId;
     const pageName = router.query.pageName;
 
     useEffect(() => {

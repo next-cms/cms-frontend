@@ -1,12 +1,9 @@
 import React, {Component} from "react";
-import fetch from "isomorphic-unfetch";
-import getConfig from "next/config";
 import cookie from "js-cookie";
 import {redirectTo} from "../components/common/Redirect";
 import * as PropTypes from "prop-types";
-
-const {publicRuntimeConfig} = getConfig();
-const {API_LOGIN_URL, LOGIN_PATH, DASHBOARD_PATH} = publicRuntimeConfig;
+import AuthService from "../services/AuthService";
+import RoutesInfo from "../constants/RoutesInfo";
 
 /* First we will make a new context */
 export const AuthContext = React.createContext();
@@ -29,33 +26,17 @@ class AuthContextProvider extends Component {
         this.state.token = props.token;
     }
 
-
     loginRequest = (user) => {
+        console.log("loginRequest");
         this.setState({
             isLoggedIn: false,
             loading: true,
             error: null
         });
-        fetch(API_LOGIN_URL, {
-            method: "POST", headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(user)
-        })
-            .then(r => r.json())
-            .then(resp => {
-                if (resp.status === "success") {
-                    return this.loginSuccess(resp.data.user, resp.data.token);
-                } else {
-                    return this.loginFailed(resp);
-                }
-            }, err => {
-                return this.loginFailed(err);
-            })
-            .catch(err => {
-                return this.loginFailed(err);
-            });
+        AuthService.login(user, this.loginSuccess, this.loginFailed);
     };
 
-    loginSuccess = async (user, token) => {
+    loginSuccess = async ({user, token} = {}) => {
         cookie.set("user", user, {expires: 1});
         cookie.set("token", token, {expires: 1});
         this.setState({
@@ -65,7 +46,7 @@ class AuthContextProvider extends Component {
             user: user,
             token: token,
         });
-        return await redirectTo(DASHBOARD_PATH, {status: 301});
+        return await redirectTo(RoutesInfo.Dashboard.path, {status: 301});
     };
 
     loginFailed = async (err) => {
@@ -78,7 +59,7 @@ class AuthContextProvider extends Component {
             user: null,
             token: null,
         });
-        return await redirectTo(LOGIN_PATH);
+        return await redirectTo(RoutesInfo.Login.path);
     };
 
     logoutRequest = async () => {
@@ -91,7 +72,7 @@ class AuthContextProvider extends Component {
             user: null,
             token: null,
         });
-        return await redirectTo(LOGIN_PATH);
+        return await redirectTo(RoutesInfo.Login.path);
     };
 
     render() {

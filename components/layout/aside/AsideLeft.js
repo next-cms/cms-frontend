@@ -2,14 +2,11 @@ import React, {Fragment, useEffect} from "react";
 import {Icon, Menu} from "antd";
 import Brand from "../brand/Brand";
 import Link from "next/link";
-import getConfig from "next/config";
 import "./aside.scss";
 import * as PropTypes from "prop-types";
 import {withRouter} from "next/router";
 import {MenuContext} from "../../../contexts/MenuContextProvider";
-
-const {publicRuntimeConfig} = getConfig();
-const {ROOT_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../../../constants/RoutesInfo";
 
 const {SubMenu} = Menu;
 
@@ -125,7 +122,7 @@ const AsideLeft = ({collapsed, router, style}) => {
 
     return (
         <Fragment>
-            <Link href={ROOT_PATH}>
+            <Link href={RoutesInfo.Home.path}>
                 <a><Brand brandText={"Pi-CMS"} icon={<Icon style={{color: "#ff0000"}} type="dingding"/>}
                           className={headerLogoClassName}/></a>
             </Link>

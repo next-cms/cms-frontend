@@ -2,26 +2,22 @@ import React from "react";
 import {Icon, message} from "antd";
 import {executeAllPagesQuery, executeCreateNewPageQuery} from "../../../utils/graphQLClientHelper";
 import {injectParams} from "../../../utils/helpers";
-import {Settings} from "../../../pages/project/settings";
-import {Pages} from "../../../pages/project/pages";
-import {GallaryPage} from "../../../pages/project/gallery";
-import {DataStore} from "../../../pages/project/datastore";
-import {AvailableComponents} from "../../../pages/project/available-components";
+import RoutesInfo from "../../../constants/RoutesInfo";
 
 export const getProjectMenuItems = (params, graphQLClient) => {
     const menuItems = {
         "settings": {
-            key: "settings",
-            title: "Project Setting",
+            key: RoutesInfo.ProjectSettings.slug,
+            title: RoutesInfo.ProjectSettings.title,
             icon: <Icon type="setting"/>,
-            path: Settings.routeInfo.path,
+            path: RoutesInfo.ProjectSettings.path,
             subMenu: null
         },
         pages: {
-            key: "pages",
-            title: "Pages",
+            key: RoutesInfo.ProjectPages.slug,
+            title: RoutesInfo.ProjectPages.title,
             icon: <Icon type="snippets"/>,
-            path: Pages.routeInfo.path,
+            path: RoutesInfo.ProjectPages.path,
             lazySubmenu: true,
             subMenu: [{
                 key: "create-new-page",
@@ -34,7 +30,7 @@ export const getProjectMenuItems = (params, graphQLClient) => {
                         message.error("Unexpected Error!");
                         console.error("GraphQLClient is not initialized!");
                     }
-                    executeCreateNewPageQuery(graphQLClient, params.query.id)
+                    executeCreateNewPageQuery(graphQLClient, params.query.projectId)
                         .then(data => {
                             console.log("createNewPage response: ", data);
                             const newMenuItem = {
@@ -58,7 +54,7 @@ export const getProjectMenuItems = (params, graphQLClient) => {
                     message.error("Unexpected Error!");
                     console.error("GraphQLClient is not initialized!");
                 }
-                executeAllPagesQuery(graphQLClient, params.query.id)
+                executeAllPagesQuery(graphQLClient, params.query.projectId)
                     .then(data => {
                         console.log("projectPages response: ", data);
                         const newMenuItem = {
@@ -75,24 +71,24 @@ export const getProjectMenuItems = (params, graphQLClient) => {
                     });
             }
         },
-        header: {
-            key: DataStore.routeInfo.slug,
-            title: DataStore.routeInfo.title,
+        datastore: {
+            key: RoutesInfo.DataStore.slug,
+            title: RoutesInfo.DataStore.title,
             icon: <Icon type="database"/>,
-            path: DataStore.routeInfo.path,
+            path: RoutesInfo.DataStore.path,
             subMenu: null
         },
-        footer: {
-            key: GallaryPage.routeInfo.slug,
-            title: GallaryPage.routeInfo.title,
+        gallery: {
+            key: RoutesInfo.GalleryPage.slug,
+            title: RoutesInfo.GalleryPage.title,
             icon: <Icon type="picture"/>,
-            path: GallaryPage.routeInfo.path,
+            path: RoutesInfo.GalleryPage.path,
             subMenu: null
         },
         availableComponents: {
-            key: AvailableComponents.routeInfo.slug,
-            title: AvailableComponents.routeInfo.title,
-            path: AvailableComponents.routeInfo.path,
+            key: RoutesInfo.ProjectAvailableComponents.slug,
+            title: RoutesInfo.ProjectAvailableComponents.title,
+            path: RoutesInfo.ProjectAvailableComponents.path,
             icon: <Icon type="block"/>,
             subMenu: null
         }

@@ -9,11 +9,8 @@ import {useRouter} from "next/router";
 import {handleGraphQLAPIErrors, isPageComponent} from "../../utils/helpers";
 import {SAVE_COMPONENT, UPDATE_PAGE_DETAILS} from "../../utils/GraphQLConstants";
 import {redirectTo} from "../common/Redirect";
-import getConfig from "next/config";
 import {MenuContext} from "../../contexts/MenuContextProvider";
-
-const {publicRuntimeConfig} = getConfig();
-const {PROJECT_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const {Title} = Typography;
 
@@ -27,7 +24,7 @@ const ListComponentProperties = ({pageDetails}) => {
     const [savePageDetails] = useMutation(UPDATE_PAGE_DETAILS);
 
     const router = useRouter();
-    const projectId = router.query.id;
+    const projectId = router.query.projectId;
     const pageName = router.query.pageName;
 
     useEffect(() => {
@@ -81,7 +78,7 @@ const ListComponentProperties = ({pageDetails}) => {
             console.log("new page", result);
             menuContext.updateInPageMenu(pageName, result.data.updatePage);
             if (item.slug !== pageName) {
-                redirectTo(`${PROJECT_PATH}/pages?id=${projectId}&pageName=${item.slug}`).then(() => {
+                redirectTo(`${RoutesInfo.Project.path}/pages?projectId=${projectId}&pageName=${item.slug}`).then(() => {
                     dataStoreContext.setPageDetailsUpdated(true);
                 });
             }
@@ -130,7 +127,7 @@ const ListComponentProperties = ({pageDetails}) => {
                 case "image":
                     return <Fragment>
                         <Input value={item.props[attr].value ? item.props[attr].value.value : attr}
-                               onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>;
+                               onChange={(e) => handleTextInputChange(item, `props.["${attr}"].value.value`, e.target.value)}/>
                         <Button onClick={showModal} style={{float: "right"}}>
                             <Icon type="edit"/>
                         </Button>
