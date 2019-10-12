@@ -6,12 +6,13 @@ import {withAuthSync} from "../utils/withAuthSync";
 import {MenuContext} from "../contexts/MenuContextProvider";
 import AvailableComponentList from "../components/common/AvailableComponentList";
 import {DEFAULT_AVAILABLE_COMPONENTS} from "../utils/GraphQLConstants";
+import RoutesInfo from "../constants/RoutesInfo";
 
-export const AvailableComponents = () => {
+const AvailableComponents = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([AvailableComponents.routeInfo.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.AvailableComponents.slug]);
     }, []);
 
     const pageHeader = <PageHeader title="Available Components" subTitle="List of supported and available components"/>;
@@ -21,13 +22,6 @@ export const AvailableComponents = () => {
             <AvailableComponentList query={DEFAULT_AVAILABLE_COMPONENTS}/>
         </PageWrapper>
     );
-};
-
-AvailableComponents.routeInfo = {
-    slug: "available-components",
-    path: "/available-components",
-    pathAs: "/available-components",
-    title: "Browse Components"
 };
 
 export default withAuthSync(AvailableComponents);

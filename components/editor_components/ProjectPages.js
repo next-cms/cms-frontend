@@ -13,7 +13,7 @@ import {handleGraphQLAPIErrors} from "../../utils/helpers";
 
 const ProjectPages = ({router}) => {
     // console.log("router", router);
-    const projectId = router.query.id;
+    const projectId = router.query.projectId;
     const pageName = router.query.pageName;
     const dataStoreContext = React.useContext(DataStoreContext);
 

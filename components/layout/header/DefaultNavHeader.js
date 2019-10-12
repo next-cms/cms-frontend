@@ -4,10 +4,7 @@ import Link from "next/link";
 /* SCSS */
 import "./nav_header.scss";
 import {AuthContext} from "../../../contexts/AuthContextProvider";
-import getConfig from "next/config";
-
-const {publicRuntimeConfig} = getConfig();
-const {PROFILE_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../../../constants/RoutesInfo";
 
 const {Header} = Layout;
 
@@ -22,7 +19,7 @@ const DefaultNavHeader = () => {
     const menu = (
         <Menu style={{minWidth: "120px"}} theme="dark">
             <Menu.Item key="0">
-                <Link href={PROFILE_PATH}><a>Profile</a></Link>
+                <Link href={RoutesInfo.Profile.path}><a>Profile</a></Link>
             </Menu.Item>
             <Menu.Divider/>
             <Menu.Item key="1" onClick={logout}>

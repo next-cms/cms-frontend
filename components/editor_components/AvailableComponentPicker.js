@@ -11,7 +11,7 @@ const AvailableComponentPicker = ({onSelect, selectedComponents}) => {
     const [limit, setLimit] = useState(10);
     //const dataStoreContext = useContext(DataStoreContext);
     const router = useRouter();
-    const projectId = router.query.id;
+    const projectId = router.query.projectId;
 
     const { loading, error, data, refetch } = useQuery(
         AVAILABLE_COMPONENTS,

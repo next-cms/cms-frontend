@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Icon } from "antd";
+import React, {useEffect, useState} from "react";
+import {Icon} from "antd";
+import getConfig from "next/config";
+
+const {publicRuntimeConfig} = getConfig();
+const {API_BASE_URL} = publicRuntimeConfig;
 
 const imgStyle = {
     transition: "transform .135s cubic-bezier(0.0,0.0,0.2,1),opacity linear .15s"
@@ -61,11 +65,11 @@ const SelectedImage = ({
             className={!isSelected ? "gallery-item not-selected" : "gallery-item"}
         >
 
-            <Icon 
+            <Icon
                 className="select-icon"
-                type="check-circle" 
+                type="check-circle"
                 theme="filled"
-                onClick={handleOnSelectClick} 
+                onClick={handleOnSelectClick}
                 style={{
                     position: "absolute",
                     visibility: `${isSelected ? 'visible' : ''}`,
@@ -79,16 +83,17 @@ const SelectedImage = ({
                 }}
             />
             <img
-                alt={photo.title}
+                alt={photo.name}
                 style={
                     isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
                 }
                 {...photo}
+                src={`${API_BASE_URL}${photo.src}`}
                 onClick={handleOnViewClick}
             />
             <style jsx global>
             {
-                `   
+                `
                     .gallery-item .select-icon {
                         visibility: hidden;
                     }

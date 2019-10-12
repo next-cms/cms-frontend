@@ -9,11 +9,8 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import MenuContextProvider from "../contexts/MenuContextProvider";
 import ProjectLayout from "../components/layout/ProjectLayout";
-import getConfig from "next/config";
 import DefaultLayout from "../components/layout/DefaultLayout";
-
-const {publicRuntimeConfig} = getConfig();
-const {PROJECT_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../constants/RoutesInfo";
 
 NProgress.configure({parent: "#__next", trickleSpeed: 400});
 
@@ -50,7 +47,7 @@ if (typeof window !== "undefined") {
     else window.addEventListener("load", loadDeferredStyles);
 }
 
-export class CMSApp extends App {
+class CMSApp extends App {
     static async getInitialProps({Component, ctx}) {
         const {token, user} = nextCookie(ctx);
 
@@ -73,7 +70,7 @@ export class CMSApp extends App {
         const {Component, pageProps, graphQLClient, router, user, token} = this.props;
 
         function renderSwitchCase() {
-            if (router.pathname.startsWith(PROJECT_PATH)) {
+            if (router.pathname.startsWith(RoutesInfo.Project.path)) {
                 return <ProjectLayout>
                     <Component {...pageProps} />
                 </ProjectLayout>;

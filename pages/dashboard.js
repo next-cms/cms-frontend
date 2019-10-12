@@ -3,7 +3,6 @@ import {Button, Divider, Icon, message, PageHeader, Table, Typography} from "ant
 import Link from "next/link";
 import "../static/scss/dashboard.scss";
 import PageWrapper from "../components/common/PageWrapper";
-import getConfig from "next/config";
 import RecentProjects from "../components/projects/RecentProjects";
 import {withAuthSync} from "../utils/withAuthSync";
 import {useQuery} from "graphql-hooks";
@@ -12,12 +11,11 @@ import DeleteWarningModal from "../components/projects/DeleteWarningModal";
 import {ALL_PROJECTS_QUERY} from "../utils/GraphQLConstants";
 import {MenuContext} from "../contexts/MenuContextProvider";
 import {handleGraphQLAPIErrors} from "../utils/helpers";
+import RoutesInfo from "../constants/RoutesInfo";
 
-const { publicRuntimeConfig } = getConfig();
-const { CREATE_PROJECT_PATH, PROJECT_PATH } = publicRuntimeConfig;
 const { Title } = Typography;
 
-export const Dashboard = () => {
+const Dashboard = () => {
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const dataStoreContext = useContext(DataStoreContext);
@@ -27,7 +25,8 @@ export const Dashboard = () => {
     const [project, setProject] = useState({});
 
     const {loading, error, data, refetch} = useQuery(ALL_PROJECTS_QUERY, {
-        variables: {skip, limit: pageSize}
+        variables: {skip, limit: pageSize},
+        skipCache: true
     });
 
     const onChange = page => {
@@ -37,7 +36,7 @@ export const Dashboard = () => {
     };
 
     useEffect(() => {
-        menuContext.setSelectedKeys([Dashboard.routeInfo.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.Dashboard.slug]);
     }, []);
 
     useEffect(() => {
@@ -104,7 +103,7 @@ export const Dashboard = () => {
             key: "action",
             render: (text, record) => (
                 <span>
-                    <Link href={`${PROJECT_PATH}?id=${record.id}`}>
+                    <Link href={`${RoutesInfo.Project.path}?projectId=${record.id}`}>
                         <a>
                             <Icon style={{ color: "blue" }} type="edit" />
                         </a>
@@ -126,7 +125,7 @@ export const Dashboard = () => {
             title="Dashboard"
             subTitle="Choose a project or create a new one"
             extra={
-                <Link href={CREATE_PROJECT_PATH}>
+                <Link href={RoutesInfo.CreateProject.path}>
                     <Button type="primary">New Project</Button>
                 </Link>
             }
@@ -165,9 +164,4 @@ export const Dashboard = () => {
     );
 };
 
-Dashboard.routeInfo = {
-    slug: "dashboard",
-    path: "/dashboard",
-    pathAs: "/dashboard"
-};
 export default withAuthSync(Dashboard);

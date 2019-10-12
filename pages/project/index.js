@@ -1,26 +1,17 @@
 import React from "react";
 import {withAuthSync} from "../../utils/withAuthSync";
-import getConfig from "next/config";
 import {redirectTo} from "../../components/common/Redirect";
 import {useRouter} from "next/router";
+import RoutesInfo from "../../constants/RoutesInfo";
 
-const {publicRuntimeConfig} = getConfig();
-const {PROJECT_SETTINGS_PATH} = publicRuntimeConfig;
-
-export const Project = (props) => {
+const Project = (props) => {
     const router = useRouter();
     console.log(router);
     return {};
 };
 
 Project.getInitialProps = async (ctx) => {
-    return await redirectTo(`${PROJECT_SETTINGS_PATH}?id=${ctx.query.id}`, ctx);
-};
-
-Project.routeInfo = {
-    slug: "project",
-    path: "/project",
-    pathAs: "/project"
+    return await redirectTo(`${RoutesInfo.ProjectSettings.path}?projectId=${ctx.query.projectId}`, ctx);
 };
 
 export default withAuthSync(Project);

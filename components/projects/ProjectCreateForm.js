@@ -6,13 +6,10 @@ import "./ProjectForm.scss";
 import Link from "next/link";
 import {useMutation} from "graphql-hooks";
 import {redirectTo} from "../common/Redirect";
-import getConfig from "next/config";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import * as PropTypes from "prop-types";
 import {CREATE_PROJECT} from "../../utils/GraphQLConstants";
-
-const {publicRuntimeConfig} = getConfig();
-const {DASHBOARD_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;
@@ -36,7 +33,7 @@ const ProjectCreateForm = (props) => {
                 if (!result.error) {
                     dataStoreContext.setProjectListUpdated(true);
                     message.success("Project creation successful.");
-                    await redirectTo(DASHBOARD_PATH, {status: 200});
+                    await redirectTo(RoutesInfo.Dashboard.path, {status: 200});
                 } else {
                     message.error((result.httpError && result.httpError.statusText) ||
                         (result.graphQLErrors && result.graphQLErrors[0].message));
@@ -101,7 +98,7 @@ const ProjectCreateForm = (props) => {
             </FormItem>
 
             <FormItem>
-                <Link href={DASHBOARD_PATH}><Button type="secondary">Cancel</Button></Link>
+                <Link href={RoutesInfo.Dashboard.path}><Button type="secondary">Cancel</Button></Link>
                 <Button type="primary" htmlType="submit" style={{marginLeft: 8}}>Create</Button>
             </FormItem>
         </Form>

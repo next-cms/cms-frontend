@@ -2,7 +2,7 @@ import React from "react";
 import ErrorPage from "../components/error_page/ErrorPage";
 import * as PropTypes from "prop-types";
 
-export const DefaultErrorPage = (props) => {
+const DefaultErrorPage = (props) => {
     return (
         <ErrorPage status={props.statusCode || 400} subTitle={props.subTitle || "Sorry, something went wrong."}/>
     );

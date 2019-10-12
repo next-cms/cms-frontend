@@ -11,13 +11,14 @@ import {handleGraphQLAPIErrors} from "../../utils/helpers";
 import {DELETE_PAGE, PAGE_SOURCE_CODE, SAVE_PAGE_SOURCE_CODE} from "../../utils/GraphQLConstants";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import {redirectTo} from "../common/Redirect";
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const {TabPane} = Tabs;
 const {publicRuntimeConfig} = getConfig();
 
 const CodeEditor = dynamic(() => import("../common/CodeEditor"), {ssr: false});
 
-const {API_NEXT_PROJECT_URL, PROJECT_SETTINGS_PATH} = publicRuntimeConfig;
+const {API_NEXT_PROJECT_URL} = publicRuntimeConfig;
 
 const initStyle = {
     height: "calc(100vh - 174px)"
@@ -31,7 +32,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     const menuContext = useContext(MenuContext);
 
     const router = useRouter();
-    const projectId = router.query.id;
+    const projectId = router.query.projectId;
 
     const [savePageSourceCode] = useMutation(SAVE_PAGE_SOURCE_CODE);
     const [deletePage] = useMutation(DELETE_PAGE);
@@ -46,7 +47,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         let hideMessage;
         if (loading) {
             hideMessage && hideMessage();
-            hideMessage = message.loading("Loading page data...", 0);
+            hideMessage = message.loading("Loading page source code...", 0);
         } else {
             hideMessage && hideMessage();
             hideMessage = null;
@@ -126,7 +127,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
         });
         if (!result.error) {
             menuContext.deleteFromPageMenu(menuContext.selectedKeys && menuContext.selectedKeys[0]);
-            await redirectTo(`${PROJECT_SETTINGS_PATH}?id=${projectId}`);
+            await redirectTo(`${RoutesInfo.ProjectSettings.path}?projectId=${projectId}`);
             message.success(`Deleted page '${pageName}' successfully!`);
         } else {
             handleGraphQLAPIErrors(result.error);

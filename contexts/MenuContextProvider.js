@@ -1,10 +1,6 @@
 import React, {Component} from "react";
-import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 import DefaultMenuItems from "../components/layout/aside/DefaultMenuItems";
-
-const {publicRuntimeConfig} = getConfig();
-const {DASHBOARD_PATH} = publicRuntimeConfig;
 
 /* First we will make a new context */
 export const MenuContext = React.createContext();
@@ -32,7 +28,7 @@ class MenuContextProvider extends Component {
     };
 
     deleteFromPageMenu = (pageKey) => {
-        if (key) {
+        if (pageKey) {
             this.setState({
                 menuItems: {
                     ...this.state.menuItems,

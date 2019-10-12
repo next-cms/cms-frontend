@@ -6,11 +6,8 @@ import "../static/scss/signup.scss";
 import {useMutation} from "graphql-hooks";
 import {redirectTo} from "../components/common/Redirect";
 import * as PropTypes from "prop-types";
-import getConfig from "next/config";
 import {SIGNUP} from "../utils/GraphQLConstants";
-
-const { publicRuntimeConfig } = getConfig();
-const { LOGIN_PATH } = publicRuntimeConfig;
+import RoutesInfo from "../constants/RoutesInfo";
 
 const SignUp = props => {
     const [state, setState] = useState(false);
@@ -27,7 +24,7 @@ const SignUp = props => {
                 });
 
                 if (!result.error) {
-                    return await redirectTo("/login", {status: 200});
+                    return await redirectTo(RoutesInfo.Login.path, {status: 200});
                 }
             }
         });
@@ -118,17 +115,11 @@ const SignUp = props => {
                     <Button type="primary" htmlType="submit">
                         Register
                     </Button>
-                    Or <a href={LOGIN_PATH}>Already have an account!</a>
+                    Or <a href={RoutesInfo.Login.path}>Already have an account!</a>
                 </Form.Item>
             </Form>
         </div>
     );
-};
-
-SignUp.routeInfo = {
-    slug: "signup",
-    path: "/signup",
-    pathAs: "/signup"
 };
 
 SignUp.propTypes = {

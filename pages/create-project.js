@@ -5,12 +5,13 @@ import PageWrapper from "../components/common/PageWrapper";
 import ProjectCreateForm from "../components/projects/ProjectCreateForm";
 import {withAuthSync} from "../utils/withAuthSync";
 import {MenuContext} from "../contexts/MenuContextProvider";
+import RoutesInfo from "../constants/RoutesInfo";
 
-export const CreateProject = () => {
+const CreateProject = () => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([CreateProject.routeInfo.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.CreateProject.slug]);
     }, []);
 
     const pageHeader = <PageHeader title="Create Project" subTitle="Create a new NextJS project"/>;
@@ -22,9 +23,4 @@ export const CreateProject = () => {
     );
 };
 
-CreateProject.routeInfo = {
-    slug: "create-project",
-    path: "/create-project",
-    pathAs: "/create-project"
-};
 export default withAuthSync(CreateProject);

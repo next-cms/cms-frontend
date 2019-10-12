@@ -19,7 +19,7 @@ export default App => {
             // Run all GraphQL queries in the component tree
             // and extract the resulting data
             const graphQLClient = initGraphQL({}, appProps.token);
-            console.log("TOken is: ", appProps.token)
+            console.log("Token is: ", appProps.token);
             let graphQLState = {};
             if (typeof window === "undefined") {
                 try {
