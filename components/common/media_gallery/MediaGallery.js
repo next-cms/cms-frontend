@@ -11,7 +11,7 @@ import getConfig from "next/config";
 import {AuthContext} from "../../../contexts/AuthContextProvider";
 
 const {publicRuntimeConfig} = getConfig();
-const {UPLOAD_IMAGE_URL} = publicRuntimeConfig;
+const {UPLOAD_IMAGE_URL, API_BASE_URL} = publicRuntimeConfig;
 
 const MediaGallery = ({}) => {
     const authContext = useContext(AuthContext);
@@ -145,10 +145,10 @@ const MediaGallery = ({}) => {
                     <Modal onClose={closeLightbox}>
                         <Carousel
                             currentIndex={currentImage}
-                            views={allMedia.map(x => ({
-                                src: x,
-                                srcset: x.srcSet,
-                                caption: x.title
+                            views={allMedia.map(photo => ({
+                                src: `${API_BASE_URL}${photo.src}`,
+                                srcset: photo.srcSet,
+                                caption: photo.name
                             }))}
                         />
                     </Modal>
@@ -157,55 +157,5 @@ const MediaGallery = ({}) => {
         </div>
     );
 };
-
-// MediaGallery.defaultProps = {
-//     photos: [
-//         {
-//             src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
-//             width: 4,
-//             height: 3
-//         },
-//         {
-//             src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
-//             width: 1,
-//             height: 1
-//         },
-//         {
-//             src: "https://source.unsplash.com/qDkso9nvCg0/600x799",
-//             width: 3,
-//             height: 4
-//         },
-//         {
-//             src: "https://source.unsplash.com/iecJiKe_RNg/600x799",
-//             width: 3,
-//             height: 4
-//         },
-//         {
-//             src: "https://source.unsplash.com/epcsn8Ed8kY/600x799",
-//             width: 3,
-//             height: 4
-//         },
-//         {
-//             src: "https://source.unsplash.com/NQSWvyVRIJk/800x599",
-//             width: 4,
-//             height: 3
-//         },
-//         {
-//             src: "https://source.unsplash.com/zh7GEuORbUw/600x799",
-//             width: 3,
-//             height: 4
-//         },
-//         {
-//             src: "https://source.unsplash.com/PpOHJezOalU/800x599",
-//             width: 4,
-//             height: 3
-//         },
-//         {
-//             src: "https://source.unsplash.com/I1ASdgphUH4/800x599",
-//             width: 4,
-//             height: 3
-//         }
-//     ]
-// };
 
 export default MediaGallery;
