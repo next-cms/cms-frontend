@@ -30,11 +30,14 @@ const MediaGallery = ({}) => {
     const {loading, error, data, refetch} = useQuery(
         ALL_MEDIA,
         {
-            variables: {projectId, skip, limit: limit},
+            variables: {projectId, skip, limit},
             updateData(prevData, data) {
                 return {
                     ...data,
-                    allMedia: [...prevData.allMedia, ...data.allMedia]
+                    allMedia: {
+                        data: [...prevData.allMedia.data, ...data.allMedia.data],
+                        hasMore: data.allMedia.hasMore
+                    }
                 };
             }
         }
@@ -81,8 +84,12 @@ const MediaGallery = ({}) => {
         }
     };
 
-    const onDeleteClick = () => {
+    const onDeleteClick = (e) => {
         console.log("successfully deleted all image.", selectedImage);
+    };
+
+    const onClickLoadMore = (e) => {
+        setSkip(skip + limit);
     };
 
     const imageRenderer = useCallback(
@@ -122,6 +129,7 @@ const MediaGallery = ({}) => {
     const {allMedia} = data;
 
     console.log("allMedia", allMedia);
+    if (!allMedia) return null;
 
     return (
         <div style={{padding: "10px", width: "100%"}}>
@@ -139,7 +147,8 @@ const MediaGallery = ({}) => {
                     </Upload>
                 </Col>
             </Row>
-            <Gallery photos={allMedia || []} renderImage={imageRenderer}/>
+            <Gallery photos={allMedia.data || []} renderImage={imageRenderer}/>
+            {allMedia.hasMore && <Button onClick={onClickLoadMore}>Load More</Button>}
             <ModalGateway>
                 {viewerIsOpen ? (
                     <Modal onClose={closeLightbox}>
