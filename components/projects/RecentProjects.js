@@ -46,7 +46,7 @@ const RecentProjects = () => {
     }, [error, loading]);
 
     if (error || !data) return <Row gutter={4} />;
-    const { projects, _projectsMeta } = data;
+    const {projects} = data;
 
     const onCancel = () => {
         setVisible(false);
