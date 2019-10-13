@@ -155,7 +155,7 @@ const MediaGallery = ({}) => {
                     <Modal onClose={closeLightbox}>
                         <Carousel
                             currentIndex={currentImage}
-                            views={allMedia.map(photo => ({
+                            views={allMedia.data.map(photo => ({
                                 src: `${API_BASE_URL}${photo.src}`,
                                 srcset: photo.srcSet,
                                 caption: photo.name
