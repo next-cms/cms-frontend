@@ -81,6 +81,7 @@ const MediaGallery = ({}) => {
         console.log("successfully uploaded all image.", file, fileList);
         if (file.status !== "uploading") {
             console.log(file, fileList);
+            refetch();
         }
     };
 
@@ -139,7 +140,7 @@ const MediaGallery = ({}) => {
                 </Col>
                 <Col>
                     <Button onClick={onDeleteClick} type="danger">Delete</Button>
-                    <Upload action={`${UPLOAD_IMAGE_URL}?projectId=${projectId}`} showUploadList={false}
+                    <Upload action={`${UPLOAD_IMAGE_URL}?projectId=${projectId}`} showUploadList={false} multiple={true}
                             onChange={onUploadChange} headers={{Authorization: `Bearer ${authContext.token}`}}>
                         <Button style={{marginLeft: "5px"}} type="primary">
                             <Icon type="upload"/> Upload
