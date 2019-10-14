@@ -1,10 +1,19 @@
 import React from "react";
+import dynamic from 'next/dynamic'
 import PageWrapper from "../../components/common/PageWrapper";
 import {withAuthSync} from "../../utils/withAuthSync";
 import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
+
+const DynamicCKRTEditor = dynamic(
+    () => import ("../../components/rich_text_editor/CKRTEditor"),
+    {
+        loading: () => <p>.....</p>,
+        ssr: false
+    }
+)
 
 const {publicRuntimeConfig} = getConfig();
 const {DASHBOARD_PATH} = publicRuntimeConfig;
@@ -25,6 +34,7 @@ export const DataStore = (props) => {
             padding: 0
         }}>
             <ProjectDataStore project={props.project}/>
+            <DynamicCKRTEditor />
         </PageWrapper>
     );
 };
