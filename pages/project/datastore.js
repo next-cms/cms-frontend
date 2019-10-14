@@ -6,7 +6,7 @@ import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
-import SlateTextEditor from "../../components/common/rich_text_editor/SlateTextEditor";
+import SlateTextEditor from "../../components/common/rich_text_editor/slate/SlateTextEditor";
 
 // const DynamicCKRTEditor = dynamic(
 //     () => import ("../../components/common/rich_text_editor/CKRTEditor"),

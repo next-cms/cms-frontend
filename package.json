@@ -14,6 +14,7 @@
         "bluebird": "^3.7.0",
         "core-js": "^3.2.1",
         "dotenv": "^8.1.0",
+        "emotion": "^10.0.17",
         "eslint": "^5.16.0",
         "eslint-config-standard-jsx": "^7.0.0",
         "eslint-plugin-react": "^7.14.3",
