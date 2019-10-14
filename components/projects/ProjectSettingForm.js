@@ -4,13 +4,9 @@ import React, {useContext, useEffect, useState} from "react";
 import "./ProjectForm.scss";
 
 import {useMutation} from "graphql-hooks";
-import getConfig from "next/config";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import * as PropTypes from "prop-types";
 import {UPDATE_PROJECT} from "../../utils/GraphQLConstants";
-
-const {publicRuntimeConfig} = getConfig();
-const {} = publicRuntimeConfig;
 
 const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;

@@ -4,9 +4,10 @@ import unfetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 import {message} from "antd";
 import {redirectTo} from "../components/common/Redirect";
+import RoutesInfo from "../constants/RoutesInfo";
 
 const {publicRuntimeConfig} = getConfig();
-const {GRAPHQL_URL, LOGIN_PATH} = publicRuntimeConfig;
+const {GRAPHQL_URL} = publicRuntimeConfig;
 
 let graphQLClient = null;
 
@@ -36,7 +37,7 @@ function create(initialState, token) {
                     message.error(error.message);
                     if (error.extensions && error.extensions.code === "FORBIDDEN") {
 
-                        return redirectTo(LOGIN_PATH);
+                        return redirectTo(RoutesInfo.Login.path);
                     }
                 });
             }

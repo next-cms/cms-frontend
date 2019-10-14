@@ -163,9 +163,6 @@ export const RECENT_PROJECTS = `
       websiteUrl
       modifiedAt
     }
-    _projectsMeta {
-      count
-    }
   }`;
 
 export const ALL_PROJECTS_QUERY = `
@@ -177,9 +174,9 @@ export const ALL_PROJECTS_QUERY = `
           websiteUrl
           modifiedAt
         }
-        _projectsMeta {
-      count
-    }
+      _projectsMeta {
+        count
+      }
 }`;
 
 export const SIGNUP = `
@@ -188,5 +185,78 @@ mutation signUp($name: String!, $email: String!, $password: String!) {
     name 
     email
     password
+  }
+}`;
+
+export const ALL_MEDIA = `
+query allMedia($projectId: String!, $limit: Int!, $skip: Int!) {
+  allMedia(projectId: $projectId, limit: $limit, skip: $skip) {
+    data {
+      name
+      src
+      height
+      width
+    }
+    hasMore
+  }
+}`;
+
+export const ALL_DATAMODEL_TEMPLATES = `
+query allDataModelTemplates($limit: Int!, $skip: Int!) {
+  allDataModelTemplates(limit: $limit, skip: $skip) {
+    id
+    name
+    type
+    fields
+    createdAt
+    modifiedAt
+  }
+}`;
+
+export const ALL_DATAMODELS = `
+query allMedia($projectId: String!, $limit: Int!, $skip: Int!) {
+  allMedia(projectId: $projectId, limit: $limit, skip: $skip) {
+    id
+    projectId
+    name
+    type
+    templateTypeId
+    templateFields
+    contents
+    createdAt
+    modifiedAt
+  }
+  _allDataModelsMeta {
+    count
+  }
+}`;
+
+export const ADD_DATAMODEL = `
+mutation addDataModel($dataModel: DataModelInput!, $projectId: String!) {
+  addDataModel(dataModel: $dataModel, projectId: $projectId) {
+    id
+    projectId
+    name
+    type
+    templateTypeId
+    templateFields
+    contents
+    createdAt
+    modifiedAt
+  }
+}`;
+
+export const UPDATE_DATAMODEL = `
+mutation updateDataModel($dataModel: DataModelInput!, $projectId: String!) {
+  updateDataModel(dataModel: $dataModel, projectId: $projectId) {
+    id
+    projectId
+    name
+    type
+    templateTypeId
+    templateFields
+    contents
+    createdAt
+    modifiedAt
   }
 }`;

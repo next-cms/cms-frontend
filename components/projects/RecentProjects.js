@@ -2,15 +2,12 @@ import React, {Fragment, useContext, useEffect, useState} from "react";
 import {Button, Card, Col, Icon, message, Row} from "antd";
 import {useQuery} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
-import getConfig from "next/config";
 import Link from "next/link";
 import DeleteWarningModal from "./DeleteWarningModal";
 import {redirectTo} from "../common/Redirect";
 import {RECENT_PROJECTS} from "../../utils/GraphQLConstants";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
-
-const { publicRuntimeConfig } = getConfig();
-const { PROJECT_PATH } = publicRuntimeConfig;
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const { Meta } = Card;
 
@@ -22,10 +19,7 @@ const RecentProjects = () => {
 
     const {loading, error, data, refetch} = useQuery(RECENT_PROJECTS, {
         variables: { skip, limit: 4 },
-        updateData: (prevResult, result) => ({
-            ...result,
-            projects: [...prevResult.projects, ...result.projects]
-        })
+        skipCache: true
     });
 
     useEffect(() => {
@@ -52,7 +46,7 @@ const RecentProjects = () => {
     }, [error, loading]);
 
     if (error || !data) return <Row gutter={4} />;
-    const { projects, _projectsMeta } = data;
+    const {projects} = data;
 
     const onCancel = () => {
         setVisible(false);
@@ -75,13 +69,13 @@ const RecentProjects = () => {
                         <Card
                             cover={
                                 <img
-                                    onClick={() => redirectTo(`${PROJECT_PATH}?id=${project.id}`)}
+                                    onClick={() => redirectTo(`${RoutesInfo.Project.path}?projectId=${project.id}`)}
                                     alt="Default Project Cover"
                                     src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
                                 />
                             }
                             actions={[
-                                <Link href={`${PROJECT_PATH}?id=${project.id}`}>
+                                <Link href={`${RoutesInfo.Project.path}?projectId=${project.id}`}>
                                     <a>
                                         <Icon type="edit" />
                                     </a>
@@ -98,7 +92,7 @@ const RecentProjects = () => {
                             hoverable
                         >
                             <Meta
-                                onClick={() => redirectTo(`${PROJECT_PATH}?id=${project.id}`)}
+                                onClick={() => redirectTo(`${RoutesInfo.Project.path}?projectId=${project.id}`)}
                                 title={project.title}
                                 description={project.description}
                             />

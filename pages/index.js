@@ -1,21 +1,12 @@
-import getConfig from "next/config";
 import React from "react";
 import {withAuthSync} from "../utils/withAuthSync";
 import {MetaRedirect} from "../components/common/Redirect";
+import RoutesInfo from "../constants/RoutesInfo";
 
-const {publicRuntimeConfig} = getConfig();
-const {DASHBOARD_PATH} = publicRuntimeConfig;
-
-export const Home = () => <MetaRedirect to={DASHBOARD_PATH}/>;
+const Home = () => <MetaRedirect to={RoutesInfo.Dashboard.path}/>;
 
 // Home.getInitialProps = async (ctx) => {
 //     return redirectTo(DASHBOARD_PATH, ctx);
 // };
-
-Home.routeInfo = {
-    slug: "home",
-    path: "/",
-    pathAs: "/"
-};
 
 export default withAuthSync(Home);

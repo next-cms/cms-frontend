@@ -2,14 +2,11 @@ import React, {useContext, useEffect} from "react";
 import {Alert, Button, Checkbox, Form, Icon, Input} from "antd";
 /* SCSS */
 import "../static/scss/login.scss";
-import getConfig from "next/config";
 import {AuthContext} from "../contexts/AuthContextProvider";
 import {ClientContext} from "graphql-hooks";
 import * as PropTypes from "prop-types";
 import Link from "next/link";
-
-const {publicRuntimeConfig} = getConfig();
-const {SIGNUP_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../constants/RoutesInfo";
 
 const Login = (props) => {
 
@@ -85,17 +82,11 @@ const Login = (props) => {
                     >
                         Log in
                     </Button>
-                    Or <Link href={SIGNUP_PATH}><a>register now!</a></Link>
+                    Or <Link href={RoutesInfo.SignUp.path}><a>register now!</a></Link>
                 </Form.Item>
             </Form>
         </div>
     );
-};
-
-Login.routeInfo = {
-    slug: "login",
-    path: "/login",
-    pathAs: "/login"
 };
 
 Login.propTypes = {

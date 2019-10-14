@@ -1,17 +1,14 @@
 import React from "react";
 import {Button} from "antd";
 import Link from "next/link";
-import getConfig from "next/config";
 import ErrorLayout from "../layout/error_layout/ErrorLayout";
 import * as PropTypes from "prop-types";
-
-const {publicRuntimeConfig} = getConfig();
-const {DASHBOARD_PATH} = publicRuntimeConfig;
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const ErrorPage = ({status, subTitle}) => {
     return (
         <ErrorLayout status={status} subTitle={subTitle}>
-            <Link href={DASHBOARD_PATH}>
+            <Link href={RoutesInfo.Dashboard.path}>
                 <Button>
                     Go To Dashboard
                 </Button>

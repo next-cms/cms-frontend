@@ -53,8 +53,6 @@ const ProjectDataStore = () => {
         setIsModal(true);
     }
 
-
-
     return (
         <div style={{width: "100%", padding: "10px"}}>
             <Row style={{marginBottom: "10px"}} type="flex" justify="space-between">

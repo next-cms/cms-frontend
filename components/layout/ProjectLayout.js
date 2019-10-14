@@ -4,21 +4,17 @@ import EditorNavHeader from "../../components/layout/header/EditorNavHeader";
 import {ClientContext, useQuery} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {message, Row} from "antd";
-import getConfig from "next/config";
 import {getProjectMenuItems} from "../../components/layout/aside/ProjectMenuItems";
 import CommonLayout from "../../components/layout/CommonLayout";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import {PROJECT_DETAILS} from "../../utils/GraphQLConstants";
 
-const {publicRuntimeConfig} = getConfig();
-const {DASHBOARD_PATH} = publicRuntimeConfig;
-
 const ProjectLayout = ({router, children}) => {
-    let projectId = router.query.id;
+    let projectId = router.query.projectId;
 
     const {loading, error, data, refetch} = useQuery(PROJECT_DETAILS, {
-        variables: {projectId: projectId},
+        variables: {projectId},
         updateData: (prevResult, result) => ({
             project: result.project
         })
@@ -29,7 +25,7 @@ const ProjectLayout = ({router, children}) => {
     const graphQLClient = useContext(ClientContext);
 
     const menuItems = getProjectMenuItems({
-        query: {id: projectId},
+        query: {projectId},
     }, graphQLClient);
 
     React.useEffect(() => {
