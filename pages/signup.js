@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-import {Button, Form, Input} from "antd";
+import { Button, Form, Input } from "antd";
 
 import "../static/scss/signup.scss";
-import {useMutation} from "graphql-hooks";
-import {redirectTo} from "../components/common/Redirect";
+import { useMutation } from "graphql-hooks";
+import { redirectTo } from "../components/common/Redirect";
 import * as PropTypes from "prop-types";
-import {SIGNUP} from "../utils/GraphQLConstants";
+import { SIGNUP } from "../utils/GraphQLConstants";
 import RoutesInfo from "../constants/RoutesInfo";
 
 const SignUp = props => {
@@ -24,7 +24,7 @@ const SignUp = props => {
                 });
 
                 if (!result.error) {
-                    return await redirectTo(RoutesInfo.Login.path, {status: 200});
+                    return await redirectTo(RoutesInfo.Login.path, { status: 200 });
                 }
             }
         });

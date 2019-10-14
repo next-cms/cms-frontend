@@ -1,8 +1,9 @@
 import React from "react";
-import {Modal} from "antd";
+import { Modal } from "antd";
 import * as PropTypes from "prop-types";
 
-const ModalComponent = ({title, visible, handleOk, handleCancel, children}) => {
+// eslint-disable-next-line react/prop-types
+const ModalComponent = ({ title, okText, visible, handleOk, handleCancel, children }) => {
 
     const _handleOk = (e) => {
         handleOk(e);
@@ -13,6 +14,7 @@ const ModalComponent = ({title, visible, handleOk, handleCancel, children}) => {
             title={title}
             visible={visible}
             onOk={_handleOk}
+            okText={okText}
             onCancel={handleCancel}
         >
             {children}
