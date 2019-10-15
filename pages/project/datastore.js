@@ -5,7 +5,7 @@ import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
-import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PlugableSlateTextEditor";
+import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PluggableSlateTextEditor";
 
 
 
