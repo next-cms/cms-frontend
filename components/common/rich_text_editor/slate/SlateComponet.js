@@ -17,7 +17,7 @@ export const Button = React.forwardRef(
       )}
     />
   )
-)
+);
 
 export const EditorValue = React.forwardRef(
   ({ className, value, ...props }, ref) => {
@@ -63,7 +63,7 @@ export const EditorValue = React.forwardRef(
       </div>
     )
   }
-)
+);
 
 export const Icon = React.forwardRef(({ className, ...props }, ref) => (
   <span
@@ -78,7 +78,7 @@ export const Icon = React.forwardRef(({ className, ...props }, ref) => (
       `
     )}
   />
-))
+));
 
 export const Instruction = React.forwardRef(({ className, ...props }, ref) => (
   <div
@@ -95,7 +95,7 @@ export const Instruction = React.forwardRef(({ className, ...props }, ref) => (
       `
     )}
   />
-))
+));
 
 export const Menu = React.forwardRef(({ className, ...props }, ref) => (
   <div
@@ -113,7 +113,7 @@ export const Menu = React.forwardRef(({ className, ...props }, ref) => (
       `
     )}
   />
-))
+));
 
 export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
   <Menu
@@ -130,4 +130,4 @@ export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
       `
     )}
   />
-))
+));
