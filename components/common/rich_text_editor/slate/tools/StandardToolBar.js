@@ -1,6 +1,6 @@
-import React from 'react';
-import { Toolbar } from '../SlateComponet';
-import { renderMarkButton, renderBlockButton } from './Core';
+import React from "react";
+import {Toolbar} from "../SlateComponet";
+import {renderBlockButton, renderInsertableBlockButton, renderMarkButton} from "./Core";
 
 const StandardToolBar = ({ state, editor }) => {
     return (
@@ -15,9 +15,9 @@ const StandardToolBar = ({ state, editor }) => {
             {renderBlockButton('block-quote', 'format_quote', state, editor)}
             {renderBlockButton('numbered-list', 'ordered-list', state, editor)}
             {renderBlockButton('bulleted-list', 'unordered-list', state, editor)}
-            {renderBlockButton('image', 'image', state, editor)}
+            {renderInsertableBlockButton("image", "image", state, editor)}
         </Toolbar>
     );
-}
+};
 
 export default StandardToolBar;

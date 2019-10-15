@@ -1,5 +1,6 @@
-import { Button } from "antd";
+import {Button} from "antd";
 import insertImage from "../plugins/Image";
+import React from "react";
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -13,23 +14,32 @@ export const hasBlock = (type, state) => {
 
 
 export const onClickMark = (event, type, editor) => {
-    event.preventDefault()
+    event.preventDefault();
     editor.toggleMark(type)
 };
 
+const onClickInsertable = (event, type, state, editor) => {
+    event.preventDefault();
+
+    const {value} = editor;
+    const {document} = value;
+
+    if (type === "image") {
+        const src = window.prompt("Enter the URL of the image:");
+        if (!src) return;
+        editor.command(insertImage, src);
+    }
+};
+
 const onClickBlock = (event, type, state, editor) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const { value } = editor
-    const { document } = value
+    const {value} = editor;
+    const {document} = value;
 
-    if (type === 'image') {
-        const src = window.prompt('Enter the URL of the image:')
-        if (!src) return
-        editor.command(insertImage, src)
-    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
-        const isActive = hasBlock(type, state)
-        const isList = hasBlock('list-item', state)
+    if (type !== "bulleted-list" && type !== "numbered-list") {
+        const isActive = hasBlock(type, state);
+        const isList = hasBlock("list-item", state);
 
         if (isList) {
             editor
@@ -41,10 +51,10 @@ const onClickBlock = (event, type, state, editor) => {
         }
     } else {
         // Handle the extra wrapping required for list buttons.
-        const isList = hasBlock('list-item', state)
+        const isList = hasBlock("list-item", state);
         const isType = value.blocks.some(block => {
             return !!document.getClosest(block.key, parent => parent.type === type)
-        })
+        });
 
         if (isList && isType) {
             editor
@@ -65,7 +75,7 @@ const onClickBlock = (event, type, state, editor) => {
 
 
 export const renderMarkButton = (type, icon, state, editor) => {
-    const isActive = hasMark(type, state)
+    const isActive = hasMark(type, state);
 
     return (
         <Button
@@ -75,16 +85,16 @@ export const renderMarkButton = (type, icon, state, editor) => {
             {icon}
         </Button>
     )
-}
+};
 
 export const renderBlockButton = (type, icon, state, editor) => {
-    let isActive = hasBlock(type, state)
+    let isActive = hasBlock(type, state);
 
     if (['numbered-list', 'bulleted-list'].includes(type)) {
-        const { document, blocks } = state
+        const {document, blocks} = state;
 
         if (blocks.size > 0) {
-            const parent = document.getParent(blocks.first().key)
+            const parent = document.getParent(blocks.first().key);
             isActive = hasBlock('list-item', state) && parent && parent.type === type
         }
     }
@@ -97,4 +107,13 @@ export const renderBlockButton = (type, icon, state, editor) => {
             {icon}
         </Button>
     )
-}
+};
+
+export const renderInsertableBlockButton = (type, icon, state, editor) => {
+    return (
+        <Button type="primary" ghost={true}
+                onMouseDown={event => onClickInsertable(event, type, state, editor)}>
+            {icon}
+        </Button>
+    );
+};

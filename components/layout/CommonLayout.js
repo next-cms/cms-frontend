@@ -28,7 +28,9 @@ const CommonLayout = ({navHeader, children, footer}) => {
             </Sider>
             <Layout style={{marginLeft: collapsed ? "80px" : "200px", transition: "all 0.1s ease-in"}}>
                 <Affix>
-                    {navHeader}
+                    <div>
+                        {navHeader}
+                    </div>
                 </Affix>
                 <Content className="app_page">
                     {children}

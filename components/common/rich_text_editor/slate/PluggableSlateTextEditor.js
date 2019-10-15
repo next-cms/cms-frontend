@@ -1,9 +1,9 @@
-import React, { useState, Fragment, useRef } from "react"
+import React, {Fragment, useRef, useState} from "react";
 
-import { Editor } from 'slate-react';
-import { Value } from 'slate';
+import {Editor} from "slate-react";
+import {Value} from "slate";
 
-import initialValue from './value.json';
+import initialValue from "./value.json";
 import StandardToolBar from "./tools/StandardToolBar.js";
 import renderMark from "./renederers/MarkRenderer.js";
 import renderBlock from "./renederers/BlockRenderer.js";
@@ -17,16 +17,17 @@ const plugins = [
     HotKey({ key: 'i', type: 'italic' }),
     HotKey({ key: '~', type: 'strikethrough' }),
     HotKey({ key: 'u', type: 'underline' }),
-]
+];
 
 const PlugableSlateTextEditor = () => {
 
     const editor = useRef(null);
     const [state, setState] = useState(Value.fromJSON(initialValue));
+    const [galleryOpen, setGalleryOpen] = useState(false);
 
     const onChange = ({ value }) => {
         setState(value);
-    }
+    };
 
     return (
         <Fragment>
@@ -45,8 +46,11 @@ const PlugableSlateTextEditor = () => {
                 renderBlock={renderBlock}
                 schema={schema}
             />
+            {/*<ModalComponent title="Gallery" visible={galleryOpen} handleOk={}>*/}
+            {/*<MediaGallery/>*/}
+            {/*</ModalComponent>*/}
         </Fragment>
     )
-}
+};
 
 export default PlugableSlateTextEditor;

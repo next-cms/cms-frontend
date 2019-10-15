@@ -3,11 +3,8 @@ import PageWrapper from "../../components/common/PageWrapper";
 import {withAuthSync} from "../../utils/withAuthSync";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
-import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
 import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PluggableSlateTextEditor";
-
-
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -25,8 +22,8 @@ export const DataStore = (props) => {
             minHeight: "calc(100vh - 80px)",
             padding: 0
         }}>
-            <ProjectDataStore project={props.project}/>
             <PlugableSlateTextEditor />
+            {/*<ProjectDataStore project={props.project}/>*/}
         </PageWrapper>
     );
 };
