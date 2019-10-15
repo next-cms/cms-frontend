@@ -4,7 +4,7 @@ import {withAuthSync} from "../../utils/withAuthSync";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import RoutesInfo from "../../constants/RoutesInfo";
-import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PluggableSlateTextEditor";
+import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -22,7 +22,7 @@ export const DataStore = (props) => {
             minHeight: "calc(100vh - 80px)",
             padding: 0
         }}>
-            <PlugableSlateTextEditor />
+            <RichTextEditor/>
             {/*<ProjectDataStore project={props.project}/>*/}
         </PageWrapper>
     );

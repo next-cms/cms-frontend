@@ -4,42 +4,41 @@ import React from "react";
 
 const DEFAULT_NODE = 'paragraph';
 
-export const hasMark = (type, state) => {
-    return state.activeMarks.some(mark => mark.type === type)
+export const hasMark = (type, value) => {
+    return value.activeMarks.some(mark => mark.type === type);
 };
 
-export const hasBlock = (type, state) => {
-    return state.blocks.some(node => node.type === type)
+export const hasBlock = (type, value) => {
+    return value.blocks.some(node => node.type === type);
 };
 
 
-export const onClickMark = (event, type, editor) => {
+export const onClickMark = (event, type, {editor}) => {
     event.preventDefault();
     editor.toggleMark(type)
 };
 
-const onClickInsertable = (event, type, state, editor) => {
+const onClickInsertable = (event, type, {value, editor, showModal}) => {
     event.preventDefault();
 
-    const {value} = editor;
-    const {document} = value;
-
     if (type === "image") {
-        const src = window.prompt("Enter the URL of the image:");
-        if (!src) return;
-        editor.command(insertImage, src);
+        showModal().then((photo) => {
+            console.log("selected image:", photo);
+            const src = photo.src;
+            if (!src) return;
+            editor.command(insertImage, src);
+        });
     }
 };
 
-const onClickBlock = (event, type, state, editor) => {
+const onClickBlock = (event, type, {value, editor}) => {
     event.preventDefault();
 
-    const {value} = editor;
     const {document} = value;
 
     if (type !== "bulleted-list" && type !== "numbered-list") {
-        const isActive = hasBlock(type, state);
-        const isList = hasBlock("list-item", state);
+        const isActive = hasBlock(type, value);
+        const isList = hasBlock("list-item", value);
 
         if (isList) {
             editor
@@ -51,7 +50,7 @@ const onClickBlock = (event, type, state, editor) => {
         }
     } else {
         // Handle the extra wrapping required for list buttons.
-        const isList = hasBlock("list-item", state);
+        const isList = hasBlock("list-item", value);
         const isType = value.blocks.some(block => {
             return !!document.getClosest(block.key, parent => parent.type === type)
         });
@@ -74,45 +73,45 @@ const onClickBlock = (event, type, state, editor) => {
 };
 
 
-export const renderMarkButton = (type, icon, state, editor) => {
-    const isActive = hasMark(type, state);
+export const renderMarkButton = (type, icon, {value, editor}) => {
+    const isActive = hasMark(type, value);
 
     return (
         <Button
             type={isActive ? 'primary' : 'default'}
-            onMouseDown={event => onClickMark(event, type, editor)}
+            onMouseDown={event => onClickMark(event, type, {editor})}
         >
             {icon}
         </Button>
     )
 };
 
-export const renderBlockButton = (type, icon, state, editor) => {
-    let isActive = hasBlock(type, state);
+export const renderBlockButton = (type, icon, {value, editor}) => {
+    let isActive = hasBlock(type, value);
 
     if (['numbered-list', 'bulleted-list'].includes(type)) {
-        const {document, blocks} = state;
+        const {document, blocks} = value;
 
         if (blocks.size > 0) {
             const parent = document.getParent(blocks.first().key);
-            isActive = hasBlock('list-item', state) && parent && parent.type === type
+            isActive = hasBlock("list-item", value) && parent && parent.type === type;
         }
     }
 
     return (
         <Button
             type={isActive ? 'primary' : 'default'}
-            onMouseDown={event => onClickBlock(event, type, state, editor)}
+            onMouseDown={event => onClickBlock(event, type, {value, editor})}
         >
             {icon}
         </Button>
     )
 };
 
-export const renderInsertableBlockButton = (type, icon, state, editor) => {
+export const renderInsertableBlockButton = (type, icon, {value, editor, showModal}) => {
     return (
         <Button type="primary" ghost={true}
-                onMouseDown={event => onClickInsertable(event, type, state, editor)}>
+                onMouseDown={event => onClickInsertable(event, type, {value, editor, showModal})}>
             {icon}
         </Button>
     );

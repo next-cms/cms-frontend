@@ -1,4 +1,4 @@
-import { Block } from 'slate';
+import {Block} from "slate";
 
 const schema = {
     document: {
