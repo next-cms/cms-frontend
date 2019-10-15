@@ -16,7 +16,7 @@ const PageWrapper = ({pageHeader, children, style}) => {
 
 PageWrapper.propTypes = {
     pageHeader: PropTypes.element,
-    children: PropTypes.element,
+    children: PropTypes.node.isRequired,
     style: PropTypes.object
 };
 

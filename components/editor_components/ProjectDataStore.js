@@ -37,7 +37,7 @@ const ProjectDataStore = ({ router }) => {
         let hideMessage;
         if (loading && !data) {
             hideMessage && hideMessage();
-            hideMessage = message.loading("Loading data models...", 0);
+            hideMessage = message.PlugableSlateTextEditorloading("Loading data models...", 0);
         }
         else {
             hideMessage && hideMessage();
@@ -114,7 +114,6 @@ const ProjectDataStore = ({ router }) => {
     const openModal = () => {
         setIsModal(true);
     };
-
 
     return (
         <div style={{ width: "100%", padding: "10px" }}>

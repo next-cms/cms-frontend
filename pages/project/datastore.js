@@ -5,8 +5,11 @@ import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
+import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PluggableSlateTextEditor";
 
-const DataStore = (props) => {
+
+
+export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
@@ -18,10 +21,12 @@ const DataStore = (props) => {
         <PageWrapper style={{
             display: "flex",
             flex: "0 0 100%",
+            flexDirection: "column",
             minHeight: "calc(100vh - 80px)",
             padding: 0
         }}>
             <ProjectDataStore project={props.project}/>
+            <PlugableSlateTextEditor />
         </PageWrapper>
     );
 };
