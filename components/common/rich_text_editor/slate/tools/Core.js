@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import insertImage from "../plugins/Image";
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -22,7 +23,11 @@ const onClickBlock = (event, type, state, editor) => {
     const { value } = editor
     const { document } = value
 
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
+    if (type === 'image') {
+        const src = window.prompt('Enter the URL of the image:')
+        if (!src) return
+        editor.command(insertImage, src)
+    } else if (type !== 'bulleted-list' && type !== 'numbered-list') {
         const isActive = hasBlock(type, state)
         const isList = hasBlock('list-item', state)
 

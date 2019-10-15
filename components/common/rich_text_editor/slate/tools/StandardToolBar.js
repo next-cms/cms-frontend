@@ -15,6 +15,7 @@ const StandardToolBar = ({ state, editor }) => {
             {renderBlockButton('block-quote', 'format_quote', state, editor)}
             {renderBlockButton('numbered-list', 'ordered-list', state, editor)}
             {renderBlockButton('bulleted-list', 'unordered-list', state, editor)}
+            {renderBlockButton('image', 'image', state, editor)}
         </Toolbar>
     );
 }

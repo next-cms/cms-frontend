@@ -1,4 +1,5 @@
 const renderMark = (props, editor, next) => {
+
     switch (props.mark.type) {
         case 'bold':
             return <strong>{props.children}</strong>
