@@ -37,7 +37,7 @@ const ProjectDataStore = ({ router }) => {
         let hideMessage;
         if (loading && !data) {
             hideMessage && hideMessage();
-            hideMessage = message.PlugableSlateTextEditorloading("Loading data models...", 0);
+            hideMessage = message.loading("Loading data models...", 0);
         }
         else {
             hideMessage && hideMessage();

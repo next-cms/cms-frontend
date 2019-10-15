@@ -1,9 +1,9 @@
-import React, { useState, Fragment, useRef } from "react"
+import React, { useState, Fragment, useRef } from "react";
 
-import { Editor } from 'slate-react';
-import { Value } from 'slate';
+import { Editor } from "slate-react";
+import { Value } from "slate";
 
-import initialValue from './value.json';
+import initialValue from "./value.json";
 import StandardToolBar from "./tools/StandardToolBar.js";
 import renderMark from "./renederers/MarkRenderer.js";
 import renderBlock from "./renederers/BlockRenderer.js";
@@ -16,19 +16,19 @@ const PlugableSlateTextEditor = () => {
 
     const onChange = ({ value }) => {
         setState(value);
-    }
+    };
 
     const plugins = [
-        HotKey({ key: 'b', type: 'bold' }),
-        HotKey({ key: '`', type: 'code' }),
-        HotKey({ key: 'i', type: 'italic' }),
-        HotKey({ key: '~', type: 'strikethrough' }),
-        HotKey({ key: 'u', type: 'underline' }),
-    ]
+        HotKey({ key: "b", type: "bold" }),
+        HotKey({ key: "`", type: "code" }),
+        HotKey({ key: "i", type: "italic" }),
+        HotKey({ key: "~", type: "strikethrough" }),
+        HotKey({ key: "u", type: "underline" }),
+    ];
 
     return (
         <Fragment>
-            <StandardToolBar 
+            <StandardToolBar
                 state={state}
                 editor={editor.current}
             />
@@ -41,7 +41,7 @@ const PlugableSlateTextEditor = () => {
                 renderBlock={renderBlock}
             />
         </Fragment>
-    )
-}
+    );
+};
 
 export default PlugableSlateTextEditor;
