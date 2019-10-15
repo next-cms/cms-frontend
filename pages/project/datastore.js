@@ -1,28 +1,13 @@
 import React from "react";
-import dynamic from 'next/dynamic'
 import PageWrapper from "../../components/common/PageWrapper";
 import {withAuthSync} from "../../utils/withAuthSync";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
-import SlateTextEditor from "../../components/common/rich_text_editor/slate/SlateTextEditor";
+import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PlugableSlateTextEditor";
 
-// const DynamicCKRTEditor = dynamic(
-//     () => import ("../../components/common/rich_text_editor/CKRTEditor"),
-//     {
-//         loading: () => <p>.....</p>,
-//         ssr: false
-//     }
-// )
 
-// const DynamicCKRTEditorDocumet = dynamic(
-//     () => import ("../../components/common/rich_text_editor/CKRTEditorDocumet"),
-//     {
-//         loading: () => <p>.....</p>,
-//         ssr: false
-//     }
-// )
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -41,9 +26,7 @@ export const DataStore = (props) => {
             padding: 0
         }}>
             <ProjectDataStore project={props.project}/>
-            <SlateTextEditor />
-            {/* <DynamicCKRTEditor defaultValue=""  /> */}
-            {/* <DynamicCKRTEditorDocumet title="CKEditor 5 using a custom build - DecoupledEditor"  defaultValue="Ready to edit"/> */}
+            <PlugableSlateTextEditor />
         </PageWrapper>
     );
 };
