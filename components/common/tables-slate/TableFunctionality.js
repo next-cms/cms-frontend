@@ -1,5 +1,5 @@
 import Plain from "slate-plain-serializer";
-import { Editor, getEventTransfer } from "slate-react";
+import { getEventTransfer } from "slate-react";
 export const onBackspace = (event, editor, next) => {
     const { value } = editor;
     const { selection } = value;
@@ -7,26 +7,12 @@ export const onBackspace = (event, editor, next) => {
     event.preventDefault();
 };
 
-/**
- * On delete, do nothing if at the end of a table cell.
- *
- * @param {Event} event
- * @param {Editor} editor
- */
-
 export const onDelete = (event, editor, next) => {
     const { value } = editor;
     const { selection } = value;
     if (selection.end.offset !== value.startText.text.length) return next();
     event.preventDefault();
 };
-
-/**
- * On paste or drop, only support plain text for this example.
- *
- * @param {Event} event
- * @param {Editor} editor
- */
 
 export const onDropOrPaste = (event, editor, next) => {
     const transfer = getEventTransfer(event);
@@ -46,23 +32,9 @@ export const onDropOrPaste = (event, editor, next) => {
     editor.insertFragment(document);
 };
 
-/**
- * On return, do nothing if inside a table cell.
- *
- * @param {Event} event
- * @param {Editor} editor
- */
-
 export const onEnter = (event, editor, next) => {
     event.preventDefault();
 };
-
-/**
- * On key down, check for our specific key shortcuts.
- *
- * @param {Event} event
- * @param {Editor} editor
- */
 
 export const onKeyDown = (event, editor, next) => {
     const { value } = editor;

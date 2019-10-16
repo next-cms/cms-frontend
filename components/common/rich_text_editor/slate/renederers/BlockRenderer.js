@@ -1,4 +1,5 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from "react";
+
 const renderBlock = (props, editor, next) => {
     const { attributes, children, node } = props;
 
@@ -15,6 +16,9 @@ const renderBlock = (props, editor, next) => {
             return <li {...attributes}>{children}</li>;
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
+        case "image": {
+            return <img {...attributes} src={node.data.get("src")} style={{ maxWidth: "100%" }} alt="no photo" />;
+        }
         default:
             return next();
     }

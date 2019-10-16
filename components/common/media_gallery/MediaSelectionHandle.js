@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "antd";
 import getConfig from "next/config";
+import * as PropTypes from "prop-types";
 
 const {publicRuntimeConfig} = getConfig();
 const {API_BASE_URL} = publicRuntimeConfig;
@@ -108,6 +109,18 @@ const SelectedImage = ({
             </style>
         </div>
     );
+};
+
+SelectedImage.propTypes = {
+    index: PropTypes.number,
+    photo: PropTypes.object,
+    margin: PropTypes.string,
+    direction: PropTypes.string,
+    top: PropTypes.string,
+    left: PropTypes.string,
+    selected: PropTypes.bool,
+    onSelectPhoto: PropTypes.func,
+    onViewImage: PropTypes.func
 };
 
 export default SelectedImage;
