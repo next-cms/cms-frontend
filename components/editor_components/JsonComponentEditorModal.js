@@ -5,8 +5,8 @@ import dynamic from "next/dynamic";
 
 const CodeEditor = dynamic(() => import("./../common/CodeEditor"), {ssr: false});
 
-const { Panel } = Collapse;
-const { Option } = Select;
+const {Panel} = Collapse;
+const {Option} = Select;
 
 const JsonComponentEditorModal = ({visible, handleOk, handleCancel}) => {
     const onCodeEditorChange = (newValue) => {
@@ -27,8 +27,8 @@ const JsonComponentEditorModal = ({visible, handleOk, handleCancel}) => {
             >
                 <Collapse
                     accordion
-                    expandIcon={({ isActive }) => (
-                        <Icon type="caret-right" rotate={isActive ? 270 : 90} />
+                    expandIcon={({isActive}) => (
+                        <Icon type="caret-right" rotate={isActive ? 270 : 90}/>
                     )}
                 >
                     <Panel header="Json Data" key="1">

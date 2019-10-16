@@ -4,9 +4,9 @@ const insertImage = (editor, src, target) => {
     // }
 
     editor.insertBlock({
-        type: 'image',
-        data: { src },
-    })
+        type: "image",
+        data: {src},
+    });
 };
 
 export default insertImage;

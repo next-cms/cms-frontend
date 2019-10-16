@@ -1,7 +1,5 @@
 import React from "react";
-import {
-    List
-} from "antd";
+import {List} from "antd";
 
 const data = [
     {
@@ -27,7 +25,7 @@ const SecuritySetting = () => {
         <List
             dataSource={data}
             itemLayout="horizontal"
-            style={{ width: 650 }}
+            style={{width: 650}}
             renderItem={item => (
                 <List.Item actions={[<a key="list-loadmore-edit">edit</a>]}>
                     <List.Item.Meta

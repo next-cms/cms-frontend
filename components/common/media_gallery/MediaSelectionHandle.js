@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Icon } from "antd";
+import React, {useEffect, useState} from "react";
+import {Icon} from "antd";
 import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 
-const { publicRuntimeConfig } = getConfig();
-const { API_BASE_URL } = publicRuntimeConfig;
+const {publicRuntimeConfig} = getConfig();
+const {API_BASE_URL} = publicRuntimeConfig;
 
 const imgStyle = {
     transition: "transform .135s cubic-bezier(0.0,0.0,0.2,1),opacity linear .15s"
@@ -23,18 +23,18 @@ const cont = {
 };
 
 const SelectedImage = ({
-    index,
-    photo,
-    margin,
-    direction,
-    top,
-    left,
-    selectedAll,
-    singleSelect,
-    selectedItems,
-    onSelectPhoto,
-    onViewImage
-}) => {
+                           index,
+                           photo,
+                           margin,
+                           direction,
+                           top,
+                           left,
+                           selectedAll,
+                           singleSelect,
+                           selectedItems,
+                           onSelectPhoto,
+                           onViewImage
+                       }) => {
     const [isSelected, setIsSelected] = useState(selectedAll);
 
     const sx = (100 - (30 / photo.width) * 100) / 100;
@@ -57,7 +57,7 @@ const SelectedImage = ({
 
     const handleOnViewClick = () => {
         onViewImage(index);
-    }
+    };
 
     useEffect(() => {
         if (singleSelect) {
@@ -71,7 +71,7 @@ const SelectedImage = ({
 
     return (
         <div
-            style={{ margin, height: photo.height, width: photo.width, ...cont }}
+            style={{margin, height: photo.height, width: photo.width, ...cont}}
             className={!isSelected ? "gallery-item not-selected" : "gallery-item"}
         >
 
@@ -82,9 +82,9 @@ const SelectedImage = ({
                 onClick={handleOnSelectClick}
                 style={{
                     position: "absolute",
-                    visibility: `${isSelected ? 'visible' : ''}`,
-                    color: `${isSelected ? '#3e90ff' : '#eeeeee'}`,
-                    backgroundColor: `${isSelected ? '#eeeeee' : '#3e90ff'}`,
+                    visibility: `${isSelected ? "visible" : ""}`,
+                    color: `${isSelected ? "#3e90ff" : "#eeeeee"}`,
+                    backgroundColor: `${isSelected ? "#eeeeee" : "#3e90ff"}`,
                     top: "5px",
                     left: "5px",
                     fontSize: "20px",
@@ -95,7 +95,7 @@ const SelectedImage = ({
             <img
                 alt={photo.name}
                 style={
-                    isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
+                    isSelected ? {...imgStyle, ...selectedImgStyle} : {...imgStyle}
                 }
                 {...photo}
                 src={`${API_BASE_URL}${photo.src}`}

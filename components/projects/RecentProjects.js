@@ -9,7 +9,7 @@ import {RECENT_PROJECTS} from "../../utils/GraphQLConstants";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
 import RoutesInfo from "../../constants/RoutesInfo";
 
-const { Meta } = Card;
+const {Meta} = Card;
 
 const RecentProjects = () => {
     const [skip, setSkip] = useState(0);
@@ -18,14 +18,14 @@ const RecentProjects = () => {
     const [project, setProject] = useState({});
 
     const {loading, error, data, refetch} = useQuery(RECENT_PROJECTS, {
-        variables: { skip, limit: 4 },
+        variables: {skip, limit: 4},
         skipCache: true
     });
 
     useEffect(() => {
         if (dataStoreContext.projectListUpdated) {
             dataStoreContext.setProjectListUpdated(false);
-            refetch({ variables: { skip, limit: 4 } });
+            refetch({variables: {skip, limit: 4}});
         }
     }, [dataStoreContext.projectListUpdated]);
 
@@ -45,7 +45,7 @@ const RecentProjects = () => {
         if (hideMessage) return hideMessage;
     }, [error, loading]);
 
-    if (error || !data) return <Row gutter={4} />;
+    if (error || !data) return <Row gutter={4}/>;
     const {projects} = data;
 
     const onCancel = () => {
@@ -77,16 +77,16 @@ const RecentProjects = () => {
                             actions={[
                                 <Link href={`${RoutesInfo.Project.path}?projectId=${project.id}`}>
                                     <a>
-                                        <Icon type="edit" />
+                                        <Icon type="edit"/>
                                     </a>
                                 </Link>,
                                 <Button style={{border: 0, padding: 0}}
-                                    onClick={() => {
-                                        console.log("Id is: ", project);
-                                        handleDeleteClick(project);
-                                    }}
+                                        onClick={() => {
+                                            console.log("Id is: ", project);
+                                            handleDeleteClick(project);
+                                        }}
                                 >
-                                    <Icon type="delete" />
+                                    <Icon type="delete"/>
                                 </Button>
                             ]}
                             hoverable

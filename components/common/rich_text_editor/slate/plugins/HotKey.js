@@ -11,9 +11,9 @@ const HotKey = (options) => {
             event.preventDefault();
 
             // Toggle the mark `type`.
-            editor.toggleMark(type)
+            editor.toggleMark(type);
         }
-    }
+    };
 };
 
 export default HotKey;

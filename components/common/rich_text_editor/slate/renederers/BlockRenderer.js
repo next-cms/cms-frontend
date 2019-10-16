@@ -1,6 +1,6 @@
 import React from "react";
 import ImageComponent from "../components/ImageComponent";
-import { Col, Row } from "antd";
+import {Col, Row} from "antd";
 
 const renderBlock = (props, editor, next) => {
 
