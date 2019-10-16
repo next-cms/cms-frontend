@@ -27,7 +27,7 @@ const onClickInsertable = (event, type, {value, editor, showModal}) => {
             const src = photo.src;
             if (!src) return;
             editor.command(insertImage, src);
-        });
+        }).catch(e => console.log(e.message))
     }
 };
 
