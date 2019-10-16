@@ -1,6 +1,7 @@
 import React from "react";
 import ImageComponent from "../components/ImageComponent";
 import {Col, Row} from "antd";
+import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
 
 const renderBlock = (props, editor, next) => {
 
@@ -28,6 +29,14 @@ const renderBlock = (props, editor, next) => {
         case "row": {
             return <Row {...attributes}>{children}</Row>;
         }
+        case "table":
+            return <Table {...props} />;
+        case "table_row":
+            return <TableRow {...props} />;
+        case "table_cell":
+            return <TableCell {...props} />;
+        case "paragraph":
+            return <Paragraph {...props} />;
         default:
             return next();
     }

@@ -1,5 +1,65 @@
 import React from "react";
 import {css, cx} from "emotion";
+import * as PropTypes from "prop-types";
+
+export class Table extends React.Component {
+    static childContextTypes = {
+        isInTable: PropTypes.bool
+    };
+
+    getChildContext() {
+        return {isInTable: true};
+    }
+
+    render() {
+        const {attributes, children} = this.props;
+        return (
+            <table>
+                <tbody {...attributes}>{children}</tbody>
+            </table>
+        );
+    }
+}
+
+export class TableRow extends React.Component {
+    render() {
+        const {attributes, children} = this.props;
+        return <tr {...attributes}>{children}</tr>;
+    }
+}
+
+export class TableCell extends React.Component {
+    render() {
+        const {attributes, children, node} = this.props;
+
+        const textAlign = node.get("data").get("align", "left");
+
+        return (
+            <td style={{textAlign, minWidth: "50px", border: "1px solid black"}} {...attributes}>
+                {children}
+            </td>
+        );
+    }
+}
+
+export class Paragraph extends React.Component {
+    static contextTypes = {
+        isInTable: PropTypes.bool
+    };
+
+    render() {
+        const {attributes, children} = this.props;
+        const {isInTable} = this.context;
+
+        const style = isInTable ? {margin: 0} : {};
+
+        return (
+            <p style={style} {...attributes}>
+                {children}
+            </p>
+        );
+    }
+}
 
 export const Button = React.forwardRef(
     ({className, active, reversed, ...props}, ref) => (

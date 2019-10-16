@@ -19,6 +19,7 @@ const StandardToolBar = () => {
             {renderBlockButton("numbered-list", "ordered-list", rteContext)}
             {renderBlockButton("bulleted-list", "unordered-list", rteContext)}
             {renderInsertableBlockButton("image", "image", rteContext)}
+            {renderInsertableBlockButton("table", "table", rteContext)}
         </Toolbar>
     );
 };
