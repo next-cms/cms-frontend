@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {Icon} from "antd";
+import React, { useEffect, useState } from "react";
+import { Icon } from "antd";
 import getConfig from "next/config";
 import * as PropTypes from "prop-types";
 
-const {publicRuntimeConfig} = getConfig();
-const {API_BASE_URL} = publicRuntimeConfig;
+const { publicRuntimeConfig } = getConfig();
+const { API_BASE_URL } = publicRuntimeConfig;
 
 const imgStyle = {
     transition: "transform .135s cubic-bezier(0.0,0.0,0.2,1),opacity linear .15s"
@@ -29,15 +29,17 @@ const SelectedImage = ({
     direction,
     top,
     left,
-    selected,
+    selectedAll,
+    singleSelect,
+    selectedItems,
     onSelectPhoto,
     onViewImage
 }) => {
-    const [isSelected, setIsSelected] = useState(selected);
+    const [isSelected, setIsSelected] = useState(selectedAll);
 
-    //calculate x,y scale
     const sx = (100 - (30 / photo.width) * 100) / 100;
     const sy = (100 - (30 / photo.height) * 100) / 100;
+
     selectedImgStyle.transform = `translateZ(0px) scale3d(${sx}, ${sy}, 1)`;
 
     if (direction === "column") {
@@ -47,8 +49,10 @@ const SelectedImage = ({
     }
 
     const handleOnSelectClick = () => {
+
         setIsSelected(!isSelected);
         onSelectPhoto(index, !isSelected, photo);
+
     };
 
     const handleOnViewClick = () => {
@@ -56,9 +60,14 @@ const SelectedImage = ({
     }
 
     useEffect(() => {
-        setIsSelected(selected);
-        onSelectPhoto(index, selected, photo);
-    }, [selected]);
+        if (singleSelect) {
+            setIsSelected(selectedItems[index]);
+        } else {
+            setIsSelected(selectedAll);
+            onSelectPhoto(index, selectedAll, photo);
+        }
+
+    }, [selectedAll, selectedItems]);
 
     return (
         <div
@@ -93,8 +102,8 @@ const SelectedImage = ({
                 onClick={handleOnViewClick}
             />
             <style jsx global>
-            {
-                `
+                {
+                    `
                     .gallery-item .select-icon {
                         visibility: hidden;
                     }
@@ -105,7 +114,7 @@ const SelectedImage = ({
 
                     .not-selected:hover{outline:2px solid #06befa};
                 `
-            }
+                }
             </style>
         </div>
     );

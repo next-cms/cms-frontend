@@ -7,11 +7,13 @@ const EditorModal = ({title, children}) => {
     const context = useContext(RTEContext);
 
     const handleOk = () => {
-        context.modalResolve(context.gallerySelectedItem);
+        if (!context.gallerySelectedItem) context.modalReject(new Error("Nothing selected."));
+        else context.modalResolve(context.gallerySelectedItem);
         context.hideModal();
     };
 
     const handleCancel = () => {
+        context.modalReject(new Error("Canceled."));
         context.hideModal();
     };
 

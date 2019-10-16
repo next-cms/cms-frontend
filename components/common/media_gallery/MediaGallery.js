@@ -1,24 +1,24 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Gallery from "react-photo-gallery";
-import Carousel, {Modal, ModalGateway} from "react-images";
+import Carousel, { Modal, ModalGateway } from "react-images";
 import SelectedImage from "./MediaSelectionHandle";
-import {Button, Checkbox, Col, Icon, message, Row, Upload} from "antd";
-import {useQuery} from "graphql-hooks";
-import {ALL_MEDIA} from "../../../utils/GraphQLConstants";
-import {handleGraphQLAPIErrors} from "../../../utils/helpers";
+import { Button, Checkbox, Col, Icon, message, Row, Upload } from "antd";
+import { useQuery } from "graphql-hooks";
+import { ALL_MEDIA } from "../../../utils/GraphQLConstants";
+import { handleGraphQLAPIErrors } from "../../../utils/helpers";
 import getConfig from "next/config";
-import {AuthContext} from "../../../contexts/AuthContextProvider";
+import { AuthContext } from "../../../contexts/AuthContextProvider";
 import * as PropTypes from "prop-types";
-import {DataStoreContext} from "../../../contexts/DataStoreContextProvider";
+import { DataStoreContext } from "../../../contexts/DataStoreContextProvider";
 
-const {publicRuntimeConfig} = getConfig();
-const {UPLOAD_IMAGE_URL, API_BASE_URL} = publicRuntimeConfig;
+const { publicRuntimeConfig } = getConfig();
+const { UPLOAD_IMAGE_URL, API_BASE_URL } = publicRuntimeConfig;
 
-const MediaGallery = ({isSingleSelect, onSelect}) => {
+const MediaGallery = ({ isSingleSelect, onSelect }) => {
     const authContext = useContext(AuthContext);
     const dataStoreContext = useContext(DataStoreContext);
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState({});
 
     const [currentImage, setCurrentImage] = useState(0);
     const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -28,10 +28,10 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
 
     const projectId = dataStoreContext.currentProject.id;
 
-    const {loading, error, data, refetch} = useQuery(
+    const { loading, error, data, refetch } = useQuery(
         ALL_MEDIA,
         {
-            variables: {projectId, skip, limit},
+            variables: { projectId, skip, limit },
             updateData(prevData, data) {
                 return {
                     ...data,
@@ -63,7 +63,7 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
         if (!isSelected) {
 
             setSelectedImage(prevState => {
-                const a = {...prevState};
+                const a = { ...prevState };
                 delete a[index];
                 return a;
             });
@@ -82,11 +82,11 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
         }
 
         if (onSelect) {
-            onSelect({...photo, src: `${API_BASE_URL}${photo.src}`});
+            onSelect({ ...photo, src: `${API_BASE_URL}${photo.src}` });
         }
     };
 
-    const onUploadChange = ({file, fileList}) => {
+    const onUploadChange = ({ file, fileList }) => {
         console.log("successfully uploaded all image.", file, fileList);
         if (file.status !== "uploading") {
             console.log(file, fileList);
@@ -103,9 +103,11 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
     };
 
     const imageRenderer = useCallback(
-        ({index, left, top, key, photo}) => (
+        ({ index, left, top, key, photo }) => (
             <SelectedImage
-                selected={selectAll}
+                selectAll={selectAll}
+                singleSelect={isSingleSelect}
+                selectedItems={selectedImage}
                 key={key}
                 margin={"2px"}
                 index={index}
@@ -116,7 +118,7 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
                 onViewImage={openLightbox}
             />
         ),
-        [selectAll]
+        [selectAll, selectedImage]
     );
 
     useEffect(() => {
@@ -136,31 +138,31 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
     }, [error, loading]);
 
     if (error || !data) return null;
-    const {allMedia} = data;
+    const { allMedia } = data;
 
     console.log("allMedia", allMedia);
     if (!allMedia) return null;
 
     return (
-        <div style={{padding: "10px", width: "100%"}}>
-            <Row style={{marginBottom: "10px"}} type="flex" justify="space-between">
+        <div style={{ padding: "10px", width: "100%" }}>
+            <Row style={{ marginBottom: "10px" }} type="flex" justify="space-between">
                 <Col>
                     {!isSingleSelect && <Checkbox onChange={toggleSelectAll} checked={selectAll}>Select all</Checkbox>}
                 </Col>
                 <Col>
                     <Button onClick={onDeleteClick} type="danger">Delete</Button>
                     <Upload action={`${UPLOAD_IMAGE_URL}?projectId=${projectId}`} showUploadList={false} multiple={true}
-                            onChange={onUploadChange} headers={{Authorization: `Bearer ${authContext.token}`}}>
-                        <Button style={{marginLeft: "5px"}} type="primary">
-                            <Icon type="upload"/> Upload
+                        onChange={onUploadChange} headers={{ Authorization: `Bearer ${authContext.token}` }}>
+                        <Button style={{ marginLeft: "5px" }} type="primary">
+                            <Icon type="upload" /> Upload
                         </Button>
                     </Upload>
                 </Col>
             </Row>
-            <div style={{maxHeight: "calc(100vh - 175px)", overflowY: "auto"}}>
-                <Gallery photos={allMedia.data || []} renderImage={imageRenderer}/>
+            <div style={{ maxHeight: "calc(100vh - 175px)", overflowY: "auto" }}>
+                <Gallery photos={allMedia.data || []} renderImage={imageRenderer} />
                 {allMedia.hasMore &&
-                <Button onClick={onClickLoadMore} ghost={true} type="primary" style={{marginTop: "10px"}}>Load
+                    <Button onClick={onClickLoadMore} ghost={true} type="primary" style={{ marginTop: "10px" }}>Load
                     More</Button>}
             </div>
             <ModalGateway>
@@ -177,6 +179,19 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
                     </Modal>
                 ) : null}
             </ModalGateway>
+
+            <style jsx global>
+                {`
+                    .css-yrspe {
+                        z-index: 1001 !important;
+                    }
+                    
+                    .css-1rbq2qy {
+                        z-index: 1001 !important;
+                    }
+                `}
+            </style>
+
         </div>
     );
 };
