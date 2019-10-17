@@ -1,6 +1,6 @@
-import { Button } from "antd";
+import {Button} from "antd";
 import React from "react";
-import { getEventTransfer } from "slate-react";
+import {getEventTransfer} from "slate-react";
 import isUrl from "is-url";
 import imageExtensions from "image-extensions";
 import Plain from "slate-plain-serializer";
@@ -21,11 +21,13 @@ export const onClickMark = (event, type, { editor }) => {
     editor.toggleMark(type);
 };
 
-const opts = {
+export const opts = {
     typeTable: "table",
     typeRow: "table_row",
     typeCell: "table_cell",
-    typeContent: "paragraph"
+    typeContent: "paragraph",
+    isCell: (node) =>
+        node.object === "block" && node.type === this.typeCell
 };
 
 const onClickInsertable = (event, type, { value, editor, showModal }) => {
@@ -40,6 +42,16 @@ const onClickInsertable = (event, type, { value, editor, showModal }) => {
         }).catch(e => console.log(e.message));
     } else if (type === "table") {
         editor.insertTable(opts, 2, 2);
+    } else if (type === "table_row") {
+        editor.insertRow(opts);
+    } else if (type === "table_col") {
+        editor.insertColumn(opts);
+    } else if (type === "delete_table_row") {
+        editor.removeRow(opts);
+    } else if (type === "delete_table_col") {
+        editor.removeColumn(opts);
+    } else if (type === "delete_table") {
+        editor.removeTable(opts);
     }
 };
 
@@ -214,92 +226,6 @@ export const onDropOrPaste = (event, editor, next) => {
     }
 
     next();
-};
-
-/**
- * On return, do nothing if inside a table cell.
- *
- * @param {Event} event
- * @param editor
- * @param next
- */
-
-const onEnter = (event, editor, next) => {
-    event.preventDefault();
-    return next();
-};
-
-/**
- * On key down, check for our specific key shortcuts.
- *
- * @param {Event} event
- * @param {Change} editor
- * @param {next} next
- */
-export const onKeyDown = (event, editor, next) => {
-    const { value } = editor;
-    const { document, selection } = value;
-    const { start, isCollapsed } = selection;
-    const startNode = document.getDescendant(start.key);
-
-    if (isCollapsed && start.isAtStartOfNode(startNode)) {
-        const previous = document.getPreviousText(startNode.key);
-        const prevBlock = document.getClosestBlock(previous.key);
-
-        if (prevBlock.type === "table-cell") {
-            if (["Backspace", "Delete", "Enter"].includes(event.key)) {
-                event.preventDefault();
-                return true;
-            } else {
-                return;
-            }
-        }
-    }
-
-    if (value.startBlock.type !== "table-cell") {
-        return;
-    }
-
-    switch (event.key) {
-        case "Backspace":
-            return onBackspace(event, editor, next);
-        case "Delete":
-            return onDelete(event, editor, next);
-        case "Enter":
-            return onEnter(event, editor, next);
-    }
-};
-
-/**
- * On backspace, do nothing if at the start of a table cell.
- *
- * @param {Event} event
- * @param {Change} editor
- * @param next
- */
-
-const onBackspace = (event, editor, next) => {
-    const { value } = editor;
-    const { selection } = value;
-    if (selection.start.offset !== 0) return;
-    event.preventDefault();
-    return next();
-};
-
-/**
- * On delete, do nothing if at the end of a table cell.
- *
- * @param {Event} event
- * @param editor
- * @param next
- */
-
-const onDelete = (event, editor, next) => {
-    const { value } = change;
-    const { selection } = value;
-    if (selection.end.offset !== value.startText.text.length) return;
-    event.preventDefault();
-    return next();
 };
 
 const getExtension = (url) => {

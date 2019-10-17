@@ -8,7 +8,7 @@ import renderBlock from "../renederers/BlockRenderer";
 import schema from "./Schema";
 import MediaGallery from "../../../media_gallery/MediaGallery";
 import EditorModal from "./EditorModal";
-import {onDropOrPaste, onKeyDown} from "./index";
+import {onDropOrPaste} from "./index";
 import Image from "../plugins/Image";
 import Table from "../plugins/Table";
 import BlockAlign from "../plugins/BlockAlign";
@@ -47,7 +47,7 @@ const TextEditor = () => {
                 plugins={plugins}
                 value={rteContext.value}
                 onChange={onChange}
-                // onKeyDown={onKeyDown}
+                // onKeyDown={onKeyDown.bind(null, opts)}
                 onDrop={onDropOrPaste}
                 onPaste={onDropOrPaste}
                 renderMark={renderMark}

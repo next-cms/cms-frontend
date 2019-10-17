@@ -1,6 +1,8 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {css, cx} from "emotion";
 import * as PropTypes from "prop-types";
+import {Popover} from "antd";
+import TableToolBar from "./tools/TableToolBar";
 
 export class Table extends React.Component {
     static childContextTypes = {
@@ -12,11 +14,21 @@ export class Table extends React.Component {
     }
 
     render() {
-        const {attributes, children} = this.props;
+        const {attributes, children, isSelected} = this.props;
         return (
-            <table>
-                <tbody {...attributes}>{children}</tbody>
-            </table>
+            <Popover
+                content={
+                    <Fragment>
+                        <TableToolBar/>
+                    </Fragment>
+                }
+                trigger="click"
+                visible={isSelected}
+            >
+                <table>
+                    <tbody {...attributes}>{children}</tbody>
+                </table>
+            </Popover>
         );
     }
 }

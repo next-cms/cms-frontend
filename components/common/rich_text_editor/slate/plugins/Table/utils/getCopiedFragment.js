@@ -18,9 +18,9 @@ function getCopiedFragment(opts, value) {
     const startPosition = TablePosition.create(
         opts,
         document,
-        selection.startKey
+        selection.start.key
     );
-    const endPosition = TablePosition.create(opts, document, selection.endKey);
+    const endPosition = TablePosition.create(opts, document, selection.end.key);
 
     // Fragment as it would be copied by Slate
     const baseFragment = value.fragment;

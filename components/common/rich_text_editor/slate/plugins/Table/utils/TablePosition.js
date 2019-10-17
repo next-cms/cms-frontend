@@ -6,17 +6,17 @@ class TablePosition extends Record({
     cellBlock: null,
     contentBlock: null
 }) {
-    // Block container for the table
-    tableBlock;
-
-    // Block for current row
-    rowBlock;
-
-    // Block for current cell
-    cellBlock;
-
-    // Current content block in the cell
-    contentBlock;
+    // // Block container for the table
+    // tableBlock;
+    //
+    // // Block for current row
+    // rowBlock;
+    //
+    // // Block for current cell
+    // cellBlock;
+    //
+    // // Current content block in the cell
+    // contentBlock;
 
     /**
      * Create a new instance of a TablePosition from a Slate document
@@ -29,10 +29,10 @@ class TablePosition extends Record({
     ) {
         const node = containerNode.getDescendant(key);
         const ancestors = containerNode.getAncestors(key).push(node);
-        const tableBlock = ancestors.findLast(p => p.type === opts.typeTable);
-        const rowBlock = ancestors.findLast(p => p.type === opts.typeRow);
+        const tableBlock = ancestors.findLast(p => p && p.type === opts.typeTable);
+        const rowBlock = ancestors.findLast(p => p && p.type === opts.typeRow);
 
-        const cellBlock = ancestors.findLast(p => p.type === opts.typeCell);
+        const cellBlock = ancestors.findLast(p => p && p.type === opts.typeCell);
         const contentBlock = ancestors
             .skipUntil(ancestor => ancestor === cellBlock)
             .skip(1)

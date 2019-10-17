@@ -1,12 +1,17 @@
 import {TablePosition} from "./utils";
 import removeColumnByKey from "./removeColumnByKey";
+import isSelectionInTable from "./utils/isSelectionInTable";
 
 /**
  * Delete current column in a table
  */
 function removeColumn(editor, opts, at) {
     const {value} = editor;
-    const {start: {key}} = value;
+    const {startBlock: {key}} = value;
+
+    if (!isSelectionInTable(opts, value)) {
+        return editor;
+    }
 
     const pos = TablePosition.create(opts, value.document, key);
 

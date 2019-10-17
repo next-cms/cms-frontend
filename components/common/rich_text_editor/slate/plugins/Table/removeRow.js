@@ -1,13 +1,16 @@
 import {TablePosition} from "./utils";
 import removeRowByKey from "./removeRowByKey";
+import isSelectionInTable from "./utils/isSelectionInTable";
 
 /**
  * Remove current row in a table. Clear it if last remaining row
  */
 function removeRow(editor, opts, at) {
     const {value} = editor;
-    const {start: {key}} = value;
-
+    const {startBlock: {key}} = value;
+    if (!isSelectionInTable(opts, value)) {
+        return editor;
+    }
     const pos = TablePosition.create(opts, value.document, key);
 
     let rowKey;

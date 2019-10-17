@@ -1,16 +1,36 @@
 import React, {useContext} from "react";
 import {Toolbar} from "../SlateComponet";
-import {renderBlockButton, renderInsertableBlockButton, renderMarkButton, renderAlignmentButton} from "../core";
+import {opts, renderAlignmentButton, renderBlockButton, renderInsertableBlockButton, renderMarkButton} from "../core";
 import {RTEContext} from "../RTEContextProvider";
-import { MdLooksOne, MdLooksTwo, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdCode, MdStrikethroughS, MdFormatQuote, MdFormatListBulleted, MdFormatListNumbered, MdInsertPhoto, MdBorderAll, MdFormatAlignCenter, MdFormatAlignLeft, MdFormatAlignRight } from "react-icons/md";
-import { Divider, Button } from "antd";
+import {
+    MdBorderAll,
+    MdCode,
+    MdFormatAlignCenter,
+    MdFormatAlignLeft,
+    MdFormatAlignRight,
+    MdFormatBold,
+    MdFormatItalic,
+    MdFormatListBulleted,
+    MdFormatListNumbered,
+    MdFormatQuote,
+    MdFormatUnderlined,
+    MdInsertPhoto,
+    MdLooksOne,
+    MdLooksTwo,
+    MdStrikethroughS
+} from "react-icons/md";
+import {Button, Divider} from "antd";
+import {isSelectionOutOfTable} from "../plugins/Table/utils";
 
 const StandardToolBar = ({onSave}) => {
     const rteContext = useContext(RTEContext);
 
+    const {value} = rteContext;
+    const isOutTable = isSelectionOutOfTable(opts, value);
+
     const onSaveClick = () => {
         onSave(rteContext.value.toJSON());
-    }
+    };
 
     return (
         <Toolbar>
@@ -26,7 +46,7 @@ const StandardToolBar = ({onSave}) => {
             {renderBlockButton("bulleted-list", <MdFormatListBulleted />, rteContext)}
             <Divider style={{height: "50px", width:"2px"}} type="vertical" />
             {renderInsertableBlockButton("image", <MdInsertPhoto />, rteContext)}
-            {renderInsertableBlockButton("table", <MdBorderAll />, rteContext)}
+            {isOutTable && renderInsertableBlockButton("table", <MdBorderAll/>, rteContext)}
             {renderAlignmentButton("left", <MdFormatAlignLeft />, rteContext)}
             {renderAlignmentButton("center", <MdFormatAlignCenter />, rteContext)}
             {renderAlignmentButton("right", <MdFormatAlignRight />, rteContext)}

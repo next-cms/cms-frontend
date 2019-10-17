@@ -8,13 +8,14 @@ const RichTextEditor = () => {
 
     const onSave = (value) => {
         console.log(value);
-    }
+    };
 
     return (
         <RTEContextProvider>
             <StandardToolBar
                 onSave={onSave}
             />
+            {/*<TableToolBar/>*/}
             <EditorCore />
         </RTEContextProvider>
     );
