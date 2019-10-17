@@ -1,10 +1,10 @@
-import React, {Fragment, useState} from "react";
-import {Button, Col, Icon, Input, InputNumber, Popconfirm, Popover, Row} from "antd";
+import React, { Fragment, useState } from "react";
+import { Button, Col, Icon, Input, InputNumber, Popconfirm, Popover, Row } from "antd";
 
 const InputGroup = Input.Group;
 
 
-const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
+const ImageComponent = ({ src, editor, attributes, isFocused, isSelected }) => {
 
     const [heightFieldValue, setHeightFieldValue] = useState(0);
     const [widthFieldValue, setWidthFieldValue] = useState(0);
@@ -29,9 +29,17 @@ const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
     };
 
     const rightAlign = () => {
-        console.log("clicked right align.");
-        // editor.wrapBlock('col').splitInline(editor.insertBlock("paragraph").wrapBlock('col')).wrapBlock('row');
-        editor.wrapBlock("col").wrapBlock("row");
+        editor.unwrapBlock("align-right").unwrapBlock("align-left");
+        editor.wrapBlock("align-right");
+    };
+
+    const leftAlign = () => {
+        editor.unwrapBlock("align-right").unwrapBlock("align-left");
+        editor.wrapBlock("align-left");
+    };
+
+    const centerAlign = () => {
+        editor.unwrapBlock("align-right").unwrapBlock("align-left");
     };
 
     return (
@@ -40,17 +48,17 @@ const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
             <Popover
                 content={
                     <Fragment>
-                        <Row gutter={0} style={{marginBottom: "5px"}}>
+                        <Row gutter={0} style={{ marginBottom: "5px" }}>
                             <Col span={12}>
                                 <InputNumber min={1} placeholder="height"
-                                             onChange={value => setHeightFieldValue(value)}/>
+                                    onChange={value => setHeightFieldValue(value)} />
                             </Col>
                             <Col span={12}>
-                                <InputNumber min={1} placeholder="width" onChange={value => setWidthFieldValue(value)}/>
+                                <InputNumber min={1} placeholder="width" onChange={value => setWidthFieldValue(value)} />
                             </Col>
                         </Row>
                         <Button onClick={changeImageSize}>
-                            <Icon type="check"/>
+                            <Icon type="check" />
                         </Button>
                     </Fragment>
                 }
@@ -61,11 +69,17 @@ const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
                 <Popover
                     content={
                         <Fragment>
-                            <Button style={{marginRight: "5px"}} onClick={rightAlign}>
-                                <Icon type="align-right"/>
+                            <Button style={{ marginRight: "5px" }} onClick={leftAlign}>
+                                <Icon type="align-left" />
                             </Button>
-                            <Button style={{marginRight: "5px"}} onClick={openSecondToolTip}>
-                                <Icon type="edit"/>
+                            <Button style={{ marginRight: "5px" }} onClick={centerAlign}>
+                                <Icon type="align-center" />
+                            </Button>
+                            <Button style={{ marginRight: "5px" }} onClick={rightAlign}>
+                                <Icon type="align-right" />
+                            </Button>
+                            <Button style={{ marginRight: "5px" }} onClick={openSecondToolTip}>
+                                <Icon type="edit" />
                             </Button>
                             <Popconfirm
                                 placement="rightTop"
@@ -74,14 +88,16 @@ const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
                                 okText="Yes"
                                 cancelText="No"
                             >
-                                <Button><Icon type="delete"/></Button>
+                                <Button><Icon type="delete" /></Button>
                             </Popconfirm>
                         </Fragment>
                     }
                     trigger="click"
                     visible={isSelected}
                 >
-                    <img className="image" {...attributes} src={src} alt="no photo"/>
+                    <div style={{ textAlign: "center" }}>
+                        <img className="image" {...attributes} src={src} alt="no photo" />
+                    </div>
                 </Popover>
             </Popover>
 
