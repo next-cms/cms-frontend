@@ -1,4 +1,5 @@
 import React from "react";
+import { Row, Col } from "antd";
 
 const renderBlock = (props, editor, next) => {
     const { attributes, children, node } = props;
@@ -18,6 +19,14 @@ const renderBlock = (props, editor, next) => {
             return <ol {...attributes}>{children}</ol>;
         case "image": {
             return <img {...attributes} src={node.data.get("src")} style={{ maxWidth: "100%" }} alt="no photo" />;
+        }
+        case "row": {
+            return <Row {...attributes}>{children}</Row>;
+        }
+        case "col": {
+            return (
+                <Col {...attributes}>{children}</Col>
+            );
         }
         default:
             return next();

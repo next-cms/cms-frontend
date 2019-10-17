@@ -5,8 +5,7 @@ import * as PropTypes from "prop-types";
 import { MenuContext } from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
-import PlugableSlateTextEditor from "../../components/common/rich_text_editor/slate/PluggableSlateTextEditor";
-import Table from "../../components/common/tables-slate/Table";
+import RichTextEditor from "/home/vivasoft/Downloads/core_cms_frontend/components/common/rich_text_editor/slate/RichTextEditor.js";
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -25,8 +24,7 @@ export const DataStore = (props) => {
             padding: 0
         }}>
             <ProjectDataStore project={props.project} />
-            <PlugableSlateTextEditor />
-            <Table />
+            <RichTextEditor />
         </PageWrapper>
     );
 };

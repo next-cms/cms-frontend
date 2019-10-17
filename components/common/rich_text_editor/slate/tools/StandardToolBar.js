@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Toolbar } from "../SlateComponet";
-import { renderBlockButton, renderInsertableBlockButton, renderMarkButton } from "../core";
+import { renderBlockButton, renderInsertableBlockButton, renderMarkButton, renderBlockRowButton } from "../core";
 import { RTEContext } from "../RTEContextProvider";
 
 const StandardToolBar = () => {
@@ -19,6 +19,7 @@ const StandardToolBar = () => {
             {renderBlockButton("numbered-list", "ordered-list", rteContext)}
             {renderBlockButton("bulleted-list", "unordered-list", rteContext)}
             {renderInsertableBlockButton("image", "image", rteContext)}
+            {renderBlockRowButton("row", "row", rteContext)}
         </Toolbar>
     );
 };
