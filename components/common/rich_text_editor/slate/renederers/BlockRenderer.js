@@ -2,6 +2,7 @@ import React from "react";
 import ImageComponent from "../components/ImageComponent";
 import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
 import BlockAlignment from "../components/BlockAlignment";
+import BlockQuote from "../components/BlockQuote";
 
 const renderBlock = (props, editor, next) => {
 
@@ -9,7 +10,7 @@ const renderBlock = (props, editor, next) => {
 
     switch (node.type) {
         case "block-quote":
-            return <blockquote {...attributes}>{children}</blockquote>;
+            return <BlockQuote {...props}>{children}</BlockQuote>;
         case "bulleted-list":
             return <ul {...attributes}>{children}</ul>;
         case "heading-one":

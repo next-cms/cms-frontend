@@ -5,10 +5,17 @@ import RTEContextProvider from "./RTEContextProvider";
 import EditorCore from "./core/EditorCore";
 
 const RichTextEditor = () => {
+
+    const onSave = (value) => {
+        console.log(value);
+    }
+
     return (
         <RTEContextProvider>
-            <StandardToolBar/>
-            <EditorCore/>
+            <StandardToolBar
+                onSave={onSave}
+            />
+            <EditorCore />
         </RTEContextProvider>
     );
 };

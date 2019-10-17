@@ -158,13 +158,11 @@ export const renderInsertableBlockButton = (type, icon, { value, editor, showMod
 };
 
 export const renderAlignmentButton = (alignType, icon, { value, editor }) => {
-    let isActive = hasBlock("align", value);
-    console.log(value);
     return (
         <Button
             style={{ fontSize: "24px" }}
             shape="circle"
-            type={isActive ? "primary" : "default"}
+            type="dashed"
             onMouseDown={event => onClickAlignment(event, alignType, { value, editor })}
         >
             {icon}
