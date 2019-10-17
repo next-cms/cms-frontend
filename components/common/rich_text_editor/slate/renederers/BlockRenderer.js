@@ -1,7 +1,8 @@
 import React from "react";
 import ImageComponent from "../components/ImageComponent";
-import {Col, Row} from "antd";
 import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
+import BlockAlignment from "../components/BlockAlignment";
+import BlockQuote from "../components/BlockQuote";
 
 const renderBlock = (props, editor, next) => {
 
@@ -9,7 +10,7 @@ const renderBlock = (props, editor, next) => {
 
     switch (node.type) {
         case "block-quote":
-            return <blockquote {...attributes}>{children}</blockquote>;
+            return <BlockQuote {...props}>{children}</BlockQuote>;
         case "bulleted-list":
             return <ul {...attributes}>{children}</ul>;
         case "heading-one":
@@ -23,11 +24,8 @@ const renderBlock = (props, editor, next) => {
         case "image": {
             return <ImageComponent src={node.data.get("src")} editor={editor} {...props} />;
         }
-        case "col": {
-            return <Col xs={12} {...attributes}>{children}</Col>;
-        }
-        case "row": {
-            return <Row {...attributes}>{children}</Row>;
+        case "align": {
+            return <BlockAlignment align={node.data.get("alignType")} type={node.data.get("type")} {...props}>{children}</BlockAlignment>;
         }
         case "table":
             return <Table {...props} />;

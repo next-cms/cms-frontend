@@ -11,6 +11,7 @@ import EditorModal from "./EditorModal";
 import {onDropOrPaste, onKeyDown} from "./index";
 import Image from "../plugins/Image";
 import Table from "../plugins/Table";
+import BlockAlign from "../plugins/BlockAlign";
 
 const plugins = [
     HotKey({key: "b", type: "bold"}),
@@ -19,7 +20,8 @@ const plugins = [
     HotKey({key: "~", type: "strikethrough"}),
     HotKey({key: "u", type: "underline"}),
     Image,
-    Table
+    Table,
+    BlockAlign
 ];
 
 const TextEditor = () => {
@@ -45,7 +47,7 @@ const TextEditor = () => {
                 plugins={plugins}
                 value={rteContext.value}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
+                // onKeyDown={onKeyDown}
                 onDrop={onDropOrPaste}
                 onPaste={onDropOrPaste}
                 renderMark={renderMark}

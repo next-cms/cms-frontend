@@ -1,10 +1,7 @@
-import React, {Fragment, useState} from "react";
-import {Button, Col, Icon, Input, InputNumber, Popconfirm, Popover, Row} from "antd";
+import React, { Fragment, useState } from "react";
+import { Button, Icon, InputNumber, Popconfirm, Popover, Row } from "antd";
 
-const InputGroup = Input.Group;
-
-
-const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
+const ImageComponent = ({ src, editor, attributes, isFocused, isSelected }) => {
 
     const [heightFieldValue, setHeightFieldValue] = useState(0);
     const [widthFieldValue, setWidthFieldValue] = useState(0);
@@ -12,89 +9,83 @@ const ImageComponent = ({src, editor, attributes, isFocused, isSelected}) => {
     const [height, setHeight] = useState("auto");
     const [width, setWidth] = useState("100%");
 
-    const [toolTip2, setToolTip2] = useState(false);
-
-    const openSecondToolTip = () => {
-        setToolTip2(true);
-    };
-
     const changeImageSize = () => {
         setHeight(heightFieldValue === 0 ? "auto" : `${heightFieldValue}px`);
         setWidth(widthFieldValue === 0 ? "100%" : `${widthFieldValue}px`);
-        setToolTip2(false);
+    };
+
+    const resetImageSize = () => {
+        setHeight("auto");
+        setWidth("100%");
+        setHeightFieldValue(0);
+        setWidthFieldValue(0);
     };
 
     const confirm = () => {
+        editor.unwrapBlock("align");
         editor.delete();
     };
 
     const rightAlign = () => {
-        console.log("clicked right align.");
-        // editor.wrapBlock('col').splitInline(editor.insertBlock("paragraph").wrapBlock('col')).wrapBlock('row');
-        editor.wrapBlock("col").wrapBlock("row");
+        editor.insertBlockAlign("right", "image");
+    };
+
+    const leftAlign = () => {
+        editor.insertBlockAlign("left", "image");
+    };
+
+    const centerAlign = () => {
+        editor.unwrapBlock("align");
     };
 
     return (
-        <Fragment>
-
-            <Popover
-                content={
-                    <Fragment>
-                        <Row gutter={0} style={{marginBottom: "5px"}}>
-                            <Col span={12}>
-                                <InputNumber min={1} placeholder="height"
-                                             onChange={value => setHeightFieldValue(value)}/>
-                            </Col>
-                            <Col span={12}>
-                                <InputNumber min={1} placeholder="width" onChange={value => setWidthFieldValue(value)}/>
-                            </Col>
-                        </Row>
-                        <Button onClick={changeImageSize}>
-                            <Icon type="check"/>
-                        </Button>
-                    </Fragment>
-                }
-                title="Title"
-                trigger="click"
-                visible={toolTip2}
-            >
-                <Popover
-                    content={
-                        <Fragment>
-                            <Button style={{marginRight: "5px"}} onClick={rightAlign}>
-                                <Icon type="align-right"/>
-                            </Button>
-                            <Button style={{marginRight: "5px"}} onClick={openSecondToolTip}>
-                                <Icon type="edit"/>
-                            </Button>
-                            <Popconfirm
-                                placement="rightTop"
-                                title="are your sure."
-                                onConfirm={confirm}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button><Icon type="delete"/></Button>
-                            </Popconfirm>
-                        </Fragment>
-                    }
-                    trigger="click"
-                    visible={isSelected}
-                >
-                    <img className="image" {...attributes} src={src} alt="no photo"/>
-                </Popover>
-            </Popover>
-
-            <style jsx global>
-                {`
-                    img.image {
-                        width: ${width};
-                        height: ${height};
-                        outline: ${isSelected ? "3px solid red" : ""};
-                    }
-                `}
-            </style>
-        </Fragment>
+        <Popover
+            content={
+                <Fragment>
+                    <Button style={{ marginRight: "5px" }} onClick={leftAlign}>
+                        <Icon type="align-left" />
+                    </Button>
+                    <Button style={{ marginRight: "5px" }} onClick={centerAlign}>
+                        <Icon type="align-center" />
+                    </Button>
+                    <Button style={{ marginRight: "5px" }} onClick={rightAlign}>
+                        <Icon type="align-right" />
+                    </Button>
+                    <InputNumber style={{ marginRight: "5px" }} value={heightFieldValue} min={0} placeholder="height" onChange={value => setHeightFieldValue(value)} />
+                    <InputNumber style={{ marginRight: "5px" }} value={widthFieldValue} min={0} placeholder="width" onChange={value => setWidthFieldValue(value)} />
+                    <Button style={{ marginRight: "5px" }} onClick={changeImageSize}>
+                        <Icon type="check" />
+                    </Button>
+                    <Button style={{ marginRight: "5px" }} onClick={resetImageSize}>
+                        <Icon type="undo" />
+                    </Button>
+                    <Popconfirm
+                        placement="rightTop"
+                        title="are your sure."
+                        onConfirm={confirm}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button><Icon type="delete" /></Button>
+                    </Popconfirm>
+                </Fragment>
+            }
+            trigger="click"
+            visible={isSelected}
+        >
+            <div style={{ textAlign: "center" }}>
+                <img className="image" {...attributes} src={src} alt="no photo" />
+                <style jsx>
+                    {`
+                        img.image {
+                            width: ${width};
+                            height: ${height};
+                            outline: ${isSelected ? "3px solid red" : ""};
+                        }
+                    `}
+                </style>
+            </div>
+        </Popover>
     );
 };
 

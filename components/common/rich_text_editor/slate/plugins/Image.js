@@ -7,7 +7,7 @@ const Image = {
 
             editor.insertBlock({
                 type: "image",
-                data: {src},
+                data: {src}
             });
         }
     }

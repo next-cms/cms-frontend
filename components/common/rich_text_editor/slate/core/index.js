@@ -1,6 +1,6 @@
-import {Button} from "antd";
+import { Button } from "antd";
 import React from "react";
-import {getEventTransfer} from "slate-react";
+import { getEventTransfer } from "slate-react";
 import isUrl from "is-url";
 import imageExtensions from "image-extensions";
 import Plain from "slate-plain-serializer";
@@ -16,7 +16,7 @@ export const hasBlock = (type, value) => {
 };
 
 
-export const onClickMark = (event, type, {editor}) => {
+export const onClickMark = (event, type, { editor }) => {
     event.preventDefault();
     editor.toggleMark(type);
 };
@@ -28,7 +28,7 @@ const opts = {
     typeContent: "paragraph"
 };
 
-const onClickInsertable = (event, type, {value, editor, showModal}) => {
+const onClickInsertable = (event, type, { value, editor, showModal }) => {
     event.preventDefault();
 
     if (type === "image") {
@@ -43,13 +43,32 @@ const onClickInsertable = (event, type, {value, editor, showModal}) => {
     }
 };
 
-const onClickBlock = (event, type, {value, editor}) => {
+const onClickAlignment = (event, alignType, { value, editor }) => {
+
+    const isImage = hasBlock("image", value);
+
+    let type = null;
+
+    if (isImage) {
+        if (alignType === "center") {
+            editor.unwrapBlock("align");
+            return;
+        }
+        type = "image";
+    }
+
     event.preventDefault();
 
-    const {document} = value;
+    editor.insertBlockAlign(alignType, type);
+};
+
+const onClickBlock = (event, type, { value, editor }) => {
+    event.preventDefault();
+
+    const { document } = value;
+    const isActive = hasBlock(type, value);
 
     if (type !== "bulleted-list" && type !== "numbered-list") {
-        const isActive = hasBlock(type, value);
         const isList = hasBlock("list-item", value);
 
         if (isList) {
@@ -85,24 +104,27 @@ const onClickBlock = (event, type, {value, editor}) => {
 };
 
 
-export const renderMarkButton = (type, icon, {value, editor}) => {
+export const renderMarkButton = (type, icon, { value, editor }) => {
+
     const isActive = hasMark(type, value);
 
     return (
         <Button
+            style={{ fontSize: "24px" }}
+            shape="circle"
             type={isActive ? "primary" : "default"}
-            onMouseDown={event => onClickMark(event, type, {editor})}
+            onMouseDown={event => onClickMark(event, type, { editor })}
         >
             {icon}
         </Button>
     );
 };
 
-export const renderBlockButton = (type, icon, {value, editor}) => {
+export const renderBlockButton = (type, icon, { value, editor }) => {
     let isActive = hasBlock(type, value);
 
     if (["numbered-list", "bulleted-list"].includes(type)) {
-        const {document, blocks} = value;
+        const { document, blocks } = value;
 
         if (blocks.size > 0) {
             const parent = document.getParent(blocks.first().key);
@@ -112,18 +134,37 @@ export const renderBlockButton = (type, icon, {value, editor}) => {
 
     return (
         <Button
+            style={{ fontSize: "24px" }}
+            shape="circle"
             type={isActive ? "primary" : "default"}
-            onMouseDown={event => onClickBlock(event, type, {value, editor})}
+            onMouseDown={event => onClickBlock(event, type, { value, editor })}
         >
             {icon}
         </Button>
     );
 };
 
-export const renderInsertableBlockButton = (type, icon, {value, editor, showModal}) => {
+export const renderInsertableBlockButton = (type, icon, { value, editor, showModal }) => {
     return (
-        <Button type="primary" ghost={true}
-                onMouseDown={event => onClickInsertable(event, type, {value, editor, showModal})}>
+        <Button
+            style={{ fontSize: "24px" }}
+            type="primary"
+            shape="circle"
+            onMouseDown={event => onClickInsertable(event, type, { value, editor, showModal })}
+        >
+            {icon}
+        </Button>
+    );
+};
+
+export const renderAlignmentButton = (alignType, icon, { value, editor }) => {
+    return (
+        <Button
+            style={{ fontSize: "24px" }}
+            shape="circle"
+            type="dashed"
+            onMouseDown={event => onClickAlignment(event, alignType, { value, editor })}
+        >
             {icon}
         </Button>
     );
@@ -136,7 +177,7 @@ export const onDropOrPaste = (event, editor, next) => {
     if (!target && event.type === "drop") return next();
 
     const transfer = getEventTransfer(event);
-    const {type, text, files} = transfer;
+    const { type, text, files } = transfer;
 
     if (type === "files") {
         event.preventDefault();
@@ -165,7 +206,7 @@ export const onDropOrPaste = (event, editor, next) => {
     if (value.startBlock.type === "table-cell") {
         if (text) {
             const lines = text.split("\n");
-            const {document} = Plain.deserialize(lines[0] || "");
+            const { document } = Plain.deserialize(lines[0] || "");
             editor.insertFragment(document);
             return;
         }
@@ -196,9 +237,9 @@ const onEnter = (event, editor, next) => {
  * @param {next} next
  */
 export const onKeyDown = (event, editor, next) => {
-    const {value} = editor;
-    const {document, selection} = value;
-    const {start, isCollapsed} = selection;
+    const { value } = editor;
+    const { document, selection } = value;
+    const { start, isCollapsed } = selection;
     const startNode = document.getDescendant(start.key);
 
     if (isCollapsed && start.isAtStartOfNode(startNode)) {
@@ -238,8 +279,8 @@ export const onKeyDown = (event, editor, next) => {
  */
 
 const onBackspace = (event, editor, next) => {
-    const {value} = editor;
-    const {selection} = value;
+    const { value } = editor;
+    const { selection } = value;
     if (selection.start.offset !== 0) return;
     event.preventDefault();
     return next();
@@ -254,8 +295,8 @@ const onBackspace = (event, editor, next) => {
  */
 
 const onDelete = (event, editor, next) => {
-    const {value} = change;
-    const {selection} = value;
+    const { value } = change;
+    const { selection } = value;
     if (selection.end.offset !== value.startText.text.length) return;
     event.preventDefault();
     return next();

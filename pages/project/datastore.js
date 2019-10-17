@@ -20,7 +20,7 @@ export const DataStore = (props) => {
             flex: "0 0 100%",
             flexDirection: "column",
             minHeight: "calc(100vh - 80px)",
-            padding: 0
+            padding: "20px"
         }}>
             <RichTextEditor/>
             {/*<ProjectDataStore project={props.project}/>*/}
