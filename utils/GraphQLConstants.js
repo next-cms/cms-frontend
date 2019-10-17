@@ -214,8 +214,8 @@ query allDataModelTemplates($limit: Int!, $skip: Int!) {
 }`;
 
 export const ALL_DATAMODELS = `
-query allMedia($projectId: String!, $limit: Int!, $skip: Int!) {
-  allMedia(projectId: $projectId, limit: $limit, skip: $skip) {
+query allDataModels($projectId: String!, $limit: Int!, $skip: Int!) {
+  allDataModels(projectId: $projectId, limit: $limit, skip: $skip) {
     id
     projectId
     name
