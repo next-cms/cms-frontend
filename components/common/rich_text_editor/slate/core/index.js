@@ -43,13 +43,34 @@ const onClickInsertable = (event, type, {value, editor, showModal}) => {
     }
 };
 
+const onClickAlignment = (event, alignType, {value, editor}) => {
+
+    const isImage = hasBlock("image", value);
+
+    let type = null;
+
+    if(isImage) {
+        if(alignType === "center") {
+            editor.unwrapBlock("align");
+            return;
+        }
+        type = "image";
+    }
+
+
+
+    event.preventDefault();
+
+    editor.insertBlockAlign(alignType, type);
+};
+
 const onClickBlock = (event, type, {value, editor}) => {
     event.preventDefault();
 
     const {document} = value;
+    const isActive = hasBlock(type, value);
 
     if (type !== "bulleted-list" && type !== "numbered-list") {
-        const isActive = hasBlock(type, value);
         const isList = hasBlock("list-item", value);
 
         if (isList) {
@@ -86,6 +107,7 @@ const onClickBlock = (event, type, {value, editor}) => {
 
 
 export const renderMarkButton = (type, icon, {value, editor}) => {
+    
     const isActive = hasMark(type, value);
 
     return (
@@ -124,6 +146,15 @@ export const renderInsertableBlockButton = (type, icon, {value, editor, showModa
     return (
         <Button type="primary" ghost={true}
                 onMouseDown={event => onClickInsertable(event, type, {value, editor, showModal})}>
+            {icon}
+        </Button>
+    );
+};
+
+export const renderAlignmentButton = (alignType, icon, {value, editor}) => {
+    return (
+        <Button type="primary" ghost={true}
+                onMouseDown={event => onClickAlignment(event, alignType, {value, editor})}>
             {icon}
         </Button>
     );

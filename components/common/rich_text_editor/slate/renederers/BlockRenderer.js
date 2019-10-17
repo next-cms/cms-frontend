@@ -1,8 +1,7 @@
 import React from "react";
 import ImageComponent from "../components/ImageComponent";
-import {Col, Row} from "antd";
 import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
-import BlockAlign from "../components/BlockAlign";
+import BlockAlignment from "../components/BlockAlignment";
 
 const renderBlock = (props, editor, next) => {
 
@@ -24,18 +23,9 @@ const renderBlock = (props, editor, next) => {
         case "image": {
             return <ImageComponent src={node.data.get("src")} editor={editor} {...props} />;
         }
-        case "align-left": {
-            return <BlockAlign align="left" {...props}>{children}</BlockAlign>;
+        case "align": {
+            return <BlockAlignment align={node.data.get("alignType")} type={node.data.get("type")} {...props}>{children}</BlockAlignment>;
         }
-        case "align-right": {
-            return <BlockAlign align="right" {...props}>{children}</BlockAlign>;
-        }
-        case "col": {
-            return <Col xs={12} {...attributes}>{children}</Col>;
-        }
-        case "row": {
-            return <Row gutter={8} {...attributes}>{children}</Row>;
-        } 
         case "table":
             return <Table {...props} />;
         case "table_row":
