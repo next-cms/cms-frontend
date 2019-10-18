@@ -49,4 +49,8 @@ const Home = () => {
     }
 };
 
-export default withAuthSync(Home);
+const WrappedHome = withAuthSync(Home);
+
+WrappedHome.isSimpleLayout = true;
+
+export default WrappedHome;

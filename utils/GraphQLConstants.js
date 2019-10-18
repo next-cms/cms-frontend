@@ -119,9 +119,12 @@ export const PROJECT_DETAILS = `
 query projectDetailsQuery($projectId: String!) {
     project(id: $projectId) {
         id
+        name
         title
         description
         websiteUrl
+        siteName
+        port
         brand {
             icon
             siteTitle
@@ -148,8 +151,8 @@ mutation createProject($title: String!, $description: String, $websiteUrl: Strin
 }`;
 
 export const UPDATE_PROJECT = `
-mutation UpdateProject($id: String!, $title: String!, $description: String, $websiteUrl: String!, $siteMeta: String, $brand: BrandInput) {
-  updateProject(id: $id, title: $title, description: $description, websiteUrl: $websiteUrl, siteMeta: $siteMeta, brand: $brand) {
+mutation UpdateProject($project: ProjectInput!) {
+  updateProject(project: $project) {
     id
   }
 }`;
