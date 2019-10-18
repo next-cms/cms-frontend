@@ -1,150 +1,93 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Table, Button, Icon, Divider, message } from "antd";
-import ModalComponent from "../common/ModalComponent";
-import CreateNewModel from "../common/CreateNewModel";
-import * as moment from "moment";
-import { ALL_DATAMODELS, ADD_DATAMODEL } from "../../utils/GraphQLConstants";
-import { useQuery, useMutation } from "graphql-hooks";
-import { withRouter } from "next/router";
-import { handleGraphQLAPIErrors } from "/home/vivasoft/Downloads/core_cms_frontend/utils/helpers";
+import React, { useEffect, useState, Fragment } from 'react';
+import { Table, message, Button } from 'antd';
+import { useQuery } from 'graphql-hooks';
+import { ALL_DATA_OBJECTS_BY_TYPE, ALL_DATA_MODELS } from '../../utils/GraphQLConstants';
+import { handleGraphQLAPIErrors } from '../../utils/helpers';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import RoutesInfo from '../../constants/RoutesInfo';
 
-// eslint-disable-next-line react/prop-types
-const ProjectDataStore = ({ router }) => {
+const ProjectDataStore = () => {
+
+    const router = useRouter();
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
-    const [isModal, setIsModal] = useState(false);
-    const [current, setCurrent] = useState(1);
-    const [templateData, setTemplateData] = useState({});
-    const [addDataModel] = useMutation(ADD_DATAMODEL);
 
-    // eslint-disable-next-line react/prop-types
-    const projectId = router.query.projectId;
-    console.log("route: ", projectId);
+    const [projectId, setProjectId] = useState(router.query.projectId);
 
-    const { loading, error, data, refetch } = useQuery(ALL_DATAMODELS, {
-        variables: { projectId, skip, limit: pageSize }
+    // const {loading, error, data, refetch} = useQuery(ALL_DATA_MODELS, {
+    //     variables: {skip, limit: pageSize},
+    //     skipCache: true
+    // });
+    
+    const {loading, error, data, refetch} = useQuery(ALL_DATA_OBJECTS_BY_TYPE, {
+        variables: {projectId, type: "post", skip, limit: pageSize},
+        skipCache: true
     });
-
-    const onChange = page => {
-        setSkip((page - 1) * pageSize);
-        setCurrent(page);
-    };
 
     useEffect(() => {
         if (error) {
             handleGraphQLAPIErrors(error);
         }
+        console.log("loading:", loading);
         let hideMessage;
         if (loading && !data) {
             hideMessage && hideMessage();
-            hideMessage = message.loading("Loading data models...", 0);
-        }
-        else {
+            hideMessage = message.loading("Loading recent projects...", 0);
+        } else {
             hideMessage && hideMessage();
             hideMessage = null;
         }
-        if (hideMessage) {
-            return hideMessage;
-        }
-
+        if (hideMessage) return hideMessage;
     }, [error, loading]);
 
-    if (error || !data) return null;
-    const { allDataModels, _allDataModelsMeta } = data;
-    console.log("Data Models: ", allDataModels);
+    const dataSource = [
+        {
+            projectId: '1',
+            type: 'Mike',
+            createdAt: 32,
+            modifiedAt: '10 Downing Street',
+        },
+        {
+            projectId: '2',
+            type: 'John',
+            createdAt: 42,
+            modifiedAt: '10 Downing Street',
+        },
+    ];
 
     const columns = [
         {
-            title: "Name",
-            dataIndex: "name",
-            key: "name"
+            title: 'Project Id',
+            dataIndex: 'projectId',
+            key: 'projectId',
         },
         {
-            title: "Type",
-            dataIndex: "type",
-            key: "type"
+            title: 'Type',
+            dataIndex: 'type',
+            key: 'type',
         },
         {
-            title: "CreatedAt",
-            dataIndex: "createdAt",
-            key: "createdAt"
+            title: 'Created At',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
         },
         {
-            title: "ModifiedAt",
-            dataIndex: "modifiedAt",
-            key: "modifiedAt"
+            title: 'Modified At',
+            dataIndex: 'modifiedAt',
+            key: 'modifiedAt',
         },
-        {
-            title: "Action",
-            key: "action",
-            render: (text, record) => (
-                <span>
-                    <a>
-                        <Icon type="edit" />
-                    </a>
-                    <Divider type="vertical" />
-                    <a>
-                        <Icon type="delete" />
-                    </a>
-                </span>
-            )
-        }
     ];
-
-    const getTemplateData = (value) => {
-        setTemplateData(value);
-    };
-
-    const _handleCancel = () => {
-        setIsModal(false);
-    };
-
-    const _handleOk = async (e) => {
-        setIsModal(false);
-        templateData.projectId = projectId;
-        const result = await addDataModel({
-            variables: { dataModel: templateData, projectId }
-        });
-        if (!result.error) {
-            refetch({ variables: { projectId, skip, limit: pageSize } });
-        }
-
-    };
-
-    const openModal = () => {
-        setIsModal(true);
-    };
 
 
     return (
-        <div style={{ width: "100%", padding: "10px" }}>
-            <Row style={{ marginBottom: "10px" }} type="flex" justify="space-between">
-                <Col>
-                    <h2>Title</h2>
-                </Col>
-                <Col>
-                    <Button onClick={openModal} type="primary">Create Data Model</Button>
-                </Col>
-            </Row>
-            <Table dataSource={allDataModels} columns={columns} pagination={{
-                pageSize: pageSize,
-                total: _allDataModelsMeta.count === null ? 0 : _allDataModelsMeta.count,
-                current,
-                onChange,
-
-            }}
-                rowKey="id" />
-            <ModalComponent
-                handleCancel={_handleCancel}
-                handleOk={_handleOk}
-                visible={isModal}
-                okText="Next"
-                title="Data Model Form"
-            >
-                <CreateNewModel templateData={getTemplateData} />
-            </ModalComponent>
-        </div>
+        <Fragment>
+            <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=new`}>
+                <Button type="primary">Add Post</Button>
+            </Link>
+            <Table dataSource={dataSource} columns={columns} rowKey={"projectId"}  />
+        </Fragment>
     );
-};
+}
 
-export default withRouter(ProjectDataStore);
+export default ProjectDataStore;

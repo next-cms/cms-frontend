@@ -213,7 +213,7 @@ query allDataModelTemplates($limit: Int!, $skip: Int!) {
   }
 }`;
 
-export const ALL_DATAMODELS = `
+export const ALL_DATA_MODELS = `
 query allDataModels($projectId: String!, $limit: Int!, $skip: Int!) {
   allDataModels(projectId: $projectId, limit: $limit, skip: $skip) {
     id

@@ -1,8 +1,8 @@
-import React, {useContext} from "react";
-import {Toolbar} from "../SlateComponet";
-import {renderInsertableBlockButton} from "../core";
-import {RTEContext} from "../RTEContextProvider";
-import {MdDelete} from "react-icons/md";
+import React, { useContext, Fragment } from "react";
+import { Toolbar } from "../SlateComponet";
+import { renderInsertableBlockButton } from "../core";
+import { RTEContext } from "../RTEContextProvider";
+import { MdDelete, MdExposureNeg1, MdExposurePlus1 } from "react-icons/md";
 
 const TableToolBar = () => {
     const rteContext = useContext(RTEContext);
@@ -14,13 +14,26 @@ const TableToolBar = () => {
     // if (isOutTable) return null;
 
     return (
-        <Toolbar>
-            {renderInsertableBlockButton("table_row", "R", rteContext)}
-            {renderInsertableBlockButton("table_col", "C", rteContext)}
-            {renderInsertableBlockButton("delete_table_row", "xR", rteContext)}
-            {renderInsertableBlockButton("delete_table_col", "xC", rteContext)}
-            {renderInsertableBlockButton("delete_table", <MdDelete/>, rteContext)}
-        </Toolbar>
+        <div style={{
+            display: "flex"
+        }}>
+            <div style={{margin: "0 10px"}}>
+                <p>Row</p>
+                {renderInsertableBlockButton("table_row", <MdExposurePlus1 />, rteContext)}
+                &nbsp;
+                {renderInsertableBlockButton("delete_table_row", <MdExposureNeg1 />, rteContext)}
+            </div>
+            <div style={{margin: "0 10px"}}>
+                <p>Col</p>
+                {renderInsertableBlockButton("table_col", <MdExposurePlus1 />, rteContext)}
+                &nbsp;
+                {renderInsertableBlockButton("delete_table_col", <MdExposureNeg1 />, rteContext)}
+            </div>
+            <div style={{margin: "0 10px"}}>
+                <p>Extra</p>
+                {renderInsertableBlockButton("delete_table", <MdDelete />, rteContext)}
+            </div>
+        </div>
     );
 };
 
