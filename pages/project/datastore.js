@@ -4,8 +4,6 @@ import {withAuthSync} from "../../utils/withAuthSync";
 import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import RoutesInfo from "../../constants/RoutesInfo";
-import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
-import RichTextViewer from "../../components/common/rich_text_editor/slate/RichTextViewer";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 
 export const DataStore = (props) => {

@@ -81,7 +81,7 @@ export default {
     },
     Post: {
         slug: "post",
-        path: "/post",
-        pathAs: "/post"
+        path: "/project/post",
+        pathAs: "/project/post"
     },
 };

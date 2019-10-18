@@ -151,7 +151,7 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
     const button = isPopover ? (
         <Menu>
             <Menu.Item
-                style={{ 
+                style={{
                     backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
                     color: `${isActive ? "#ffffff" : "#1890ff"}`,
                 }}
@@ -232,7 +232,7 @@ export const onDropOrPaste = (event, editor, next) => {
         editor.insertImage(text, target);
         return;
     }
-
+    const {value} = editor;
     if (value.startBlock.type === "table-cell") {
         if (text) {
             const lines = text.split("\n");

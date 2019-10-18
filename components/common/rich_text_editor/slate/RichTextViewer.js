@@ -6,9 +6,9 @@ const RichTextViewer = () => {
 
     return (
         <RTEContextProvider>
-            <ViewCore />        
+            <ViewCore />
         </RTEContextProvider>
     );
-}
+};
 
 export default RichTextViewer;
