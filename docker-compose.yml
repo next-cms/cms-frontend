@@ -6,11 +6,10 @@ services:
         image: pi-cms-frontend:0.1.0
         build:
             context: .
-            dockerfile: Dockerfile-frontend
+            dockerfile: Dockerfile
         ports:
             - "3000:3000"
-        networks:
-            - host
+        network_mode: host
         volumes:
             - ./.env:/usr/src/app/.env
-        restart: 'no'
+        restart: 'always'
