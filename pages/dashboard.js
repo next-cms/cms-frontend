@@ -1,7 +1,7 @@
 import React, {Fragment, useContext, useEffect, useState} from "react";
 import {Button, Divider, Icon, message, PageHeader, Table, Typography} from "antd";
 import Link from "next/link";
-import "../static/scss/dashboard.scss";
+import "../styles/scss/dashboard.scss";
 import PageWrapper from "../components/common/PageWrapper";
 import RecentProjects from "../components/projects/RecentProjects";
 import {withAuthSync} from "../utils/withAuthSync";

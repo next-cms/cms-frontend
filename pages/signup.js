@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Button, Form, Input } from "antd";
 
-import "../static/scss/signup.scss";
+import "../styles/scss/signup.scss";
 import { useMutation } from "graphql-hooks";
 import { redirectTo } from "../components/common/Redirect";
 import * as PropTypes from "prop-types";
