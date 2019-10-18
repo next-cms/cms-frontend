@@ -3,7 +3,7 @@ import { Select, Input, message } from "antd";
 import { ALL_DATAMODEL_TEMPLATES } from "../../utils/GraphQLConstants";
 const { Option } = Select;
 import { useQuery } from "graphql-hooks";
-import { handleGraphQLAPIErrors } from "/home/vivasoft/Downloads/core_cms_frontend/utils/helpers";
+import { handleGraphQLAPIErrors } from "../../utils/helpers";
 
 const CreateNewModel = props => {
     const [modelData, setmodelData] = useState({

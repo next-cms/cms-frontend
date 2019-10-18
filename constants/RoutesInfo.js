@@ -78,5 +78,10 @@ export default {
         slug: "profile",
         path: "/profile",
         pathAs: "/profile"
-    }
+    },
+    Post: {
+        slug: "post",
+        path: "/post",
+        pathAs: "/post"
+    },
 };
