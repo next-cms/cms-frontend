@@ -135,7 +135,7 @@ query projectDetailsQuery($projectId: String!) {
 }`;
 
 export const DELETE_PROJECT = `
-mutation DeleteProject($id: ID!){
+mutation DeleteProject($id: String!){
     deleteProject(id: $id)
 }`;
 
@@ -155,6 +155,11 @@ mutation UpdateProject($project: ProjectInput!) {
   updateProject(project: $project) {
     id
   }
+}`;
+
+export const DEPLOY_PROJECT = `
+mutation deployProject($id: ID!) {
+  deployProject(id: $id)
 }`;
 
 export const RECENT_PROJECTS = `
@@ -275,6 +280,7 @@ export const ALL_DATA_OBJECTS = `
 query allDataObjects($projectId: String!, $limit: Int!, $skip: Int!) {
   allDataObjects(projectId: $projectId, limit: $limit, skip: $skip) {
     id
+    title
     projectId
     type
     templateTypeId
@@ -292,6 +298,7 @@ export const ALL_DATA_OBJECTS_BY_TYPE = `
 query allDataObjectsByType($projectId: String!, $type: String!, $limit: Int!, $skip: Int!) {
   allDataObjectsByType(projectId: $projectId, type: $type, limit: $limit, skip: $skip) {
     id
+    title
     projectId
     type
     templateTypeId
@@ -309,6 +316,7 @@ export const ADD_DATA_OBJECT = `
 mutation addDataObject($dataObject: DataObjectInput!, $projectId: String!) {
   addDataObject(dataObject: $dataObject, projectId: $projectId) {
     id
+    title
     projectId
     type
     templateTypeId
@@ -323,6 +331,7 @@ export const UPDATE_DATA_OBJECT = `
 mutation updateDataObject($dataObject: DataObjectInput!, $projectId: String!) {
   updateDataObject(dataObject: $dataObject, projectId: $projectId) {
     id
+    title
     projectId
     type
     templateTypeId

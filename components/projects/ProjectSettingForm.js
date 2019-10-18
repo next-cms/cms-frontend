@@ -128,19 +128,19 @@ const ProjectSettingForm = (props) => {
                 })(<Input placeholder="Site Name"/>)}
             </FormItem>
 
-            <FormItem label="Port" extra={
-                <p>Specify the port in which the application will be mapped and be discoverable. Without the port you
-                    will not be able to access the site.</p>
-            }>
+            {/*<FormItem label="Port" extra={*/}
+            {/*<p>Specify the port in which the application will be mapped and be discoverable. Without the port you*/}
+            {/*will not be able to access the site.</p>*/}
+            {/*}>*/}
 
-                {getFieldDecorator("port", {
-                    rules: [
-                        {
-                            required: false,
-                        }
-                    ],
-                })(<Input placeholder="Port"/>)}
-            </FormItem>
+            {/*{getFieldDecorator("port", {*/}
+            {/*rules: [*/}
+            {/*{*/}
+            {/*required: false,*/}
+            {/*}*/}
+            {/*],*/}
+            {/*})(<Input placeholder="Port"/>)}*/}
+            {/*</FormItem>*/}
 
             <FormItem>
                 <Button type="primary" htmlType="submit">Save</Button>
