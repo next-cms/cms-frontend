@@ -1,4 +1,7 @@
 import React from "react";
+import { Typography } from 'antd';
+
+const { Text } = Typography;
 
 const renderMark = (props, editor, next) => {
 
@@ -6,7 +9,9 @@ const renderMark = (props, editor, next) => {
         case "bold":
             return <strong>{props.children}</strong>;
         case "code":
-            return <code>{props.children}</code>;
+            return <Text code>{props.children}</Text>;
+        case "mark":
+            return <Text mark>{props.children}</Text>;
         case "italic":
             return <em>{props.children}</em>;
         case "strikethrough":

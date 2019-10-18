@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Menu } from "antd";
 import React from "react";
 import { getEventTransfer } from "slate-react";
 import isUrl from "is-url";
@@ -76,7 +76,7 @@ const onClickAlignment = (event, alignType, { value, editor }) => {
 const onClickBlock = (event, type, { value, editor }) => {
     event.preventDefault();
 
-    if(type === "split") {
+    if (type === "split") {
         editor.split();
         return;
     }
@@ -136,7 +136,7 @@ export const renderMarkButton = (type, icon, { value, editor }) => {
     );
 };
 
-export const renderBlockButton = (type, icon, { value, editor }) => {
+export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
     let isActive = hasBlock(type, value);
 
     if (["numbered-list", "bulleted-list"].includes(type)) {
@@ -148,7 +148,19 @@ export const renderBlockButton = (type, icon, { value, editor }) => {
         }
     }
 
-    return (
+    const button = isPopover ? (
+        <Menu>
+            <Menu.Item
+                style={{ 
+                    backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
+                    color: `${isActive ? "#ffffff" : "#1890ff"}`,
+                }}
+                onMouseDown={event => onClickBlock(event, type, { value, editor })}
+            >
+                {icon}
+            </Menu.Item>
+        </Menu>
+    ) : (
         <Button
             style={{ fontSize: "24px" }}
             shape="circle"
@@ -157,7 +169,9 @@ export const renderBlockButton = (type, icon, { value, editor }) => {
         >
             {icon}
         </Button>
-    );
+    )
+
+    return (button);
 };
 
 export const renderInsertableBlockButton = (type, icon, { value, editor, showModal }) => {
