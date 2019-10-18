@@ -119,9 +119,12 @@ export const PROJECT_DETAILS = `
 query projectDetailsQuery($projectId: String!) {
     project(id: $projectId) {
         id
+        name
         title
         description
         websiteUrl
+        siteName
+        port
         brand {
             icon
             siteTitle
@@ -132,7 +135,7 @@ query projectDetailsQuery($projectId: String!) {
 }`;
 
 export const DELETE_PROJECT = `
-mutation DeleteProject($id: ID!){
+mutation DeleteProject($id: String!){
     deleteProject(id: $id)
 }`;
 
@@ -148,10 +151,15 @@ mutation createProject($title: String!, $description: String, $websiteUrl: Strin
 }`;
 
 export const UPDATE_PROJECT = `
-mutation UpdateProject($id: String!, $title: String!, $description: String, $websiteUrl: String!, $siteMeta: String, $brand: BrandInput) {
-  updateProject(id: $id, title: $title, description: $description, websiteUrl: $websiteUrl, siteMeta: $siteMeta, brand: $brand) {
+mutation UpdateProject($project: ProjectInput!) {
+  updateProject(project: $project) {
     id
   }
+}`;
+
+export const DEPLOY_PROJECT = `
+mutation deployProject($id: ID!) {
+  deployProject(id: $id)
 }`;
 
 export const RECENT_PROJECTS = `
@@ -214,14 +222,14 @@ query allDataModelTemplates($limit: Int!, $skip: Int!) {
 }`;
 
 export const ALL_DATAMODELS = `
-query allMedia($projectId: String!, $limit: Int!, $skip: Int!) {
-  allMedia(projectId: $projectId, limit: $limit, skip: $skip) {
+query allDataModels($projectId: String!, $limit: Int!, $skip: Int!) {
+  allDataModels(projectId: $projectId, limit: $limit, skip: $skip) {
     id
     projectId
     name
     type
     templateTypeId
-    templateFields
+    fields
     contents
     createdAt
     modifiedAt
@@ -239,7 +247,7 @@ mutation addDataModel($dataModel: DataModelInput!, $projectId: String!) {
     name
     type
     templateTypeId
-    templateFields
+    fields
     contents
     createdAt
     modifiedAt
@@ -254,9 +262,89 @@ mutation updateDataModel($dataModel: DataModelInput!, $projectId: String!) {
     name
     type
     templateTypeId
-    templateFields
+    fields
     contents
     createdAt
     modifiedAt
+  }
+}`;
+
+export const DELETE_DATAMODEL = `
+mutation deleteDataModel($id: String!, $projectId: String!) {
+  deleteDataModel(id: $id, projectId: $projectId) {
+    id
+  }
+}`;
+
+export const ALL_DATA_OBJECTS = `
+query allDataObjects($projectId: String!, $limit: Int!, $skip: Int!) {
+  allDataObjects(projectId: $projectId, limit: $limit, skip: $skip) {
+    id
+    title
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+  _allDataObjectsMeta {
+    count
+  }
+}`;
+
+export const ALL_DATA_OBJECTS_BY_TYPE = `
+query allDataObjectsByType($projectId: String!, $type: String!, $limit: Int!, $skip: Int!) {
+  allDataObjectsByType(projectId: $projectId, type: $type, limit: $limit, skip: $skip) {
+    id
+    title
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+  _allDataObjectsByTypeMeta {
+    count
+  }
+}`;
+
+export const ADD_DATA_OBJECT = `
+mutation addDataObject($dataObject: DataObjectInput!, $projectId: String!) {
+  addDataObject(dataObject: $dataObject, projectId: $projectId) {
+    id
+    title
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+}`;
+
+export const UPDATE_DATA_OBJECT = `
+mutation updateDataObject($dataObject: DataObjectInput!, $projectId: String!) {
+  updateDataObject(dataObject: $dataObject, projectId: $projectId) {
+    id
+    title
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+}`;
+
+export const DELETE_DATA_OBJECT = `
+mutation deleteDataObject($id: String!, $projectId: String!) {
+  deleteDataObject(id: $id, projectId: $projectId) {
+    id
   }
 }`;

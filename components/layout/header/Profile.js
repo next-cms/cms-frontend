@@ -1,14 +1,11 @@
 import React from "react";
-import {
-    Tabs,
-    PageHeader
-} from "antd";
+import {PageHeader, Tabs} from "antd";
 import PageWrapper from "../../common/PageWrapper";
 import BasicSetting from "../profile/BasicSetting";
 import SecuritySetting from "../profile/SecuiritySetting";
 import PrivacySetting from "../profile/PrivacySetting";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 const Profile = props => {
     const pageHeader = (
@@ -21,7 +18,7 @@ const Profile = props => {
     return (
         <div>
             <PageWrapper pageHeader={pageHeader}>
-                <Tabs tabPosition="left" tabBarStyle={{ width: 170 }}>
+                <Tabs tabPosition="left" tabBarStyle={{width: 170}}>
                     <TabPane forceRender tab="Basic Setting" key="1">
                         <h2>Basic Setting</h2>
                         <BasicSetting/>

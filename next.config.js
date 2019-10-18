@@ -40,6 +40,12 @@ const webpackConfig = (config, {isServer}) => {
 
 module.exports = withCss(withSass({
     webpack: webpackConfig,
+    env: {
+        API_BASE_URL: process.env.API_BASE_URL,
+        GRAPHQL_PATH: process.env.GRAPHQL_PATH,
+        NEXT_PROJECT_PATH: process.env.NEXT_PROJECT_PATH,
+        SINGLE_PROJECT_MODE: process.env.SINGLE_PROJECT_MODE,
+    },
     publicRuntimeConfig: {
         ...getURLConstants(process.env)
     },

@@ -1,19 +1,8 @@
-import React, { Fragment } from "react";
-import {
-    Tabs,
-    Button,
-    Row,
-    Col,
-    Form,
-    Input,
-    Avatar,
-    Upload,
-    Icon,
-    Select
-} from "antd";
+import React, {Fragment} from "react";
+import {Avatar, Button, Col, Form, Icon, Input, Row, Select, Upload} from "antd";
 
-const { TextArea } = Input;
-const { Option } = Select;
+const {TextArea} = Input;
+const {Option} = Select;
 const InputGroup = Input.Group;
 
 const BasicSetting = () => {
@@ -24,10 +13,10 @@ const BasicSetting = () => {
         <Fragment>
             <Row>
                 <Col span={18} push={8}>
-                    <Avatar size={160} icon="user" /> <br />
+                    <Avatar size={160} icon="user"/> <br/>
                     <Upload>
-                        <Button style={{ marginTop: 10, marginLeft: 5 }}>
-                            <Icon type="upload" /> Change Avatar
+                        <Button style={{marginTop: 10, marginLeft: 5}}>
+                            <Icon type="upload"/> Change Avatar
                         </Button>
                     </Upload>
                     ,
@@ -35,10 +24,10 @@ const BasicSetting = () => {
                 <Col span={6} pull={18}>
                     <Form layout="horizontal">
                         <Form.Item label="Change User Name:">
-                            <Input placeholder="Change your name" />
+                            <Input placeholder="Change your name"/>
                         </Form.Item>
                         <Form.Item label="Change Email Address:" type="email">
-                            <Input placeholder="Chnage your email address" />
+                            <Input placeholder="Chnage your email address"/>
                         </Form.Item>
                         <Form.Item label="Update Bio:">
                             <TextArea
@@ -49,7 +38,7 @@ const BasicSetting = () => {
                         <Form.Item label="Country/Region:">
                             <Select
                                 defaultValue="Select Region"
-                                style={{ width: 180 }}
+                                style={{width: 180}}
                                 onChange={handleChange}
                             >
                                 <Option value="Bangladesh">Bangladesh</Option>
@@ -61,7 +50,7 @@ const BasicSetting = () => {
                             <InputGroup compact>
                                 <Select
                                     defaultValue="Select Region"
-                                    style={{ width: "50%" }}
+                                    style={{width: "50%"}}
                                     onChange={handleChange}
                                 >
                                     <Option value="Bangladesh">
@@ -72,7 +61,7 @@ const BasicSetting = () => {
                                 </Select>
                                 <Select
                                     defaultValue="Select Region"
-                                    style={{ width: "50%" }}
+                                    style={{width: "50%"}}
                                     onChange={handleChange}
                                 >
                                     <Option value="Bangladesh">
@@ -87,7 +76,7 @@ const BasicSetting = () => {
                             <InputGroup compact>
                                 <Select
                                     defaultValue="+880"
-                                    style={{ width: "25%" }}
+                                    style={{width: "25%"}}
                                     onChange={handleChange}
                                 >
                                     <Option value="+880">+880</Option>
@@ -95,7 +84,7 @@ const BasicSetting = () => {
                                     <Option value="+24">+24</Option>
                                 </Select>
                                 <Input
-                                    style={{ width: "75%" }}
+                                    style={{width: "75%"}}
                                     placeholder="17xxxxxxxx"
                                 />
                             </InputGroup>

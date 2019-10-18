@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Icon} from "antd";
 import getConfig from "next/config";
+import * as PropTypes from "prop-types";
 
 const {publicRuntimeConfig} = getConfig();
 const {API_BASE_URL} = publicRuntimeConfig;
@@ -22,21 +23,23 @@ const cont = {
 };
 
 const SelectedImage = ({
-    index,
-    photo,
-    margin,
-    direction,
-    top,
-    left,
-    selected,
-    onSelectPhoto,
-    onViewImage
-}) => {
-    const [isSelected, setIsSelected] = useState(selected);
+                           index,
+                           photo,
+                           margin,
+                           direction,
+                           top,
+                           left,
+                           selectedAll,
+                           singleSelect,
+                           selectedItems,
+                           onSelectPhoto,
+                           onViewImage
+                       }) => {
+    const [isSelected, setIsSelected] = useState(selectedAll);
 
-    //calculate x,y scale
     const sx = (100 - (30 / photo.width) * 100) / 100;
     const sy = (100 - (30 / photo.height) * 100) / 100;
+
     selectedImgStyle.transform = `translateZ(0px) scale3d(${sx}, ${sy}, 1)`;
 
     if (direction === "column") {
@@ -46,22 +49,34 @@ const SelectedImage = ({
     }
 
     const handleOnSelectClick = () => {
+
         setIsSelected(!isSelected);
         onSelectPhoto(index, !isSelected, photo);
+
     };
 
     const handleOnViewClick = () => {
         onViewImage(index);
-    }
+    };
 
     useEffect(() => {
-        setIsSelected(selected);
-        onSelectPhoto(index, selected, photo);
-    }, [selected]);
+        if (singleSelect) {
+            setIsSelected(selectedItems[index]);
+        } else {
+            setIsSelected(selectedItems[index]);
+            // onSelectPhoto(index, selectedAll, photo);
+        }
+
+    }, [selectedItems]);
+
+    useEffect(() => {
+        setIsSelected(selectedAll);
+        onSelectPhoto(index, selectedAll, photo);
+    }, [selectedAll]);
 
     return (
         <div
-            style={{ margin, height: photo.height, width: photo.width, ...cont }}
+            style={{margin, height: photo.height, width: photo.width, ...cont}}
             className={!isSelected ? "gallery-item not-selected" : "gallery-item"}
         >
 
@@ -72,9 +87,9 @@ const SelectedImage = ({
                 onClick={handleOnSelectClick}
                 style={{
                     position: "absolute",
-                    visibility: `${isSelected ? 'visible' : ''}`,
-                    color: `${isSelected ? '#3e90ff' : '#eeeeee'}`,
-                    backgroundColor: `${isSelected ? '#eeeeee' : '#3e90ff'}`,
+                    visibility: `${isSelected ? "visible" : ""}`,
+                    color: `${isSelected ? "#3e90ff" : "#eeeeee"}`,
+                    backgroundColor: `${isSelected ? "#eeeeee" : "#3e90ff"}`,
                     top: "5px",
                     left: "5px",
                     fontSize: "20px",
@@ -85,15 +100,15 @@ const SelectedImage = ({
             <img
                 alt={photo.name}
                 style={
-                    isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
+                    isSelected ? {...imgStyle, ...selectedImgStyle} : {...imgStyle}
                 }
                 {...photo}
                 src={`${API_BASE_URL}${photo.src}`}
                 onClick={handleOnViewClick}
             />
             <style jsx global>
-            {
-                `
+                {
+                    `
                     .gallery-item .select-icon {
                         visibility: hidden;
                     }
@@ -104,10 +119,22 @@ const SelectedImage = ({
 
                     .not-selected:hover{outline:2px solid #06befa};
                 `
-            }
+                }
             </style>
         </div>
     );
+};
+
+SelectedImage.propTypes = {
+    index: PropTypes.number,
+    photo: PropTypes.object,
+    margin: PropTypes.string,
+    direction: PropTypes.string,
+    top: PropTypes.string,
+    left: PropTypes.string,
+    selected: PropTypes.bool,
+    onSelectPhoto: PropTypes.func,
+    onViewImage: PropTypes.func
 };
 
 export default SelectedImage;

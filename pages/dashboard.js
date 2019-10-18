@@ -12,10 +12,16 @@ import {ALL_PROJECTS_QUERY} from "../utils/GraphQLConstants";
 import {MenuContext} from "../contexts/MenuContextProvider";
 import {handleGraphQLAPIErrors} from "../utils/helpers";
 import RoutesInfo from "../constants/RoutesInfo";
+import {MetaRedirect} from "../components/common/Redirect";
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 const Dashboard = () => {
+    if (process.env.SINGLE_PROJECT_MODE === "true") {
+        return (
+            <MetaRedirect to={RoutesInfo.Home.path}/>
+        );
+    }
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const dataStoreContext = useContext(DataStoreContext);
@@ -63,7 +69,7 @@ const Dashboard = () => {
     }, [error, loading]);
 
     if (error || !data) return null;
-    const { projects, _projectsMeta } = data;
+    const {projects, _projectsMeta} = data;
 
     const onCancel = () => {
         setVisible(false);
@@ -105,13 +111,13 @@ const Dashboard = () => {
                 <span>
                     <Link href={`${RoutesInfo.Project.path}?projectId=${record.id}`}>
                         <a>
-                            <Icon style={{ color: "blue" }} type="edit" />
+                            <Icon style={{color: "blue"}} type="edit"/>
                         </a>
                     </Link>
-                    <Divider type="vertical" />
+                    <Divider type="vertical"/>
                     <Fragment>
                         <a onClick={() => handleClick(record)}>
-                            <Icon style={{ color: "red" }} type="delete" />
+                            <Icon style={{color: "red"}} type="delete"/>
                         </a>
 
                     </Fragment>
@@ -136,9 +142,9 @@ const Dashboard = () => {
         <PageWrapper pageHeader={pageHeader}>
             <Fragment>
                 <Title level={3}>Recent Project</Title>
-                <RecentProjects />
+                <RecentProjects/>
 
-                <Divider />
+                <Divider/>
 
                 <Title level={3}>All Project</Title>
                 <Table

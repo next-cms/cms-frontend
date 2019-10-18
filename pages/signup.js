@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-import {Button, Form, Input} from "antd";
+import { Button, Form, Input } from "antd";
 
 import "../static/scss/signup.scss";
-import {useMutation} from "graphql-hooks";
-import {redirectTo} from "../components/common/Redirect";
+import { useMutation } from "graphql-hooks";
+import { redirectTo } from "../components/common/Redirect";
 import * as PropTypes from "prop-types";
-import {SIGNUP} from "../utils/GraphQLConstants";
+import { SIGNUP } from "../utils/GraphQLConstants";
 import RoutesInfo from "../constants/RoutesInfo";
 
 const SignUp = props => {
@@ -24,19 +24,19 @@ const SignUp = props => {
                 });
 
                 if (!result.error) {
-                    return await redirectTo(RoutesInfo.Login.path, {status: 200});
+                    return await redirectTo(RoutesInfo.Login.path, { status: 200 });
                 }
             }
         });
     };
 
     const handleConfirmBlur = e => {
-        const { value } = e.target;
-        setState({ confirmDirty: state || !!value });
+        const {value} = e.target;
+        setState({confirmDirty: state || !!value});
     };
 
     const compareToFirstPassword = (rule, value, callback) => {
-        const { form } = props;
+        const {form} = props;
         if (value && value !== form.getFieldValue("password")) {
             callback("Two passwords that you enter is inconsistent!");
         } else {
@@ -45,14 +45,14 @@ const SignUp = props => {
     };
 
     const validateToNextPassword = (rule, value, callback) => {
-        const { form } = props;
-        if (value && setState({ confirmDirty: state })) {
-            form.validateFields(["confirm"], { force: true });
+        const {form} = props;
+        if (value && setState({confirmDirty: state})) {
+            form.validateFields(["confirm"], {force: true});
         }
         callback();
     };
 
-    const { getFieldDecorator } = props.form;
+    const {getFieldDecorator} = props.form;
 
     return (
         <div className="signup">
@@ -67,7 +67,7 @@ const SignUp = props => {
                                 whitespace: true
                             }
                         ]
-                    })(<Input />)}
+                    })(<Input/>)}
                 </Form.Item>
 
                 <Form.Item label="E-mail">
@@ -82,7 +82,7 @@ const SignUp = props => {
                                 message: "Please input your E-mail!"
                             }
                         ]
-                    })(<Input />)}
+                    })(<Input/>)}
                 </Form.Item>
                 <Form.Item label="Password" hasFeedback>
                     {getFieldDecorator("password", {
@@ -95,7 +95,7 @@ const SignUp = props => {
                                 validator: validateToNextPassword
                             }
                         ]
-                    })(<Input.Password />)}
+                    })(<Input.Password/>)}
                 </Form.Item>
                 <Form.Item label="Confirm Password" hasFeedback>
                     {getFieldDecorator("confirm", {
@@ -108,7 +108,7 @@ const SignUp = props => {
                                 validator: compareToFirstPassword
                             }
                         ]
-                    })(<Input.Password onBlur={handleConfirmBlur} />)}
+                    })(<Input.Password onBlur={handleConfirmBlur}/>)}
                 </Form.Item>
 
                 <Form.Item>
@@ -126,7 +126,7 @@ SignUp.propTypes = {
     form: PropTypes.object
 };
 
-const WrappedRegistrationForm = Form.create({ name: "signup" })(SignUp);
+const WrappedRegistrationForm = Form.create({name: "signup"})(SignUp);
 
 WrappedRegistrationForm.isSimpleLayout = true;
 
