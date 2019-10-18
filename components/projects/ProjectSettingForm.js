@@ -7,6 +7,7 @@ import {useMutation} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import * as PropTypes from "prop-types";
 import {UPDATE_PROJECT} from "../../utils/GraphQLConstants";
+import {AuthContext} from "../../contexts/AuthContextProvider";
 
 const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;
@@ -16,6 +17,7 @@ const ProjectSettingForm = (props) => {
     const [updateProject, project] = useMutation(UPDATE_PROJECT);
     const [autoCompleteResult, setAutoCompleteResult] = useState([]);
     const dataStoreContext = useContext(DataStoreContext);
+    const authContext = useContext(AuthContext);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -27,6 +29,8 @@ const ProjectSettingForm = (props) => {
                     variables: {
                         project: {
                             id: currentProject.id,
+                            ownerId: authContext.user.id,
+                            ...dataStoreContext.project,
                             ...values
                         }
                     }

@@ -10,6 +10,7 @@
         "babel-plugin-import": "^1.12.2",
         "bluebird": "^3.7.0",
         "core-js": "^3.2.1",
+        "cross-env": "^6.0.3",
         "dotenv": "^8.1.0",
         "emotion": "^10.0.17",
         "eslint": "^5.16.0",

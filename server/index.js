@@ -10,7 +10,7 @@ const handle = app.getRequestHandler();
 
 function setupRobotsTXT(server) {
     const robotsOptions = {
-        root: __dirname + "/public/",
+        root: __dirname + "/../public/",
         headers: {
             "Content-Type": "text/plain;charset=UTF-8",
         }
@@ -22,7 +22,7 @@ function setupRobotsTXT(server) {
 
 function setupSiteMapXML(server) {
     const siteMapOptions = {
-        root: __dirname + "/public/",
+        root: __dirname + "/../public/",
         headers: {
             "Content-Type": "text/xml;charset=UTF-8",
         }
@@ -34,7 +34,7 @@ function setupSiteMapXML(server) {
 
 function setupFavicon(server) {
     const faviconOptions = {
-        root: __dirname + "/public/"
+        root: __dirname + "/../public/"
     };
     server.get("/favicon.ico", (req, res) => (
         res.status(200).sendFile("favicon.ico", faviconOptions)
