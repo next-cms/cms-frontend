@@ -5,6 +5,7 @@ import * as PropTypes from "prop-types";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import RoutesInfo from "../../constants/RoutesInfo";
 import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
+import RichTextViewer from "../../components/common/rich_text_editor/slate/RichTextViewer";
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -24,6 +25,7 @@ export const DataStore = (props) => {
         }}>
             <RichTextEditor/>
             {/*<ProjectDataStore project={props.project}/>*/}
+            <RichTextViewer />
         </PageWrapper>
     );
 };
