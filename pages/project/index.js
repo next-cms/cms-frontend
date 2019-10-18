@@ -11,6 +11,9 @@ const Project = (props) => {
 };
 
 Project.getInitialProps = async (ctx) => {
+    if (!ctx.query.projectId) {
+        await redirectTo(`${RoutesInfo.Home.path}`, ctx);
+    }
     return await redirectTo(`${RoutesInfo.ProjectSettings.path}?projectId=${ctx.query.projectId}`, ctx);
 };
 
