@@ -3,6 +3,7 @@ import ImageComponent from "../components/ImageComponent";
 import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
 import BlockAlignment from "../components/BlockAlignment";
 import BlockQuote from "../components/BlockQuote";
+import { Row, Col } from "antd";
 
 const renderBlock = (props, editor, next) => {
 
@@ -21,6 +22,10 @@ const renderBlock = (props, editor, next) => {
             return <li {...attributes}>{children}</li>;
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
+        case "row":
+            return <Row gutter={8} {...attributes}>{children}</Row>;
+        case "col":
+            return <Col xs={12} {...attributes}>{children}</Col>;
         case "image": {
             return <ImageComponent src={node.data.get("src")} editor={editor} {...props} />;
         }

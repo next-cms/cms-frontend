@@ -76,6 +76,11 @@ const onClickAlignment = (event, alignType, { value, editor }) => {
 const onClickBlock = (event, type, { value, editor }) => {
     event.preventDefault();
 
+    if(type === "split") {
+        editor.split();
+        return;
+    }
+
     const { document } = value;
     const isActive = hasBlock(type, value);
 

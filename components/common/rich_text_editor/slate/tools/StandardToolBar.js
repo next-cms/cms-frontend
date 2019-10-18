@@ -57,6 +57,7 @@ const StandardToolBar = ({ onSave }) => {
                     {renderBlockButton("block-quote", <MdFormatQuote />, rteContext)}
                     {renderBlockButton("numbered-list", <MdFormatListNumbered />, rteContext)}
                     {renderBlockButton("bulleted-list", <MdFormatListBulleted />, rteContext)}
+                    {renderBlockButton("split", "split", rteContext)}
                     <Divider style={{ height: "50px", width: "2px" }} type="vertical" />
                     {renderLinkButton("link", <MdInsertLink />, rteContext)}
                     <Divider style={{ height: "50px", width: "2px" }} type="vertical" />

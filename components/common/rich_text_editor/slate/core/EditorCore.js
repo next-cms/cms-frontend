@@ -14,6 +14,7 @@ import Table from "../plugins/Table";
 import BlockAlign from "../plugins/BlockAlign";
 import renderInline from "../renederers/InlineRenderer";
 import WrapLink from "../plugins/WrapLink";
+import Split from "../plugins/Split";
 
 const plugins = [
     HotKey({key: "b", type: "bold"}),
@@ -24,7 +25,8 @@ const plugins = [
     Image,
     Table,
     BlockAlign,
-    WrapLink
+    WrapLink,
+    Split
 ];
 
 const TextEditor = () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import PageWrapper from '../../components/common/PageWrapper';
 import RichTextEditor from '../../components/common/rich_text_editor/slate/RichTextEditor';
-import RichTextViewer from '../../components/common/rich_text_editor/slate/RichTextViewer';
 
 const Post = () => {
 
