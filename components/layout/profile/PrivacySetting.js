@@ -1,9 +1,5 @@
 import React from "react";
-import {
-    Icon,
-    List,
-    Switch
-} from "antd";
+import {Icon, List, Switch} from "antd";
 
 const dataPrivacy = [
     {
@@ -29,13 +25,13 @@ const PrivacySetting = () => {
         <List
             dataSource={dataPrivacy}
             itemLayout="horizontal"
-            style={{ width: 650 }}
+            style={{width: 650}}
             renderItem={item => (
                 <List.Item
                     actions={[
                         <Switch
-                            checkedChildren={<Icon type="check" />}
-                            unCheckedChildren={<Icon type="close" />}
+                            checkedChildren={<Icon type="check"/>}
+                            unCheckedChildren={<Icon type="close"/>}
                             defaultChecked
                         />
                     ]}

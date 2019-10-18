@@ -3,12 +3,14 @@ import React, {Fragment, useContext, useEffect, useRef} from "react";
 import {Editor} from "slate-react";
 import HotKey from "../plugins/HotKey";
 import {RTEContext} from "../RTEContextProvider";
-import onDropOrPaste from "../plugins/OnDropOrPaste";
 import renderMark from "../renederers/MarkRenderer";
 import renderBlock from "../renederers/BlockRenderer";
 import schema from "./Schema";
 import MediaGallery from "../../../media_gallery/MediaGallery";
 import EditorModal from "./EditorModal";
+import {onDropOrPaste, onKeyDown} from "./index";
+import Image from "../plugins/Image";
+import Table from "../plugins/Table";
 
 const plugins = [
     HotKey({key: "b", type: "bold"}),
@@ -16,6 +18,8 @@ const plugins = [
     HotKey({key: "i", type: "italic"}),
     HotKey({key: "~", type: "strikethrough"}),
     HotKey({key: "u", type: "underline"}),
+    Image,
+    Table
 ];
 
 const TextEditor = () => {
@@ -41,6 +45,7 @@ const TextEditor = () => {
                 plugins={plugins}
                 value={rteContext.value}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
                 onDrop={onDropOrPaste}
                 onPaste={onDropOrPaste}
                 renderMark={renderMark}

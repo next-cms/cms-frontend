@@ -8,6 +8,11 @@ export default App => {
     class GraphQLHooks extends React.Component {
         static displayName = "GraphQLHooks(App)";
 
+        constructor(props) {
+            super(props);
+            this.graphQLClient = initGraphQL(props.graphQLState, props.token);
+        }
+
         static async getInitialProps(ctx) {
             const {Component, router} = ctx;
 
@@ -53,11 +58,6 @@ export default App => {
                 token: appProps.token,
                 user: appProps.user
             };
-        }
-
-        constructor(props) {
-            super(props);
-            this.graphQLClient = initGraphQL(props.graphQLState, props.token);
         }
 
         render() {

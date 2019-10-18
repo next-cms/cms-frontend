@@ -13,7 +13,7 @@ const AvailableComponentPicker = ({onSelect, selectedComponents}) => {
     const router = useRouter();
     const projectId = router.query.projectId;
 
-    const { loading, error, data, refetch } = useQuery(
+    const {loading, error, data, refetch} = useQuery(
         AVAILABLE_COMPONENTS,
         {
             variables: {projectId, skip, limit: limit},
@@ -36,8 +36,8 @@ const AvailableComponentPicker = ({onSelect, selectedComponents}) => {
         if (hideMessage) return hideMessage;
     }, [error, loading]);
 
-    if (error || !data) return <Row gutter={4} />;
-    const { allAvailableComponents } = data;
+    if (error || !data) return <Row gutter={4}/>;
+    const {allAvailableComponents} = data;
 
     console.log("allAvailableComponents", allAvailableComponents);
 

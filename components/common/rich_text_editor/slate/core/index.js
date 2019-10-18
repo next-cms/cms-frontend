@@ -1,6 +1,11 @@
 import { Button } from "antd";
 import insertImage from "../plugins/Image";
 import React from "react";
+import { getEventTransfer } from "slate-react";
+import isUrl from "is-url";
+import imageExtensions from "image-extensions";
+import Plain from "slate-plain-serializer";
+import { insertColumn } from "../plugins/Table/insertColumn";
 
 const DEFAULT_NODE = "paragraph";
 
@@ -18,6 +23,13 @@ export const onClickMark = (event, type, { editor }) => {
     editor.toggleMark(type);
 };
 
+const opts = {
+    typeTable: "table",
+    typeRow: "table_row",
+    typeCell: "table_cell",
+    typeContent: "paragraph"
+};
+
 const onClickInsertable = (event, type, { value, editor, showModal }) => {
     event.preventDefault();
 
@@ -26,8 +38,13 @@ const onClickInsertable = (event, type, { value, editor, showModal }) => {
             console.log("selected image:", photo);
             const src = photo.src;
             if (!src) return;
-            editor.command(insertImage, src);
+            editor.insertImage(src);
         }).catch(e => console.log(e.message));
+    } else if (type === "table") {
+        editor.insertTable(opts, 2, 2);
+    }
+    else if (type === "table_cell") {
+        console.log("table_cell");
     }
 };
 
@@ -117,35 +134,142 @@ export const renderInsertableBlockButton = (type, icon, { value, editor, showMod
     );
 };
 
-const onClickRowBlock = (event, type, { value, editor }) => {
-    event.preventDefault();
+export const onDropOrPaste = (event, editor, next) => {
 
-    const { document } = value;
+    const target = editor.findEventRange(event);
 
-    for (let i = 1; i <= 2; i++) {
-        editor.setBlocks("col");
+    if (!target && event.type === "drop") return next();
+
+    const transfer = getEventTransfer(event);
+    const { type, text, files } = transfer;
+
+    if (type === "files") {
+        event.preventDefault();
+        for (const file of files) {
+            const reader = new FileReader();
+            const [mime] = file.type.split("/");
+            if (mime !== "image") continue;
+
+            reader.addEventListener("load", () => {
+                editor.insertImage(reader.result, target);
+            });
+
+            reader.readAsDataURL(file);
+        }
+        return;
     }
 
+    if (type === "text") {
+        event.preventDefault();
+        if (!isUrl(text)) return next();
+        if (!isImage(text)) return next();
+        editor.insertImage(text, target);
+        return;
+    }
+
+    if (value.startBlock.type === "table-cell") {
+        if (text) {
+            const lines = text.split("\n");
+            const { document } = Plain.deserialize(lines[0] || "");
+            editor.insertFragment(document);
+            return;
+        }
+        return false;
+    }
+
+    next();
 };
 
-export const renderBlockRowButton = (type, icon, { value, editor }) => {
-    let isActive = hasBlock(type, value);
+/**
+ * On return, do nothing if inside a table cell.
+ *
+ * @param {Event} event
+ * @param editor
+ * @param next
+ */
 
-    // if (["numbered-list", "bulleted-list"].includes(type)) {
-    //     const { document, blocks } = value;
+const onEnter = (event, editor, next) => {
+    event.preventDefault();
+    return next();
+};
 
-    //     if (blocks.size > 0) {
-    //         const parent = document.getParent(blocks.first().key);
-    //         isActive = hasBlock("list-item", value) && parent && parent.type === type;
-    //     }
-    // }
+/**
+ * On key down, check for our specific key shortcuts.
+ *
+ * @param {Event} event
+ * @param {Change} editor
+ * @param {next} next
+ */
+export const onKeyDown = (event, editor, next) => {
+    const { value } = editor;
+    const { document, selection } = value;
+    const { start, isCollapsed } = selection;
+    const startNode = document.getDescendant(start.key);
 
-    return (
-        <Button
-            type={isActive ? "primary" : "default"}
-            onMouseDown={event => onClickRowBlock(event, type, { value, editor })}
-        >
-            {icon}
-        </Button>
-    );
+    if (isCollapsed && start.isAtStartOfNode(startNode)) {
+        const previous = document.getPreviousText(startNode.key);
+        const prevBlock = document.getClosestBlock(previous.key);
+
+        if (prevBlock.type === "table-cell") {
+            if (["Backspace", "Delete", "Enter"].includes(event.key)) {
+                event.preventDefault();
+                return true;
+            } else {
+                return;
+            }
+        }
+    }
+
+    if (value.startBlock.type !== "table-cell") {
+        return;
+    }
+
+    switch (event.key) {
+        case "Backspace":
+            return onBackspace(event, editor, next);
+        case "Delete":
+            return onDelete(event, editor, next);
+        case "Enter":
+            return onEnter(event, editor, next);
+    }
+};
+
+/**
+ * On backspace, do nothing if at the start of a table cell.
+ *
+ * @param {Event} event
+ * @param {Change} editor
+ * @param next
+ */
+
+const onBackspace = (event, editor, next) => {
+    const { value } = editor;
+    const { selection } = value;
+    if (selection.start.offset !== 0) return;
+    event.preventDefault();
+    return next();
+};
+
+/**
+ * On delete, do nothing if at the end of a table cell.
+ *
+ * @param {Event} event
+ * @param editor
+ * @param next
+ */
+
+const onDelete = (event, editor, next) => {
+    const { value } = change;
+    const { selection } = value;
+    if (selection.end.offset !== value.startText.text.length) return;
+    event.preventDefault();
+    return next();
+};
+
+const getExtension = (url) => {
+    return new URL(url).pathname.split(".").pop();
+};
+
+const isImage = (url) => {
+    return imageExtensions.includes(getExtension(url));
 };

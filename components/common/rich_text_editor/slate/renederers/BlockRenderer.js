@@ -1,7 +1,10 @@
 import React from "react";
-import { Row, Col } from "antd";
+import ImageComponent from "../components/ImageComponent";
+import { Col, Row } from "antd";
+import { Paragraph, Table, TableCell, TableRow } from "../SlateComponet";
 
 const renderBlock = (props, editor, next) => {
+
     const { attributes, children, node } = props;
 
     switch (node.type) {
@@ -18,16 +21,22 @@ const renderBlock = (props, editor, next) => {
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         case "image": {
-            return <img {...attributes} src={node.data.get("src")} style={{ maxWidth: "100%" }} alt="no photo" />;
+            return <ImageComponent src={node.data.get("src")} editor={editor} {...props} />;
+        }
+        case "col": {
+            return <Col xs={12} {...attributes}>{children}</Col>;
         }
         case "row": {
             return <Row {...attributes}>{children}</Row>;
         }
-        case "col": {
-            return (
-                <Col {...attributes}>{children}</Col>
-            );
-        }
+        case "table":
+            return <Table {...props} />;
+        case "table_row":
+            return <TableRow {...props} />;
+        case "table_cell":
+            return <TableCell {...props} />;
+        case "paragraph":
+            return <Paragraph {...props} />;
         default:
             return next();
     }
