@@ -1,6 +1,6 @@
-import {Button} from "antd";
+import { Button } from "antd";
 import React from "react";
-import {getEventTransfer} from "slate-react";
+import { getEventTransfer } from "slate-react";
 import isUrl from "is-url";
 import imageExtensions from "image-extensions";
 import Plain from "slate-plain-serializer";
@@ -14,7 +14,6 @@ export const hasMark = (type, value) => {
 export const hasBlock = (type, value) => {
     return value.blocks.some(node => node.type === type);
 };
-
 
 export const onClickMark = (event, type, { editor }) => {
     event.preventDefault();

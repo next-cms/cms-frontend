@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {Toolbar} from "../SlateComponet";
-import {opts, renderAlignmentButton, renderBlockButton, renderInsertableBlockButton, renderMarkButton} from "../core";
+import {opts, renderAlignmentButton, renderBlockButton, renderInsertableBlockButton, renderMarkButton } from "../core";
 import {RTEContext} from "../RTEContextProvider";
 import {
     MdBorderAll,
@@ -17,10 +17,12 @@ import {
     MdInsertPhoto,
     MdLooksOne,
     MdLooksTwo,
-    MdStrikethroughS
+    MdStrikethroughS,
+    MdInsertLink
 } from "react-icons/md";
 import {Button, Divider} from "antd";
 import {isSelectionOutOfTable} from "../plugins/Table/utils";
+import { renderLinkButton } from "../core/Actions/InlineButton";
 
 const StandardToolBar = ({onSave}) => {
     const rteContext = useContext(RTEContext);
@@ -44,6 +46,8 @@ const StandardToolBar = ({onSave}) => {
             {renderBlockButton("block-quote", <MdFormatQuote />, rteContext)}
             {renderBlockButton("numbered-list", <MdFormatListNumbered />, rteContext)}
             {renderBlockButton("bulleted-list", <MdFormatListBulleted />, rteContext)}
+            <Divider style={{height: "50px", width:"2px"}} type="vertical" />
+            {renderLinkButton("link", <MdInsertLink />, rteContext)}
             <Divider style={{height: "50px", width:"2px"}} type="vertical" />
             {renderInsertableBlockButton("image", <MdInsertPhoto />, rteContext)}
             {isOutTable && renderInsertableBlockButton("table", <MdBorderAll/>, rteContext)}

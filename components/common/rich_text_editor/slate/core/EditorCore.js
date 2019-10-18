@@ -12,6 +12,8 @@ import {onDropOrPaste} from "./index";
 import Image from "../plugins/Image";
 import Table from "../plugins/Table";
 import BlockAlign from "../plugins/BlockAlign";
+import renderInline from "../renederers/InlineRenderer";
+import WrapLink from "../plugins/WrapLink";
 
 const plugins = [
     HotKey({key: "b", type: "bold"}),
@@ -21,7 +23,8 @@ const plugins = [
     HotKey({key: "u", type: "underline"}),
     Image,
     Table,
-    BlockAlign
+    BlockAlign,
+    WrapLink
 ];
 
 const TextEditor = () => {
@@ -52,6 +55,7 @@ const TextEditor = () => {
                 onPaste={onDropOrPaste}
                 renderMark={renderMark}
                 renderBlock={renderBlock}
+                renderInline={renderInline}
                 schema={schema}
             />
             <EditorModal title="Gallery">
