@@ -333,6 +333,23 @@ query dataObjectsBySlug($projectId: String!, $slug: String!) {
   }
 }`;
 
+export const DATA_OBJECT_BY_ID = `
+query dataObjectsBySlug($projectId: String!, $postId: String!) {
+  dataObjectsBySlug(projectId: $projectId, postId: $postId) {
+    id
+    title
+    slug
+    isDraft
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+}`;
+
 export const ADD_DATA_OBJECT = `
 mutation addDataObject($dataObject: DataObjectInput!, $projectId: String!) {
   addDataObject(dataObject: $dataObject, projectId: $projectId) {

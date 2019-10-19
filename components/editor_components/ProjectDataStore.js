@@ -90,7 +90,7 @@ const ProjectDataStore = () => {
 
     return (
         <Fragment>
-            <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=new`}>
+            <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&slug=__new`}>
                 <Button type="primary">Add Post</Button>
             </Link>
             <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"}/>

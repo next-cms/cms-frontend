@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import PageWrapper from "../../components/common/PageWrapper";
 import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
 import {useManualQuery, useMutation} from "graphql-hooks";
-import {ADD_DATA_OBJECT, DATA_OBJECT_BY_SLUG, UPDATE_DATA_OBJECT} from "../../utils/GraphQLConstants";
+import {ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT} from "../../utils/GraphQLConstants";
 import {useRouter} from "next/router";
 import {message} from "antd";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
@@ -17,8 +17,8 @@ const Post = () => {
     const [addDataObject] = useMutation(ADD_DATA_OBJECT);
     const [updateDataObject] = useMutation(UPDATE_DATA_OBJECT);
 
-    const [fetchDataObject, {loading, error, data}] = useManualQuery(DATA_OBJECT_BY_SLUG, {
-        variables: {projectId, slug: "home"}
+    const [fetchDataObject, {loading, error, data}] = useManualQuery(DATA_OBJECT_BY_ID, {
+        variables: {projectId, postId}
     });
 
     useEffect(() => {
