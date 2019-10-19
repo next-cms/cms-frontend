@@ -66,13 +66,15 @@ const Post = () => {
         }
         if (!result.error) {
             message.success("Saved!");
-            if (result.addDataObject) {
-                postId = result.addDataObject.id;
-            } else if (result.updateDataObject) {
-                postId = result.updateDataObject.id;
+            if (postId !== "new") {
+                if (result.addDataObject) {
+                    postId = result.addDataObject.id;
+                } else if (result.updateDataObject) {
+                    postId = result.updateDataObject.id;
+                }
+                Router.push(`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`,
+                    `${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`);
             }
-            Router.push(`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`,
-                `${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`);
         } else {
             handleGraphQLAPIErrors(result.error);
         }
