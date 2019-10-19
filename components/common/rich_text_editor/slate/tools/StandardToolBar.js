@@ -23,7 +23,7 @@ import {
     MdRemove,
     MdStrikethroughS
 } from "react-icons/md";
-import {Button, Checkbox, Divider, Input, Menu, Popover} from "antd";
+import {Affix, Button, Checkbox, Divider, Input, Menu, Popover} from "antd";
 import {isSelectionOutOfTable} from "../plugins/Table/utils";
 import {renderLinkButton} from "../core/Actions/InlineButton";
 
@@ -58,8 +58,8 @@ const StandardToolBar = ({onSave, projectId, post}) => {
 
     return (
         <div>
-            <div>
-                <Toolbar>
+            <Affix>
+                <Toolbar style={{padding: "11px 20px"}}>
                     {renderMarkButton("bold", <MdFormatBold/>, rteContext)}
                     {renderMarkButton("italic", <MdFormatItalic/>, rteContext)}
                     {renderMarkButton("underline", <MdFormatUnderlined/>, rteContext)}
@@ -84,15 +84,15 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                     </Popover>
 
                     {renderBlockButton("split", <MdFlip/>, rteContext)}
-                    <Divider style={{height: "50px", width: "2px"}} type="vertical"/>
+                    <Divider style={{height: "30px", width: "2px", top: "5px"}} type="vertical"/>
                     {renderLinkButton("link", <MdInsertLink/>, rteContext)}
                     {renderInsertableBlockButton("image", <MdInsertPhoto/>, rteContext)}
                     {isOutTable && renderInsertableBlockButton("table", <MdBorderAll/>, rteContext)}
-                    <Divider style={{height: "50px", width: "2px"}} type="vertical"/>
+                    <Divider style={{height: "30px", width: "2px", top: "5px"}} type="vertical"/>
                     {renderAlignmentButton("left", <MdFormatAlignLeft/>, rteContext)}
                     {renderAlignmentButton("center", <MdFormatAlignCenter/>, rteContext)}
                     {renderAlignmentButton("right", <MdFormatAlignRight/>, rteContext)}
-                    <Divider style={{height: "50px", width: "2px"}} type="vertical"/>
+                    <Divider style={{height: "30px", width: "2px", top: "5px"}} type="vertical"/>
                     <Popover placement="bottom" title="Save"
                              content={
                                  <div style={{display: "flow-root"}}>
@@ -104,13 +104,12 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                                  </div>
                              }
                              trigger="click">
-                        <Button type="primary" shape="round">Publish</Button>
+                        <div style={{position: "relative"}}><Button type="primary" shape="round"
+                                                                    style={{top: "-5px"}}>Publish</Button></div>
                     </Popover>
                 </Toolbar>
-            </div>
-            <div>
-                <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)}/>
-            </div>
+            </Affix>
+            <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)}/>
         </div>
     );
 };
