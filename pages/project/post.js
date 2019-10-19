@@ -47,15 +47,15 @@ const Post = () => {
         console.log(post);
         const hideMessage = message.loading("Saving new post...", 0);
         let result;
+        const {modifiedAt, createdAt, ...dataObject} = post;
         if (post.id && post.id !== "new") {
             result = await updateDataObject({
                 variables: {
-                    dataObject: post,
+                    dataObject: dataObject,
                     projectId
                 }
             });
         } else {
-            const {modifiedAt, createdAt, ...dataObject} = post;
             result = await addDataObject({
                 variables: {
                     dataObject,
