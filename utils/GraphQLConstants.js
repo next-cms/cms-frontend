@@ -334,8 +334,8 @@ query dataObjectsBySlug($projectId: String!, $slug: String!) {
 }`;
 
 export const DATA_OBJECT_BY_ID = `
-query dataObjectsBySlug($projectId: String!, $postId: String!) {
-  dataObjectsBySlug(projectId: $projectId, postId: $postId) {
+query dataObjectsByPostId($projectId: String!, $postId: String!) {
+  dataObjectsByPostId(projectId: $projectId, postId: $postId) {
     id
     title
     slug
