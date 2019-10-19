@@ -66,7 +66,7 @@ const Post = () => {
         }
         if (!result.error) {
             message.success("Saved!");
-            if (postId !== "new") {
+            if (postId === "new") {
                 if (result.addDataObject) {
                     postId = result.addDataObject.id;
                 } else if (result.updateDataObject) {
