@@ -3,16 +3,17 @@ import PageWrapper from "../../components/common/PageWrapper";
 import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
 import {useManualQuery, useMutation} from "graphql-hooks";
 import {ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT} from "../../utils/GraphQLConstants";
-import {useRouter} from "next/router";
+import {Router, useRouter} from "next/router";
 import {message} from "antd";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
 import {withAuthSync} from "../../utils/withAuthSync";
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const Post = () => {
     const router = useRouter();
 
     const projectId = router.query.projectId;
-    const postId = router.query.postId;
+    let postId = router.query.postId;
 
     const [addDataObject] = useMutation(ADD_DATA_OBJECT);
     const [updateDataObject] = useMutation(UPDATE_DATA_OBJECT);
@@ -65,6 +66,13 @@ const Post = () => {
         }
         if (!result.error) {
             message.success("Saved!");
+            if (result.addDataObject) {
+                postId = result.addDataObject.id;
+            } else if (result.updateDataObject) {
+                postId = result.updateDataObject.id;
+            }
+            Router.push(`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`,
+                `${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`);
         } else {
             handleGraphQLAPIErrors(result.error);
         }
@@ -82,6 +90,17 @@ const Post = () => {
             <div className="SlateEditor">
                 <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsByPostId}/>
                 <style jsx global>{`
+                .SlateEditor h1 {
+                    font-family: "Times New Roman";
+                    color: #3988af;
+                    font-size: 55px;
+                    line-height: 66px;
+                    margin-bottom: 0px;
+                    font-weight: 700;
+                    font-style: normal;
+                    text-transform: none;
+                    letter-spacing: 1px;
+                }
                 .SlateEditor h2 {
                     font-family: "Times New Roman";
                     color: #3988af;
@@ -97,6 +116,15 @@ const Post = () => {
                     color: #151e24;
                     font-size: 16px;
                     margin-bottom: 10px;
+                }
+                .SlateEditor table {
+                    width: 100%;
+                }
+                .SlateEditor tr:first-child td {
+                    background-color: #F8F8F8;
+                }
+                .SlateEditor tr {
+                    height: 45px;
                 }
             `}</style>
             </div>
