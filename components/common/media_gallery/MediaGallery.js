@@ -85,7 +85,7 @@ const MediaGallery = ({isSingleSelect, onSelect, projectId}) => {
 
         if (onSelect) {
             if (isSelected) {
-                onSelect({...photo, src: `${API_BASE_URL}${photo.src}`});
+                onSelect({...photo, src: `${API_BASE_URL}${photo.src}?projectId=${projectId}`});
             } else {
                 onSelect(null);
             }

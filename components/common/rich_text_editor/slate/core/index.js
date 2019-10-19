@@ -1,6 +1,6 @@
-import { Button, Menu } from "antd";
+import {Button, Menu} from "antd";
 import React from "react";
-import { getEventTransfer } from "slate-react";
+import {getEventTransfer} from "slate-react";
 import isUrl from "is-url";
 import imageExtensions from "image-extensions";
 import Plain from "slate-plain-serializer";
@@ -149,17 +149,15 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
     }
 
     const button = isPopover ? (
-        <Menu>
-            <Menu.Item
-                style={{
-                    backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
-                    color: `${isActive ? "#ffffff" : "#1890ff"}`,
-                }}
-                onMouseDown={event => onClickBlock(event, type, { value, editor })}
-            >
-                {icon}
-            </Menu.Item>
-        </Menu>
+        <Menu.Item
+            style={{
+                backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
+                color: `${isActive ? "#ffffff" : "#1890ff"}`,
+            }}
+            onMouseDown={event => onClickBlock(event, type, {value, editor})}
+        >
+            {icon}
+        </Menu.Item>
     ) : (
         <Button
             style={{ fontSize: "24px" }}
@@ -169,7 +167,7 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
         >
             {icon}
         </Button>
-    )
+    );
 
     return (button);
 };

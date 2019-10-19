@@ -282,6 +282,8 @@ query allDataObjects($projectId: String!, $limit: Int!, $skip: Int!) {
     id
     title
     projectId
+    isDraft
+    slug
     type
     templateTypeId
     fields
@@ -300,6 +302,8 @@ query allDataObjectsByType($projectId: String!, $type: String!, $limit: Int!, $s
     id
     title
     projectId
+    isDraft
+    slug
     type
     templateTypeId
     fields
@@ -318,6 +322,7 @@ query dataObjectsBySlug($projectId: String!, $slug: String!) {
     id
     title
     slug
+    isDraft
     projectId
     type
     templateTypeId
@@ -334,6 +339,8 @@ mutation addDataObject($dataObject: DataObjectInput!, $projectId: String!) {
     id
     title
     projectId
+    slug
+    isDraft
     type
     templateTypeId
     fields
@@ -350,6 +357,8 @@ mutation updateDataObject($dataObject: DataObjectInput!, $projectId: String!) {
     title
     projectId
     type
+    slug
+    isDraft
     templateTypeId
     fields
     contents

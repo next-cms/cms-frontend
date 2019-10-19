@@ -33,10 +33,12 @@ const Post = () => {
         }
     }, [error]);
 
+    if (loading) return null;
+
     // if (error || !data) return null;
     const {dataObjectsBySlug} = data || {};
 
-    if (loading) return null;
+    console.log(dataObjectsBySlug);
 
     const onSave = async (post) => {
         console.log(post);

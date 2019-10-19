@@ -4,22 +4,23 @@ import StandardToolBar from "./tools/StandardToolBar.js";
 import RTEContextProvider from "./RTEContextProvider";
 import EditorCore from "./core/EditorCore";
 
-const RichTextEditor = ({onSave, projectId, postId, post={}}) => {
+const RichTextEditor = ({onSave, projectId, postId, post}) => {
 
     const _onSave = (_post) => {
         onSave({
+            ...post,
             ..._post,
-            slug: _post.slug ? _post.slug : post.slug,
             type: "post",
             projectId
         });
     };
 
     return (
-        <RTEContextProvider value={post.contents} title={post.title}>
+        <RTEContextProvider value={post ? post.contents : null} title={post ? post.title : null}>
             <StandardToolBar
                 onSave={_onSave}
                 postId={postId}
+                post={post}
                 projectId={projectId}
             />
             {/*<TableToolBar/>*/}

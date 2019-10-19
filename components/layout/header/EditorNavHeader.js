@@ -51,7 +51,7 @@ const EditorNavHeader = () => {
                 <Link href={RoutesInfo.Dashboard.path}><Button type="danger">Close Project</Button></Link>}
             </div>
             <div className="right">
-                <Button type="primary" onClick={confirm}>Publish</Button>
+                {/*<Button type="primary" onClick={confirm}>Publish</Button>*/}
                 {/*<Button style={{marginLeft: "5px"}} ghost>Preview</Button>*/}
             </div>
         </Header>

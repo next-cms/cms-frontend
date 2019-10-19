@@ -23,17 +23,18 @@ import {
     MdRemove,
     MdStrikethroughS
 } from "react-icons/md";
-import {Button, Divider, Input, Popover} from "antd";
+import {Button, Checkbox, Divider, Input, Menu, Popover} from "antd";
 import {isSelectionOutOfTable} from "../plugins/Table/utils";
 import {renderLinkButton} from "../core/Actions/InlineButton";
 
-const StandardToolBar = ({onSave, projectId, postId}) => {
+const StandardToolBar = ({onSave, projectId, post}) => {
 
     const rteContext = useContext(RTEContext);
 
     const {value} = rteContext;
     const [title, setTitle] = useState();
-    const [slug, setSlug] = useState();
+    const [slug, setSlug] = useState(post.slug);
+    const [isDraft, setIsDraft] = useState(post.isDraft);
 
     const isOutTable = isSelectionOutOfTable(opts, value);
 
@@ -42,6 +43,7 @@ const StandardToolBar = ({onSave, projectId, postId}) => {
         let post = {
             title,
             slug,
+            isDraft,
             contents: rteContext.value.toJSON(),
         };
 
@@ -65,10 +67,10 @@ const StandardToolBar = ({onSave, projectId, postId}) => {
                     {renderBlockButton("bulleted-list", <MdFormatListBulleted/>, rteContext)}
                     <Popover placement="bottom" title="Divider"
                              content={
-                                 <div>
+                                 <Menu>
                                      {renderBlockButton("divider-with-text", "Divider with text", rteContext, true)}
                                      {renderBlockButton("divider", "Divider", rteContext, true)}
-                                 </div>
+                                 </Menu>
                              }
                              trigger="click"
                     >
@@ -85,21 +87,24 @@ const StandardToolBar = ({onSave, projectId, postId}) => {
                     {renderAlignmentButton("center", <MdFormatAlignCenter/>, rteContext)}
                     {renderAlignmentButton("right", <MdFormatAlignRight/>, rteContext)}
                     <Divider style={{height: "50px", width: "2px"}} type="vertical"/>
-                    {postId === "new" ?
-                        <Popover placement="bottom" title="Save As"
-                                 content={
-                                     <div>
-                                         <Input placeholder="Slug" onChange={(e) => setSlug(e.target.value)}/>
-                                         <Button type="primary" shape="round"
-                                                 onClick={onSaveClick}>Save</Button>
-                                     </div>
-                                 }
-                                 trigger="click"
-                        >
-                            <Button type="primary" shape="round">Save As</Button>
-                        </Popover> :
-                        <Button type="primary" shape="round" onClick={onSaveClick}>Save</Button>
-                    }
+                    <Popover placement="bottom" title="Save"
+                             content={
+                                 <div>
+                                     <Input placeholder="Slug" onChange={(e) => setSlug(e.target.value)} value={slug}/>
+                                     <Checkbox
+                                         checked={isDraft}
+                                         onChange={(e) => setIsDraft(!isDraft)}
+                                     >
+                                         {label}
+                                     </Checkbox>
+                                     <Button type="primary" shape="round"
+                                             onClick={onSaveClick}>Save</Button>
+                                 </div>
+                             }
+                             trigger="click"
+                    >
+                        <Button type="primary" shape="round">Publish</Button>
+                    </Popover>
                 </Toolbar>
             </div>
             <div>
