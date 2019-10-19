@@ -36,9 +36,12 @@ const Post = () => {
     if (loading) return null;
 
     // if (error || !data) return null;
-    const {dataObjectsBySlug} = data || {};
+    const {dataObjectsByPostId} = data || {};
 
-    console.log(dataObjectsBySlug);
+    console.log(dataObjectsByPostId);
+    if (!dataObjectsByPostId && postId !== "new") {
+        return null;
+    }
 
     const onSave = async (post) => {
         console.log(post);
@@ -77,7 +80,7 @@ const Post = () => {
             padding: "20px"
         }}>
             <div className="SlateEditor">
-                <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsBySlug}/>
+                <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsByPostId}/>
                 <style jsx global>{`
                 .SlateEditor h2 {
                     font-family: "Times New Roman";
