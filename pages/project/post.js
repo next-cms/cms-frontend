@@ -52,9 +52,10 @@ const Post = () => {
                 }
             });
         } else {
+            const {modifiedAt, createdAt, ...dataObject} = post;
             result = await addDataObject({
                 variables: {
-                    dataObject: post,
+                    dataObject,
                     projectId
                 }
             });
