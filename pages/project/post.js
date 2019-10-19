@@ -3,7 +3,7 @@ import PageWrapper from "../../components/common/PageWrapper";
 import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
 import {useManualQuery, useMutation} from "graphql-hooks";
 import {ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT} from "../../utils/GraphQLConstants";
-import {Router, useRouter} from "next/router";
+import Router, {useRouter} from "next/router";
 import {message} from "antd";
 import {handleGraphQLAPIErrors} from "../../utils/helpers";
 import {withAuthSync} from "../../utils/withAuthSync";
