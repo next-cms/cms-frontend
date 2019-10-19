@@ -1,11 +1,11 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import {Table, message, Button, Icon, Divider} from "antd";
-import { useQuery } from 'graphql-hooks';
-import { ALL_DATA_OBJECTS_BY_TYPE, ALL_DATA_MODELS } from '../../utils/GraphQLConstants';
-import { handleGraphQLAPIErrors } from '../../utils/helpers';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import RoutesInfo from '../../constants/RoutesInfo';
+import React, {Fragment, useEffect, useState} from "react";
+import {Button, Icon, message, Table} from "antd";
+import {useQuery} from "graphql-hooks";
+import {ALL_DATA_OBJECTS_BY_TYPE} from "../../utils/GraphQLConstants";
+import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import {useRouter} from "next/router";
+import Link from "next/link";
+import RoutesInfo from "../../constants/RoutesInfo";
 
 const ProjectDataStore = () => {
 
@@ -46,9 +46,9 @@ const ProjectDataStore = () => {
 
     const columns = [
         {
-            title: 'Project Id',
-            dataIndex: 'projectId',
-            key: 'projectId',
+            title: "Slug",
+            dataIndex: "slug",
+            key: "slug",
         },
         {
             title: 'Type',
@@ -93,7 +93,7 @@ const ProjectDataStore = () => {
             <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=new`}>
                 <Button type="primary">Add Post</Button>
             </Link>
-            <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"projectId"} />
+            <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"}/>
         </Fragment>
     );
 };

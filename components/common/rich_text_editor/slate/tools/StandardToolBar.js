@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Toolbar} from "../SlateComponet";
 import {opts, renderAlignmentButton, renderBlockButton, renderInsertableBlockButton, renderMarkButton} from "../core";
 import {RTEContext} from "../RTEContextProvider";
@@ -33,22 +33,28 @@ const StandardToolBar = ({onSave, projectId, post}) => {
 
     const {value} = rteContext;
     const [title, setTitle] = useState();
-    const [slug, setSlug] = useState(post.slug);
-    const [isDraft, setIsDraft] = useState(post.isDraft);
+    const [slug, setSlug] = useState(post && post.slug);
+    const [isDraft, setIsDraft] = useState(post && post.isDraft);
 
     const isOutTable = isSelectionOutOfTable(opts, value);
 
     const onSaveClick = () => {
 
-        let post = {
+        let newPost = {
             title,
             slug,
             isDraft,
             contents: rteContext.value.toJSON(),
         };
 
-        onSave(post);
+        onSave(newPost);
     };
+
+    useEffect(() => {
+        if (!post) return;
+        setSlug(post.slug);
+        setIsDraft(post.isDraft);
+    }, [post]);
 
     return (
         <div>
@@ -95,7 +101,7 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                                          checked={isDraft}
                                          onChange={(e) => setIsDraft(!isDraft)}
                                      >
-                                         {label}
+                                         Draft
                                      </Checkbox>
                                      <Button type="primary" shape="round"
                                              onClick={onSaveClick}>Save</Button>

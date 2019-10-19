@@ -21,7 +21,7 @@ const Post = () => {
         variables: {projectId, slug: "home"}
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         if (postId && postId !== "new") {
             const res = fetchDataObject();
         }
@@ -75,7 +75,27 @@ const Post = () => {
             minHeight: "calc(100vh - 80px)",
             padding: "20px"
         }}>
-            <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsBySlug}/>
+            <div className="SlateEditor">
+                <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsBySlug}/>
+                <style jsx global>{`
+                .SlateEditor h2 {
+                    font-family: "Times New Roman";
+                    color: #3988af;
+                    font-size: 35px;
+                    line-height: 46px;
+                    margin-bottom: 0px;
+                    font-weight: 700;
+                    font-style: normal;
+                    text-transform: none;
+                    letter-spacing: 1px;
+                }
+                .SlateEditor p {
+                    color: #151e24;
+                    font-size: 16px;
+                    margin-bottom: 10px;
+                }
+            `}</style>
+            </div>
         </PageWrapper>
     );
 };
