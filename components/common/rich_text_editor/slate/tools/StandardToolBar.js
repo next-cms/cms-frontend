@@ -95,20 +95,15 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                     <Divider style={{height: "50px", width: "2px"}} type="vertical"/>
                     <Popover placement="bottom" title="Save"
                              content={
-                                 <div>
+                                 <div style={{display: "flow-root"}}>
                                      <Input placeholder="Slug" onChange={(e) => setSlug(e.target.value)} value={slug}/>
-                                     <Checkbox
-                                         checked={isDraft}
-                                         onChange={(e) => setIsDraft(!isDraft)}
-                                     >
-                                         Draft
-                                     </Checkbox>
-                                     <Button type="primary" shape="round"
+                                     <Checkbox checked={isDraft} onChange={(e) => setIsDraft(!isDraft)}
+                                               style={{marginTop: "10px"}}>Draft</Checkbox>
+                                     <Button type="primary" shape="round" style={{marginTop: "5px", float: "right"}}
                                              onClick={onSaveClick}>Save</Button>
                                  </div>
                              }
-                             trigger="click"
-                    >
+                             trigger="click">
                         <Button type="primary" shape="round">Publish</Button>
                     </Popover>
                 </Toolbar>
