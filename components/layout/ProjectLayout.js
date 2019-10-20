@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import {withRouter} from "next/router";
-import EditorNavHeader from "../../components/layout/header/EditorNavHeader";
-import {ClientContext, useQuery} from "graphql-hooks";
+import {useQuery} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import {message, Row} from "antd";
 import {getProjectMenuItems} from "../../components/layout/aside/ProjectMenuItems";
@@ -22,11 +21,10 @@ const ProjectLayout = ({router, children}) => {
 
     const menuContext = React.useContext(MenuContext);
     const dataStoreContext = useContext(DataStoreContext);
-    const graphQLClient = useContext(ClientContext);
 
     const menuItems = getProjectMenuItems({
         query: {projectId},
-    }, graphQLClient);
+    });
 
     React.useEffect(() => {
         menuContext.setMenuItems(menuItems);
@@ -67,7 +65,7 @@ const ProjectLayout = ({router, children}) => {
     if (error || !data) return <Row gutter={4}/>;
 
     return (
-        <CommonLayout navHeader={<EditorNavHeader/>}>
+        <CommonLayout>
             {children}
         </CommonLayout>
     );

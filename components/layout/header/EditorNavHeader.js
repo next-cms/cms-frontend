@@ -8,7 +8,7 @@ import ProjectService from "../../../services/ProjectService";
 
 const {Header} = Layout;
 
-const EditorNavHeader = () => {
+const EditorNavHeader = ({children}) => {
     // const [deployProject] = useMutation(DEPLOY_PROJECT);
 
     const router = useRouter();
@@ -47,10 +47,11 @@ const EditorNavHeader = () => {
     return (
         <Header className="nav_header editor_nav_header">
             <div className="left">
-                {!process.env.SINGLE_PROJECT_MODE &&
-                <Link href={RoutesInfo.Dashboard.path}><Button type="danger">Close Project</Button></Link>}
+                {children}
             </div>
             <div className="right">
+                {!process.env.SINGLE_PROJECT_MODE &&
+                <Link href={RoutesInfo.Dashboard.path}><Button type="danger">Close Project</Button></Link>}
                 {/*<Button type="primary" onClick={confirm}>Publish</Button>*/}
                 {/*<Button style={{marginLeft: "5px"}} ghost>Preview</Button>*/}
             </div>

@@ -80,8 +80,8 @@ export default {
         pathAs: "/profile"
     },
     Post: {
-        slug: "post",
-        path: "/project/post",
-        pathAs: "/project/post"
+        slug: "posts",
+        path: "/project/datastore/posts",
+        pathAs: "/project/datastore/posts"
     },
 };

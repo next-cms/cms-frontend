@@ -1,10 +1,9 @@
 import React from "react";
-import {Icon, message} from "antd";
-import {executeAllPagesQuery, executeCreateNewPageQuery} from "../../../utils/graphQLClientHelper";
+import {Icon} from "antd";
 import {injectParams} from "../../../utils/helpers";
 import RoutesInfo from "../../../constants/RoutesInfo";
 
-export const getProjectMenuItems = (params, graphQLClient) => {
+export const getProjectMenuItems = (params) => {
     const menuItems = {
         "settings": {
             key: RoutesInfo.ProjectSettings.slug,
@@ -18,58 +17,7 @@ export const getProjectMenuItems = (params, graphQLClient) => {
             title: RoutesInfo.ProjectPages.title,
             icon: <Icon type="snippets"/>,
             path: RoutesInfo.ProjectPages.path,
-            lazySubmenu: true,
-            subMenu: [{
-                key: "create-new-page",
-                title: "",
-                icon: <Icon type="plus"/>,
-                className: "create-new-page",
-                subMenu: null,
-                onClick: ({menuItems, setMenuItems}, targetMenuItem) => {
-                    if (!graphQLClient) {
-                        message.error("Unexpected Error!");
-                        console.error("GraphQLClient is not initialized!");
-                    }
-                    executeCreateNewPageQuery(graphQLClient, params.query.projectId)
-                        .then(data => {
-                            console.log("createNewPage response: ", data);
-                            const newMenuItem = {
-                                ...menuItems["pages"],
-                                subMenu: [...menuItems["pages"].subMenu, data.addPage],
-                                lazySubmenu: false
-                            };
-                            const newNavs = Object.assign({}, menuItems, {pages: newMenuItem});
-                            setMenuItems(newNavs);
-                        })
-                        .catch((errors) => {
-                            console.error(errors);
-                            message.error(errors[0].message);
-                        });
-                }
-            }],
-            graphQLClient: null,
-            onClick: ({menuItems, setMenuItems}, targetMenuItem) => {
-                targetMenuItem.onClick = null;
-                if (!graphQLClient) {
-                    message.error("Unexpected Error!");
-                    console.error("GraphQLClient is not initialized!");
-                }
-                executeAllPagesQuery(graphQLClient, params.query.projectId)
-                    .then(data => {
-                        console.log("projectPages response: ", data);
-                        const newMenuItem = {
-                            ...targetMenuItem,
-                            subMenu: data ? [...targetMenuItem.subMenu, ...data.allPages] : targetMenuItem.subMenu,
-                            lazySubmenu: false
-                        };
-                        const newMenuItems = Object.assign({}, menuItems, {pages: newMenuItem});
-                        setMenuItems(newMenuItems);
-                    })
-                    .catch((errors) => {
-                        console.error(errors);
-                        message.error(errors[0].message);
-                    });
-            }
+            subMenu: null
         },
         datastore: {
             key: RoutesInfo.DataStore.slug,

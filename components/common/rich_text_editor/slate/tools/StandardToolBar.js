@@ -84,15 +84,15 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                     </Popover>
 
                     {renderBlockButton("split", <MdFlip/>, rteContext)}
-                    <Divider style={{height: "30px", width: "2px", top: "5px"}} type="vertical"/>
+                    <Divider style={{height: "30px", width: "2px", top: "-8px"}} type="vertical"/>
                     {renderLinkButton("link", <MdInsertLink/>, rteContext)}
                     {renderInsertableBlockButton("image", <MdInsertPhoto/>, rteContext)}
                     {isOutTable && renderInsertableBlockButton("table", <MdBorderAll/>, rteContext)}
-                    <Divider style={{height: "30px", width: "2px", top: "5px"}} type="vertical"/>
+                    <Divider style={{height: "30px", width: "2px", top: "-8px"}} type="vertical"/>
                     {renderAlignmentButton("left", <MdFormatAlignLeft/>, rteContext)}
                     {renderAlignmentButton("center", <MdFormatAlignCenter/>, rteContext)}
                     {renderAlignmentButton("right", <MdFormatAlignRight/>, rteContext)}
-                    <Divider style={{height: "30px", width: "2px", top: "5px"}} type="vertical"/>
+                    <Divider style={{height: "30px", width: "2px", top: "-8px"}} type="vertical"/>
                     <Popover placement="bottom" title="Save"
                              content={
                                  <div style={{display: "flow-root"}}>
