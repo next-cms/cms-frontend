@@ -9,9 +9,11 @@ import {handleGraphQLAPIErrors} from "../../../utils/helpers";
 import {withAuthSync} from "../../../utils/withAuthSync";
 import RoutesInfo from "../../../constants/RoutesInfo";
 import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
+import {MenuContext} from "../../../contexts/MenuContextProvider";
 
 const Posts = () => {
     const router = useRouter();
+    const menuContext = React.useContext(MenuContext);
 
     const projectId = router.query.projectId;
     let postId = router.query.postId;
@@ -22,6 +24,11 @@ const Posts = () => {
     const [fetchDataObject, {loading, error, data}] = useManualQuery(DATA_OBJECT_BY_ID, {
         variables: {projectId, postId}
     });
+
+    useEffect(() => {
+        menuContext.setSelectedKeys([RoutesInfo.DataStore.slug]);
+        menuContext.setOpenedKeys([]);
+    }, []);
 
     useEffect(() => {
         if (postId && postId !== "new") {
@@ -94,7 +101,7 @@ const Posts = () => {
                 flex: "0 0 100%",
                 flexDirection: "column",
                 minHeight: "calc(100vh - 80px)",
-                padding: "20px"
+                padding: "0 20px"
             }}>
                 <div className="SlateEditor">
                     <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsByPostId}/>

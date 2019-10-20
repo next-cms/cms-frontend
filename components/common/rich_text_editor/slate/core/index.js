@@ -126,7 +126,7 @@ export const renderMarkButton = (type, icon, { value, editor }) => {
 
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{fontSize: "24px", boxShadow: "0px 0px 10px #888888"}}
             shape="circle"
             type={isActive ? "primary" : "default"}
             onMouseDown={event => onClickMark(event, type, { editor })}
@@ -160,7 +160,7 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
         </Menu.Item>
     ) : (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{fontSize: "24px", boxShadow: "0px 0px 10px #888888"}}
             shape="circle"
             type={isActive ? "primary" : "default"}
             onMouseDown={event => onClickBlock(event, type, { value, editor })}
@@ -175,7 +175,7 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
 export const renderInsertableBlockButton = (type, icon, { value, editor, showModal }) => {
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{fontSize: "24px", boxShadow: "0px 0px 10px #888888"}}
             type="primary"
             shape="circle"
             onMouseDown={event => onClickInsertable(event, type, { value, editor, showModal })}
@@ -188,7 +188,7 @@ export const renderInsertableBlockButton = (type, icon, { value, editor, showMod
 export const renderAlignmentButton = (alignType, icon, { value, editor }) => {
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{fontSize: "24px", boxShadow: "0px 0px 10px #888888"}}
             shape="circle"
             type="dashed"
             onMouseDown={event => onClickAlignment(event, alignType, { value, editor })}

@@ -58,8 +58,8 @@ const StandardToolBar = ({onSave, projectId, post}) => {
 
     return (
         <div>
-            <Affix>
-                <Toolbar style={{padding: "11px 20px"}}>
+            <Affix offsetTop={80}>
+                <Toolbar style={{padding: "0 20px 10px 20px"}}>
                     {renderMarkButton("bold", <MdFormatBold/>, rteContext)}
                     {renderMarkButton("italic", <MdFormatItalic/>, rteContext)}
                     {renderMarkButton("underline", <MdFormatUnderlined/>, rteContext)}
@@ -80,7 +80,7 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                              }
                              trigger="click"
                     >
-                        <Button style={{fontSize: "24px"}} shape="circle"><MdRemove/></Button>
+                        <Button style={{fontSize: "24px", boxShadow: "0px 0px 10px #888888"}} shape="circle"><MdRemove/></Button>
                     </Popover>
 
                     {renderBlockButton("split", <MdFlip/>, rteContext)}
@@ -104,12 +104,13 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                                  </div>
                              }
                              trigger="click">
-                        <div style={{position: "relative"}}><Button type="primary" shape="round"
-                                                                    style={{top: "-5px"}}>Publish</Button></div>
+                        <div style={{position: "relative"}}>
+                            <Button type="primary" shape="round"
+                                    style={{top: "-5px", boxShadow: "0px 0px 10px #888888"}}>Publish</Button></div>
                     </Popover>
                 </Toolbar>
             </Affix>
-            <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)}/>
+            <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)} style={{top: "16px"}}/>
         </div>
     );
 };
