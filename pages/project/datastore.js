@@ -5,13 +5,10 @@ import * as PropTypes from "prop-types";
 import { MenuContext } from "../../contexts/MenuContextProvider";
 import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
 import RoutesInfo from "../../constants/RoutesInfo";
-<<<<<<< HEAD
-import RichTextEditor from "/home/vivasoft/Downloads/core_cms_frontend/components/common/rich_text_editor/slate/RichTextEditor.js";
-=======
 import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
 import RichTextViewer from "../../components/common/rich_text_editor/slate/RichTextViewer";
-import ProjectDataStore from "../../components/editor_components/ProjectDataStore";
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
+import PageCreator from "../page-creator";
+
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -29,14 +26,10 @@ export const DataStore = (props) => {
             minHeight: "calc(100vh - 80px)",
             padding: "20px"
         }}>
-<<<<<<< HEAD
-            <ProjectDataStore project={props.project} />
-            <RichTextEditor />
-=======
             {/* <RichTextEditor/> */}
-            <ProjectDataStore project={props.project}/>
+            <ProjectDataStore project={props.project} />
             {/* <RichTextViewer /> */}
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
+            <PageCreator />
         </PageWrapper>
     );
 };

@@ -1,14 +1,9 @@
 import React from "react";
 import ImageComponent from "../components/ImageComponent";
-<<<<<<< HEAD
-import { Col, Row } from "antd";
 import { Paragraph, Table, TableCell, TableRow } from "../SlateComponet";
-=======
-import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
 import BlockAlignment from "../components/BlockAlignment";
 import BlockQuote from "../components/BlockQuote";
 import { Row, Col, Divider } from "antd";
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
 
 const renderBlock = (props, editor, next) => {
 

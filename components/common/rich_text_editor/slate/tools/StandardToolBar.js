@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import React, { useContext } from "react";
-import { Toolbar } from "../SlateComponet";
-import { renderBlockButton, renderInsertableBlockButton, renderMarkButton, renderBlockRowButton } from "../core";
-import { RTEContext } from "../RTEContextProvider";
-=======
 import React, { useContext, useState } from "react";
 import { Toolbar } from "../SlateComponet";
 import { opts, renderAlignmentButton, renderBlockButton, renderInsertableBlockButton, renderMarkButton } from "../core";
@@ -33,8 +27,8 @@ import { Button, Divider, Input, Popover } from "antd";
 import { isSelectionOutOfTable } from "../plugins/Table/utils";
 import { renderLinkButton } from "../core/Actions/InlineButton";
 
+// eslint-disable-next-line react/prop-types
 const StandardToolBar = ({ onSave }) => {
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
 
     const rteContext = useContext(RTEContext);
 
@@ -48,29 +42,12 @@ const StandardToolBar = ({ onSave }) => {
         let post = {
             title,
             content: rteContext.value.toJSON()
-        }
+        };
 
         onSave(post);
     };
 
     return (
-<<<<<<< HEAD
-        <Toolbar>
-            {renderMarkButton("bold", "bold", rteContext)}
-            {renderMarkButton("italic", "italic", rteContext)}
-            {renderMarkButton("underline", "underline", rteContext)}
-            {renderMarkButton("code", "code", rteContext)}
-            {renderMarkButton("strikethrough", "strikethrough", rteContext)}
-            {renderBlockButton("heading-one", "looks_one", rteContext)}
-            {renderBlockButton("heading-two", "looks_two", rteContext)}
-            {renderBlockButton("block-quote", "format_quote", rteContext)}
-            {renderBlockButton("numbered-list", "ordered-list", rteContext)}
-            {renderBlockButton("bulleted-list", "unordered-list", rteContext)}
-            {renderInsertableBlockButton("image", "image", rteContext)}
-            {renderInsertableBlockButton("table", "table", rteContext)}
-            {renderInsertableBlockButton("table_cell", "table_cell", rteContext)}
-        </Toolbar>
-=======
         <div>
             <div>
                 <Toolbar>
@@ -114,7 +91,6 @@ const StandardToolBar = ({ onSave }) => {
                 <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)} />
             </div>
         </div>
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
     );
 };
 

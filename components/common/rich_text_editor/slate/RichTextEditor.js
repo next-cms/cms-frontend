@@ -4,7 +4,8 @@ import StandardToolBar from "./tools/StandardToolBar.js";
 import RTEContextProvider from "./RTEContextProvider";
 import EditorCore from "./core/EditorCore";
 
-const RichTextEditor = ({onSave}) => {
+// eslint-disable-next-line react/prop-types
+const RichTextEditor = ({ onSave }) => {
 
     const _onSave = (value) => {
         onSave(value);

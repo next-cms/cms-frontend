@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { Fragment } from "react";
 import { css, cx } from "emotion";
-=======
-import React, {Fragment} from "react";
-import {css, cx} from "emotion";
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
 import * as PropTypes from "prop-types";
-import {Popover} from "antd";
+import { Popover } from "antd";
 import TableToolBar from "./tools/TableToolBar";
 
 export class Table extends React.Component {
@@ -20,16 +15,13 @@ export class Table extends React.Component {
     }
 
     render() {
-<<<<<<< HEAD
-        const { attributes, children } = this.props;
-=======
-        const {attributes, children, isSelected} = this.props;
->>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
+        // eslint-disable-next-line react/prop-types
+        const { attributes, children, isSelected } = this.props;
         return (
             <Popover
                 content={
                     <Fragment>
-                        <TableToolBar/>
+                        <TableToolBar />
                     </Fragment>
                 }
                 trigger="click"
