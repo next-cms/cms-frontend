@@ -5,7 +5,7 @@ import {TablePosition} from "./utils";
  */
 function moveSelectionBy(editor, opts, x, y) {
     const {value} = editor;
-    const {start: {key}} = value;
+    const {startBlock: {key}} = value;
     const pos = TablePosition.create(opts, value.document, key);
     if (!pos.isInCell()) {
         throw new Error("moveSelectionBy can only be applied in a cell");

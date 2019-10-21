@@ -1,5 +1,4 @@
-import { Button } from "antd";
-import insertImage from "../plugins/Image";
+import { Button, Menu } from "antd";
 import React from "react";
 import { getEventTransfer } from "slate-react";
 import isUrl from "is-url";
@@ -17,17 +16,18 @@ export const hasBlock = (type, value) => {
     return value.blocks.some(node => node.type === type);
 };
 
-
 export const onClickMark = (event, type, { editor }) => {
     event.preventDefault();
     editor.toggleMark(type);
 };
 
-const opts = {
+export const opts = {
     typeTable: "table",
     typeRow: "table_row",
     typeCell: "table_cell",
-    typeContent: "paragraph"
+    typeContent: "paragraph",
+    isCell: (node) =>
+        node.object === "block" && node.type === this.typeCell
 };
 
 const onClickInsertable = (event, type, { value, editor, showModal }) => {
@@ -42,19 +42,53 @@ const onClickInsertable = (event, type, { value, editor, showModal }) => {
         }).catch(e => console.log(e.message));
     } else if (type === "table") {
         editor.insertTable(opts, 2, 2);
+    } else if (type === "table_row") {
+        editor.insertRow(opts);
+    } else if (type === "table_col") {
+        editor.insertColumn(opts);
+    } else if (type === "delete_table_row") {
+        editor.removeRow(opts);
+    } else if (type === "delete_table_col") {
+        editor.removeColumn(opts);
+    } else if (type === "delete_table") {
+        editor.removeTable(opts);
     }
     else if (type === "table_cell") {
         console.log("table_cell");
     }
 };
 
+const onClickAlignment = (event, alignType, { value, editor }) => {
+
+    const isImage = hasBlock("image", value);
+
+    let type = null;
+
+    if (isImage) {
+        if (alignType === "center") {
+            editor.unwrapBlock("align");
+            return;
+        }
+        type = "image";
+    }
+
+    event.preventDefault();
+
+    editor.insertBlockAlign(alignType, type);
+};
+
 const onClickBlock = (event, type, { value, editor }) => {
     event.preventDefault();
 
+    if (type === "split") {
+        editor.split();
+        return;
+    }
+
     const { document } = value;
+    const isActive = hasBlock(type, value);
 
     if (type !== "bulleted-list" && type !== "numbered-list") {
-        const isActive = hasBlock(type, value);
         const isList = hasBlock("list-item", value);
 
         if (isList) {
@@ -95,6 +129,8 @@ export const renderMarkButton = (type, icon, { value, editor }) => {
 
     return (
         <Button
+            style={{ fontSize: "24px" }}
+            shape="circle"
             type={isActive ? "primary" : "default"}
             onMouseDown={event => onClickMark(event, type, { editor })}
         >
@@ -103,7 +139,7 @@ export const renderMarkButton = (type, icon, { value, editor }) => {
     );
 };
 
-export const renderBlockButton = (type, icon, { value, editor }) => {
+export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
     let isActive = hasBlock(type, value);
 
     if (["numbered-list", "bulleted-list"].includes(type)) {
@@ -115,20 +151,53 @@ export const renderBlockButton = (type, icon, { value, editor }) => {
         }
     }
 
+    const button = isPopover ? (
+        <Menu>
+            <Menu.Item
+                style={{
+                    backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
+                    color: `${isActive ? "#ffffff" : "#1890ff"}`,
+                }}
+                onMouseDown={event => onClickBlock(event, type, { value, editor })}
+            >
+                {icon}
+            </Menu.Item>
+        </Menu>
+    ) : (
+        <Button
+                style={{ fontSize: "24px" }}
+                shape="circle"
+                type={isActive ? "primary" : "default"}
+                onMouseDown={event => onClickBlock(event, type, { value, editor })}
+            >
+                {icon}
+            </Button>
+        );
+
+    return (button);
+};
+
+export const renderInsertableBlockButton = (type, icon, { value, editor, showModal }) => {
     return (
         <Button
-            type={isActive ? "primary" : "default"}
-            onMouseDown={event => onClickBlock(event, type, { value, editor })}
+            style={{ fontSize: "24px" }}
+            type="primary"
+            shape="circle"
+            onMouseDown={event => onClickInsertable(event, type, { value, editor, showModal })}
         >
             {icon}
         </Button>
     );
 };
 
-export const renderInsertableBlockButton = (type, icon, { value, editor, showModal }) => {
+export const renderAlignmentButton = (alignType, icon, { value, editor }) => {
     return (
-        <Button type="primary" ghost={true}
-            onMouseDown={event => onClickInsertable(event, type, { value, editor, showModal })}>
+        <Button
+            style={{ fontSize: "24px" }}
+            shape="circle"
+            type="dashed"
+            onMouseDown={event => onClickAlignment(event, alignType, { value, editor })}
+        >
             {icon}
         </Button>
     );
@@ -178,92 +247,6 @@ export const onDropOrPaste = (event, editor, next) => {
     }
 
     next();
-};
-
-/**
- * On return, do nothing if inside a table cell.
- *
- * @param {Event} event
- * @param editor
- * @param next
- */
-
-const onEnter = (event, editor, next) => {
-    event.preventDefault();
-    return next();
-};
-
-/**
- * On key down, check for our specific key shortcuts.
- *
- * @param {Event} event
- * @param {Change} editor
- * @param {next} next
- */
-export const onKeyDown = (event, editor, next) => {
-    const { value } = editor;
-    const { document, selection } = value;
-    const { start, isCollapsed } = selection;
-    const startNode = document.getDescendant(start.key);
-
-    if (isCollapsed && start.isAtStartOfNode(startNode)) {
-        const previous = document.getPreviousText(startNode.key);
-        const prevBlock = document.getClosestBlock(previous.key);
-
-        if (prevBlock.type === "table-cell") {
-            if (["Backspace", "Delete", "Enter"].includes(event.key)) {
-                event.preventDefault();
-                return true;
-            } else {
-                return;
-            }
-        }
-    }
-
-    if (value.startBlock.type !== "table-cell") {
-        return;
-    }
-
-    switch (event.key) {
-        case "Backspace":
-            return onBackspace(event, editor, next);
-        case "Delete":
-            return onDelete(event, editor, next);
-        case "Enter":
-            return onEnter(event, editor, next);
-    }
-};
-
-/**
- * On backspace, do nothing if at the start of a table cell.
- *
- * @param {Event} event
- * @param {Change} editor
- * @param next
- */
-
-const onBackspace = (event, editor, next) => {
-    const { value } = editor;
-    const { selection } = value;
-    if (selection.start.offset !== 0) return;
-    event.preventDefault();
-    return next();
-};
-
-/**
- * On delete, do nothing if at the end of a table cell.
- *
- * @param {Event} event
- * @param editor
- * @param next
- */
-
-const onDelete = (event, editor, next) => {
-    const { value } = change;
-    const { selection } = value;
-    if (selection.end.offset !== value.startText.text.length) return;
-    event.preventDefault();
-    return next();
 };
 
 const getExtension = (url) => {

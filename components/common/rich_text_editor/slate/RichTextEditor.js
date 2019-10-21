@@ -4,11 +4,19 @@ import StandardToolBar from "./tools/StandardToolBar.js";
 import RTEContextProvider from "./RTEContextProvider";
 import EditorCore from "./core/EditorCore";
 
-const RichTextEditor = () => {
+const RichTextEditor = ({onSave}) => {
+
+    const _onSave = (value) => {
+        onSave(value);
+    };
+
     return (
         <RTEContextProvider>
-            <StandardToolBar/>
-            <EditorCore/>
+            <StandardToolBar
+                onSave={_onSave}
+            />
+            {/*<TableToolBar/>*/}
+            <EditorCore />
         </RTEContextProvider>
     );
 };

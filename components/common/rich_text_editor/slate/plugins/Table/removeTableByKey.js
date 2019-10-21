@@ -39,11 +39,11 @@ function removeTableByKey(editor, opts, key) {
     if (!nextFocusBlock) {
         return editor;
     }
-    if (shouldCollapseToEnd) {
-        editor.collapseToEndOf(nextFocusBlock).focus();
-    } else {
-        editor.collapseToStartOf(nextFocusBlock).focus();
-    }
+    // if (shouldCollapseToEnd) {
+    //     editor.collapseToEndOf(nextFocusBlock).focus();
+    // } else {
+    //     editor.collapseToStartOf(nextFocusBlock).focus();
+    // }
     return editor;
 }
 

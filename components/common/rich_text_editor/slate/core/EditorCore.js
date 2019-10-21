@@ -8,9 +8,13 @@ import renderBlock from "../renederers/BlockRenderer";
 import schema from "./Schema";
 import MediaGallery from "../../../media_gallery/MediaGallery";
 import EditorModal from "./EditorModal";
-import {onDropOrPaste, onKeyDown} from "./index";
+import {onDropOrPaste} from "./index";
 import Image from "../plugins/Image";
 import Table from "../plugins/Table";
+import BlockAlign from "../plugins/BlockAlign";
+import renderInline from "../renederers/InlineRenderer";
+import WrapLink from "../plugins/WrapLink";
+import Split from "../plugins/Split";
 
 const plugins = [
     HotKey({key: "b", type: "bold"}),
@@ -19,7 +23,10 @@ const plugins = [
     HotKey({key: "~", type: "strikethrough"}),
     HotKey({key: "u", type: "underline"}),
     Image,
-    Table
+    Table,
+    BlockAlign,
+    WrapLink,
+    Split
 ];
 
 const TextEditor = () => {
@@ -45,11 +52,12 @@ const TextEditor = () => {
                 plugins={plugins}
                 value={rteContext.value}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
+                // onKeyDown={onKeyDown.bind(null, opts)}
                 onDrop={onDropOrPaste}
                 onPaste={onDropOrPaste}
                 renderMark={renderMark}
                 renderBlock={renderBlock}
+                renderInline={renderInline}
                 schema={schema}
             />
             <EditorModal title="Gallery">

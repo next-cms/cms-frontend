@@ -8,7 +8,7 @@ function getPosition(
     // The current value
     value
 ) {
-    return TablePosition.create(opts, value.document, value.startKey);
+    return TablePosition.create(opts, value.document, value.startBlock.key);
 }
 
 export default getPosition;

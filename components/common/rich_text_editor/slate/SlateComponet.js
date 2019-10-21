@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 /* eslint-disable react/prop-types */
 import React from "react";
 import { css, cx } from "emotion";
+=======
+import React, {Fragment} from "react";
+import {css, cx} from "emotion";
+>>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
 import * as PropTypes from "prop-types";
+import {Popover} from "antd";
+import TableToolBar from "./tools/TableToolBar";
 
 export class Table extends React.Component {
     static childContextTypes = {
@@ -13,11 +20,25 @@ export class Table extends React.Component {
     }
 
     render() {
+<<<<<<< HEAD
         const { attributes, children } = this.props;
+=======
+        const {attributes, children, isSelected} = this.props;
+>>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
         return (
-            <table>
-                <tbody {...attributes}>{children}</tbody>
-            </table>
+            <Popover
+                content={
+                    <Fragment>
+                        <TableToolBar/>
+                    </Fragment>
+                }
+                trigger="click"
+                visible={isSelected}
+            >
+                <table>
+                    <tbody {...attributes}>{children}</tbody>
+                </table>
+            </Popover>
         );
     }
 }
@@ -185,7 +206,7 @@ export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
             className,
             css`
         position: relative;
-        padding: 1px 18px 17px;
+        padding: 18px;
         margin: 0 -20px;
         border-bottom: 2px solid #eee;
         margin-bottom: 20px;

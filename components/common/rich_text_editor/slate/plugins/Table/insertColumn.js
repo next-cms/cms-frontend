@@ -1,14 +1,18 @@
 import { createCell, TablePosition } from "./utils";
 import moveSelection from "./moveSelection";
+import isSelectionInTable from "./utils/isSelectionInTable";
 
 /**
  * Insert a new column in current table
  */
 function insertColumn(editor, opts, at, getCell) {
     const { value } = editor;
-    const { startKey } = value;
+    const { startBlock } = value;
 
-    const pos = TablePosition.create(opts, value.document, startKey);
+    if (!isSelectionInTable(opts, value)) {
+        return editor;
+    }
+    const pos = TablePosition.create(opts, value.document, startBlock.key);
     const { table } = pos;
 
     const columnIndex =

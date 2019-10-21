@@ -7,7 +7,6 @@ import clearCell from "./clearCell";
  */
 function removeRowByKey(editor, opts, key) {
     const {value} = editor;
-
     const pos = TablePosition.create(opts, value.document, key);
 
     // Update table by removing the row

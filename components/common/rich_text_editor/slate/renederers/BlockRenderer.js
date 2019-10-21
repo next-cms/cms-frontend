@@ -1,7 +1,14 @@
 import React from "react";
 import ImageComponent from "../components/ImageComponent";
+<<<<<<< HEAD
 import { Col, Row } from "antd";
 import { Paragraph, Table, TableCell, TableRow } from "../SlateComponet";
+=======
+import {Paragraph, Table, TableCell, TableRow} from "../SlateComponet";
+import BlockAlignment from "../components/BlockAlignment";
+import BlockQuote from "../components/BlockQuote";
+import { Row, Col, Divider } from "antd";
+>>>>>>> 88233f69d3abfec4fd697c8586aee710574b5192
 
 const renderBlock = (props, editor, next) => {
 
@@ -9,7 +16,7 @@ const renderBlock = (props, editor, next) => {
 
     switch (node.type) {
         case "block-quote":
-            return <blockquote {...attributes}>{children}</blockquote>;
+            return <BlockQuote {...props}>{children}</BlockQuote>;
         case "bulleted-list":
             return <ul {...attributes}>{children}</ul>;
         case "heading-one":
@@ -20,14 +27,19 @@ const renderBlock = (props, editor, next) => {
             return <li {...attributes}>{children}</li>;
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
+        case "row":
+            return <Row gutter={8} {...attributes}>{children}</Row>;
+        case "col":
+            return <Col xs={12} {...attributes}>{children}</Col>;
+        case "divider-with-text":
+            return <Divider {...attributes}>{children}</Divider>;
+        case "divider":
+            return <Divider {...attributes} />;
         case "image": {
             return <ImageComponent src={node.data.get("src")} editor={editor} {...props} />;
         }
-        case "col": {
-            return <Col xs={12} {...attributes}>{children}</Col>;
-        }
-        case "row": {
-            return <Row {...attributes}>{children}</Row>;
+        case "align": {
+            return <BlockAlignment align={node.data.get("alignType")} type={node.data.get("type")} {...props}>{children}</BlockAlignment>;
         }
         case "table":
             return <Table {...props} />;
