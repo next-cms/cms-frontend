@@ -12,7 +12,7 @@ export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([RoutesInfo.DataStore.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.Posts.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 

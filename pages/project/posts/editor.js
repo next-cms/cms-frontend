@@ -11,7 +11,7 @@ import RoutesInfo from "../../../constants/RoutesInfo";
 import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
 import {MenuContext} from "../../../contexts/MenuContextProvider";
 
-const Posts = () => {
+const Editor = () => {
     const router = useRouter();
     const menuContext = React.useContext(MenuContext);
 
@@ -26,7 +26,7 @@ const Posts = () => {
     });
 
     useEffect(() => {
-        menuContext.setSelectedKeys([RoutesInfo.DataStore.slug]);
+        menuContext.setSelectedKeys([RoutesInfo.Posts.slug]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -80,8 +80,8 @@ const Posts = () => {
                 } else if (result.updateDataObject) {
                     postId = result.updateDataObject.id;
                 }
-                Router.push(`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`,
-                    `${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${postId}`);
+                Router.push(`${RoutesInfo.PostEditor.slug}?projectId=${projectId}&postId=${postId}`,
+                    `${RoutesInfo.PostEditor.slug}?projectId=${projectId}&postId=${postId}`);
             }
         } else {
             handleGraphQLAPIErrors(result.error);
@@ -106,47 +106,60 @@ const Posts = () => {
                 <div className="SlateEditor">
                     <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsByPostId}/>
                     <style jsx global>{`
-                .SlateEditor h1 {
-                    font-family: "Times New Roman";
-                    color: #3988af;
-                    font-size: 55px;
-                    line-height: 66px;
-                    margin-bottom: 0px;
-                    font-weight: 700;
-                    font-style: normal;
-                    text-transform: none;
-                    letter-spacing: 1px;
-                }
-                .SlateEditor h2 {
-                    font-family: "Times New Roman";
-                    color: #3988af;
-                    font-size: 35px;
-                    line-height: 46px;
-                    margin-bottom: 0px;
-                    font-weight: 700;
-                    font-style: normal;
-                    text-transform: none;
-                    letter-spacing: 1px;
-                }
-                .SlateEditor p {
-                    color: #151e24;
-                    font-size: 16px;
-                    margin-bottom: 10px;
-                }
-                .SlateEditor table {
-                    width: 100%;
-                }
-                .SlateEditor tr:first-child td {
-                    background-color: #F8F8F8;
-                }
-                .SlateEditor tr {
-                    height: 45px;
-                }
-            `}</style>
+                        .SlateEditor h1 {
+                            font-family: "Times New Roman";
+                            color: #3988af;
+                            font-size: 55px;
+                            line-height: 66px;
+                            margin-bottom: 0px;
+                            font-weight: 700;
+                            font-style: normal;
+                            text-transform: none;
+                            letter-spacing: 1px;
+                        }
+                        .SlateEditor h1 input.ant-input {
+                            font-family: "Times New Roman";
+                            text-align: center;
+                            height: 60px;
+                            color: #3988af;
+                            font-size: 55px;
+                            line-height: 66px;
+                            margin-bottom: 0px;
+                            font-weight: 700;
+                            font-style: normal;
+                            text-transform: none;
+                            letter-spacing: 1px;
+                        }
+                        .SlateEditor h2 {
+                            font-family: "Times New Roman";
+                            color: #3988af;
+                            font-size: 35px;
+                            line-height: 46px;
+                            margin-bottom: 0px;
+                            font-weight: 700;
+                            font-style: normal;
+                            text-transform: none;
+                            letter-spacing: 1px;
+                        }
+                        .SlateEditor p {
+                            color: #151e24;
+                            font-size: 16px;
+                            margin-bottom: 10px;
+                        }
+                        .SlateEditor table {
+                            width: 100%;
+                        }
+                        .SlateEditor tr:first-child td {
+                            background-color: #F8F8F8;
+                        }
+                        .SlateEditor tr {
+                            height: 45px;
+                        }
+                    `}</style>
                 </div>
             </PageWrapper>
         </Fragment>
     );
 };
 
-export default withAuthSync(Posts);
+export default withAuthSync(Editor);

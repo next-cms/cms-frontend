@@ -20,7 +20,8 @@ class RTEContextProvider extends Component {
             modalReject: () => {
             },
             gallerySelectedItem: null,
-            editor: null
+            editor: null,
+            previewMode: false
         };
     }
 
@@ -55,6 +56,14 @@ class RTEContextProvider extends Component {
         this.setState({value});
     };
 
+    setPreviewMode = (previewMode) => {
+        this.setState({previewMode});
+    };
+
+    setTitle = (title) => {
+        this.setState({title});
+    };
+
     render() {
         return (
             <RTEContext.Provider
@@ -65,7 +74,11 @@ class RTEContextProvider extends Component {
                     gallerySelectedItem: this.state.gallerySelectedItem,
                     modalResolve: this.state.modalResolve,
                     modalReject: this.state.modalReject,
+                    previewMode: this.state.previewMode,
+                    title: this.state.title,
+                    setTitle: this.setTitle,
                     setEditorValue: this.setEditorValue,
+                    setPreviewMode: this.setPreviewMode,
                     showModal: this.showModal,
                     hideModal: this.hideModal,
                     setEditorInstance: this.setEditorInstance,

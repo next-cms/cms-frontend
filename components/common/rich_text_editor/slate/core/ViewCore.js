@@ -1,11 +1,10 @@
-import React, { useContext, Fragment } from 'react';
-import { Editor } from 'slate-react';
-import { RTEContext } from '../RTEContextProvider';
-import renderMark from '../renederers/MarkRenderer';
-import renderBlock from '../renederers/BlockRenderer';
-import renderInline from '../renederers/InlineRenderer';
-import schema from './Schema';
-import { Divider } from 'antd';
+import React, {Fragment, useContext} from "react";
+import {Editor} from "slate-react";
+import {RTEContext} from "../RTEContextProvider";
+import renderMark from "../renederers/MarkRenderer";
+import renderBlock from "../renederers/BlockRenderer";
+import renderInline from "../renederers/InlineRenderer";
+import schema from "./Schema";
 
 
 const ViewCore = () => {
@@ -14,8 +13,7 @@ const ViewCore = () => {
 
     return (
         <Fragment>
-            <Divider />
-            <h2>View</h2>
+            {rteContext.title && <h1 style={{textAlign: "center"}}>{rteContext.title}</h1>}
             <Editor
                 value={rteContext.value}
                 renderMark={renderMark}

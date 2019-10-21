@@ -51,35 +51,35 @@ const ProjectDataStore = () => {
             key: "slug",
         },
         {
-            title: 'Type',
-            dataIndex: 'type',
-            key: 'type',
+            title: "Type",
+            dataIndex: "type",
+            key: "type",
         },
         {
-            title: 'Created At',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
+            title: "Created At",
+            dataIndex: "createdAt",
+            key: "createdAt",
         },
         {
-            title: 'Modified At',
-            dataIndex: 'modifiedAt',
-            key: 'modifiedAt',
+            title: "Modified At",
+            dataIndex: "modifiedAt",
+            key: "modifiedAt",
         },
         {
             title: "Action",
             key: "action",
             render: (text, record) => (
                 <span>
-                    <Link href={`${RoutesInfo.Post.path}?projectId=${projectId}&postId=${record.id}`}>
+                    <Link href={`${RoutesInfo.PostEditor.path}?projectId=${projectId}&postId=${record.id}`}>
                         <a>
                             <Icon style={{color: "blue"}} type="edit"/>
                         </a>
                     </Link>
                     {/*<Divider type="vertical"/>*/}
                     {/*<Fragment>*/}
-                        {/*<a onClick={() => handleClick(record)}>*/}
-                            {/*<Icon style={{color: "red"}} type="delete"/>*/}
-                        {/*</a>*/}
+                    {/*<a onClick={() => handleClick(record)}>*/}
+                    {/*<Icon style={{color: "red"}} type="delete"/>*/}
+                    {/*</a>*/}
 
                     {/*</Fragment>*/}
                 </span>
@@ -90,8 +90,10 @@ const ProjectDataStore = () => {
 
     return (
         <Fragment>
-            <Link href={`${RoutesInfo.Post.path}?projectId=${projectId}&postId=new`}>
-                <Button type="primary">Add Post</Button>
+            <Link href={`${RoutesInfo.PostEditor.path}?projectId=${projectId}&postId=new`}>
+                <div style={{alignSelf: "flex-end", marginBottom: "5px"}}>
+                    <Button type="primary">Add Post</Button>
+                </div>
             </Link>
             <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"}/>
         </Fragment>

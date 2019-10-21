@@ -32,7 +32,6 @@ const StandardToolBar = ({onSave, projectId, post}) => {
     const rteContext = useContext(RTEContext);
 
     const {value} = rteContext;
-    const [title, setTitle] = useState();
     const [slug, setSlug] = useState(post && post.slug);
     const [isDraft, setIsDraft] = useState(post && post.isDraft);
 
@@ -41,7 +40,7 @@ const StandardToolBar = ({onSave, projectId, post}) => {
     const onSaveClick = () => {
 
         let newPost = {
-            title,
+            title: rteContext.title,
             slug,
             isDraft,
             contents: rteContext.value.toJSON(),
@@ -108,9 +107,14 @@ const StandardToolBar = ({onSave, projectId, post}) => {
                             <Button type="primary" shape="round"
                                     style={{top: "-5px", boxShadow: "0px 0px 10px #888888"}}>Publish</Button></div>
                     </Popover>
+                    <Button type="primary" shape="round" onClick={() => rteContext.setPreviewMode(true)}
+                            style={{top: "-5px", boxShadow: "0px 0px 10px #888888"}}>Preview</Button>
                 </Toolbar>
             </Affix>
-            <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)} style={{top: "16px"}}/>
+            <h1 style={{textAlign: "center"}}><Input placeholder="Title" allowClear
+                                                     onChange={(e) => rteContext.setTitle(e.target.value)}
+                                                     value={rteContext.title}
+                                                     style={{top: "16px", margin: "10px 0 15px"}}/></h1>
         </div>
     );
 };
