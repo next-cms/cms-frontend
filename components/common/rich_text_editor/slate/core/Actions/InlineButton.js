@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import {Button, message} from "antd";
 import React from "react";
 import isUrl from "is-url";
 
@@ -60,7 +60,7 @@ export const renderLinkButton = (type, icon, { value, editor }) => {
 
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{fontSize: "24px", boxShadow: "0px 0px 10px #888888"}}
             shape="circle"
             type={isActive ? "primary" : "default"}
             onMouseDown={event => onClickLink(event, type, { value, editor })}

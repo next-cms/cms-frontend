@@ -1,11 +1,18 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Profile from "../components/layout/header/Profile";
+import {Affix} from "antd";
+import DefaultNavHeader from "../components/layout/header/DefaultNavHeader";
 
 export const ProfileDetails = () => {
     return (
-        <div>
+        <Fragment>
+            <Affix>
+                <div>
+                    <DefaultNavHeader/>
+                </div>
+            </Affix>
             <Profile/>
-        </div>
+        </Fragment>
     );
 };
 

@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {Affix, Layout} from "antd";
+import {Layout} from "antd";
 import "./layout.scss";
 import AsideLeft from "./aside/AsideLeft";
 import * as PropTypes from "prop-types";
 
 const {Content, Sider} = Layout;
 
-const CommonLayout = ({navHeader, children, footer}) => {
+const CommonLayout = ({children, footer}) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const onCollapse = collapsed => {
@@ -27,14 +27,7 @@ const CommonLayout = ({navHeader, children, footer}) => {
                 }}/>
             </Sider>
             <Layout style={{marginLeft: collapsed ? "80px" : "200px", transition: "all 0.1s ease-in"}}>
-                <Affix>
-                    <div>
-                        {navHeader}
-                    </div>
-                </Affix>
-                <Content className="app_page">
-                    {children}
-                </Content>
+                {children}
                 {footer}
             </Layout>
         </Layout>
@@ -43,7 +36,6 @@ const CommonLayout = ({navHeader, children, footer}) => {
 
 CommonLayout.propTypes = {
     children: PropTypes.element.isRequired,
-    navHeader: PropTypes.element,
     footer: PropTypes.element,
 };
 

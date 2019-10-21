@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 import DefaultMenuItems from "./aside/DefaultMenuItems";
 import {MenuContext} from "../../contexts/MenuContextProvider";
 import CommonLayout from "./CommonLayout";
-import DefaultNavHeader from "./header/DefaultNavHeader";
 import CustomFooter from "./Footer";
 
 const DefaultLayout = ({navHeader, children}) => {
@@ -14,7 +13,7 @@ const DefaultLayout = ({navHeader, children}) => {
     }, []);
 
     return (
-        <CommonLayout navHeader={<DefaultNavHeader/>} footer={<CustomFooter/>}>
+        <CommonLayout footer={<CustomFooter/>}>
             {children}
         </CommonLayout>
     );

@@ -70,7 +70,7 @@ const ProjectDataStore = () => {
             key: "action",
             render: (text, record) => (
                 <span>
-                    <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=${record.id}`}>
+                    <Link href={`${RoutesInfo.Post.path}?projectId=${projectId}&postId=${record.id}`}>
                         <a>
                             <Icon style={{color: "blue"}} type="edit"/>
                         </a>
@@ -90,7 +90,7 @@ const ProjectDataStore = () => {
 
     return (
         <Fragment>
-            <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=new`}>
+            <Link href={`${RoutesInfo.Post.path}?projectId=${projectId}&postId=new`}>
                 <Button type="primary">Add Post</Button>
             </Link>
             <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"}/>

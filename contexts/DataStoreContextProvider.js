@@ -10,6 +10,7 @@ const initDataStoreState = {
     projectUpdated: false,
     projectListUpdated: false,
     pageDetailsUpdated: false,
+    projectPagesListUpdated: false,
     currentPage: null,
     currentProject: {
         brand: {}
@@ -51,6 +52,13 @@ class DataStoreContextProvider extends Component {
         });
     };
 
+    setProjectPagesListUpdated = (isUpdated) => {
+        console.log("data store synced", isUpdated);
+        this.setState({
+            projectPagesListUpdated: isUpdated
+        });
+    };
+
     setSelectedProjectItem = (item) => {
         console.log("selected project page item", item);
         this.setState({
@@ -65,6 +73,7 @@ class DataStoreContextProvider extends Component {
                     projectListUpdated: this.state.projectListUpdated,
                     projectUpdated: this.state.projectUpdated,
                     pageDetailsUpdated: this.state.pageDetailsUpdated,
+                    projectPagesListUpdated: this.state.projectPagesListUpdated,
                     currentProject: this.state.currentProject,
                     currentPage: this.state.currentPage,
                     selectedProjectItem: this.state.selectedProjectItem,
@@ -72,6 +81,7 @@ class DataStoreContextProvider extends Component {
                     setCurrentPage: this.setCurrentPage,
                     setProjectUpdated: this.setProjectUpdated,
                     setPageDetailsUpdated: this.setPageDetailsUpdated,
+                    setProjectPagesListUpdated: this.setProjectPagesListUpdated,
                     setProjectListUpdated: this.setProjectListUpdated,
                     setSelectedProjectItem: this.setSelectedProjectItem,
                 }}>

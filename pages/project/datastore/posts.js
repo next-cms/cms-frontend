@@ -1,16 +1,19 @@
-import React, {useEffect} from "react";
-import PageWrapper from "../../components/common/PageWrapper";
-import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
+import React, {Fragment, useEffect} from "react";
+import PageWrapper from "../../../components/common/PageWrapper";
+import RichTextEditor from "../../../components/common/rich_text_editor/slate/RichTextEditor";
 import {useManualQuery, useMutation} from "graphql-hooks";
-import {ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT} from "../../utils/GraphQLConstants";
+import {ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT} from "../../../utils/GraphQLConstants";
 import Router, {useRouter} from "next/router";
-import {message} from "antd";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
-import {withAuthSync} from "../../utils/withAuthSync";
-import RoutesInfo from "../../constants/RoutesInfo";
+import {Affix, message} from "antd";
+import {handleGraphQLAPIErrors} from "../../../utils/helpers";
+import {withAuthSync} from "../../../utils/withAuthSync";
+import RoutesInfo from "../../../constants/RoutesInfo";
+import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
+import {MenuContext} from "../../../contexts/MenuContextProvider";
 
-const Post = () => {
+const Posts = () => {
     const router = useRouter();
+    const menuContext = React.useContext(MenuContext);
 
     const projectId = router.query.projectId;
     let postId = router.query.postId;
@@ -21,6 +24,11 @@ const Post = () => {
     const [fetchDataObject, {loading, error, data}] = useManualQuery(DATA_OBJECT_BY_ID, {
         variables: {projectId, postId}
     });
+
+    useEffect(() => {
+        menuContext.setSelectedKeys([RoutesInfo.DataStore.slug]);
+        menuContext.setOpenedKeys([]);
+    }, []);
 
     useEffect(() => {
         if (postId && postId !== "new") {
@@ -82,16 +90,22 @@ const Post = () => {
     };
 
     return (
-        <PageWrapper style={{
-            display: "flex",
-            flex: "0 0 100%",
-            flexDirection: "column",
-            minHeight: "calc(100vh - 80px)",
-            padding: "20px"
-        }}>
-            <div className="SlateEditor">
-                <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsByPostId}/>
-                <style jsx global>{`
+        <Fragment>
+            <Affix>
+                <div>
+                    <EditorNavHeader/>
+                </div>
+            </Affix>
+            <PageWrapper style={{
+                display: "flex",
+                flex: "0 0 100%",
+                flexDirection: "column",
+                minHeight: "calc(100vh - 80px)",
+                padding: "0 20px"
+            }}>
+                <div className="SlateEditor">
+                    <RichTextEditor onSave={onSave} postId={postId} projectId={projectId} post={dataObjectsByPostId}/>
+                    <style jsx global>{`
                 .SlateEditor h1 {
                     font-family: "Times New Roman";
                     color: #3988af;
@@ -129,9 +143,10 @@ const Post = () => {
                     height: 45px;
                 }
             `}</style>
-            </div>
-        </PageWrapper>
+                </div>
+            </PageWrapper>
+        </Fragment>
     );
 };
 
-export default withAuthSync(Post);
+export default withAuthSync(Posts);

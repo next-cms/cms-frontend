@@ -3,12 +3,12 @@ import {Button, Layout, message, Modal} from "antd";
 import Link from "next/link";
 import "./nav_header.scss";
 import RoutesInfo from "../../../constants/RoutesInfo";
-import {useRouter} from "next/router";
+import Router, {useRouter} from "next/router";
 import ProjectService from "../../../services/ProjectService";
 
 const {Header} = Layout;
 
-const EditorNavHeader = () => {
+const EditorNavHeader = ({children}) => {
     // const [deployProject] = useMutation(DEPLOY_PROJECT);
 
     const router = useRouter();
@@ -44,13 +44,21 @@ const EditorNavHeader = () => {
         });
     }
 
+    // const getParentRoute = () => {
+    //     const [pathStr, paramStr] = router.asPath.split("?");
+    //     console.log(router, pathStr, paramStr);
+    //     return pathStr.substr(0, pathStr.lastIndexOf("/")) + "?" + paramStr;
+    // };
+
     return (
         <Header className="nav_header editor_nav_header">
             <div className="left">
-                {!process.env.SINGLE_PROJECT_MODE &&
-                <Link href={RoutesInfo.Dashboard.path}><Button type="danger">Close Project</Button></Link>}
+                <Button type="danger" onClick={() => Router.back()}>Back</Button>
+                {children}
             </div>
             <div className="right">
+                {!process.env.SINGLE_PROJECT_MODE &&
+                <Link href={RoutesInfo.Dashboard.path}><Button type="danger">Close Project</Button></Link>}
                 {/*<Button type="primary" onClick={confirm}>Publish</Button>*/}
                 {/*<Button style={{marginLeft: "5px"}} ghost>Preview</Button>*/}
             </div>
