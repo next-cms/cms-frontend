@@ -1,5 +1,5 @@
 const HotKey = (options) => {
-    const {type, key} = options;
+    const { type, key } = options;
 
     // Return our "plugin" object, containing the `onKeyDown` handler.
     return {
