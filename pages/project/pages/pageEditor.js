@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Select, Button, message, Radio, Divider } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Divider, message, Radio, Select } from "antd";
 import { useQuery } from "graphql-hooks";
-import { ALL_LAYOUT_TEMPLATES } from "../utils/GraphQLConstants";
+import { ALL_LAYOUT_TEMPLATES } from "../../../utils/GraphQLConstants";
+import { handleGraphQLAPIErrors } from "../../../utils/helpers";
 
 const { Option } = Select;
 
-const PageCreator = () => {
+const PageEditor = () => {
 
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
-    const [isHeader, setisHeader] = useState(true);
-    const [isFooter, setisFooter] = useState(true);
+    const [ isHeader, setIsHeader ] = useState(true);
+    const [ isFooter, setIsFooter ] = useState(true);
     const [isSider, setIsSider] = useState(false);
     const [currentLayout, setCurrentLayout] = useState("layout1");
 
@@ -43,8 +44,8 @@ const PageCreator = () => {
         setCurrentLayout(e.target.value);
         allLayoutTemplates.map(item => {
             if (e.target.value === item.name) {
-                setisHeader(item.header);
-                setisFooter(item.footer);
+                setIsHeader(item.header);
+                setIsFooter(item.footer);
                 setIsSider(item.sider);
             }
         });
@@ -61,7 +62,9 @@ const PageCreator = () => {
                     {allLayoutTemplates.map(item => (
                         <Radio key={item.name} value={item.name}>
                             {item.name}
-                            <div style={{ width: "250px", height: "150px", marginLeft: "25px", marginTop: "20px" }}><img width="100%" height="100%" src="../static/layout/layout1.png" /></div>
+                            <div style={{ width: "250px", height: "150px", marginLeft: "25px", marginTop: "20px" }}>
+                                <img width="100%" height="100%" src={`/static/layout/${item.name}.png`}/>
+                            </div>
                         </Radio>
                     ))}
                 </Radio.Group>
@@ -103,4 +106,4 @@ const PageCreator = () => {
         </div>
     );
 };
-export default PageCreator;
+export default PageEditor;

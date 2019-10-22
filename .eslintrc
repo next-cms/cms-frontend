@@ -48,6 +48,7 @@
         "react/react-in-jsx-scope": "error",
         "react/jsx-tag-spacing": "off",
         "react/jsx-boolean-value": "off",
-        "no-extra-semi": "error"
+        "no-extra-semi": "error",
+        "space-in-brackets": "always"
     }
 }

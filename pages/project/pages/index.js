@@ -1,13 +1,13 @@
-import React, {Fragment} from "react";
-import PageWrapper from "../../components/common/PageWrapper";
-import {withAuthSync} from "../../utils/withAuthSync";
-import {MenuContext} from "../../contexts/MenuContextProvider";
-import ProjectPages from "../../components/editor_components/ProjectPages";
-import {useRouter} from "next/router";
-import RoutesInfo from "../../constants/RoutesInfo";
-import EditorNavHeader from "../../components/layout/header/EditorNavHeader";
-import ProjectPageDetails from "../../components/editor_components/ProjectPageDetails";
-import {Affix} from "antd";
+import React, { Fragment } from "react";
+import PageWrapper from "../../../components/common/PageWrapper";
+import { withAuthSync } from "../../../utils/withAuthSync";
+import { MenuContext } from "../../../contexts/MenuContextProvider";
+import ProjectPages from "../../../components/editor_components/ProjectPages";
+import { useRouter } from "next/router";
+import RoutesInfo from "../../../constants/RoutesInfo";
+import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
+import ProjectPageDetails from "../../../components/editor_components/ProjectPageDetails";
+import { Affix } from "antd";
 
 const Pages = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -25,9 +25,7 @@ const Pages = (props) => {
             <Fragment>
                 <Affix>
                     <div>
-                        <EditorNavHeader>
-
-                        </EditorNavHeader>
+                        <EditorNavHeader/>
                     </div>
                 </Affix>
                 <PageWrapper style={{

@@ -1,17 +1,17 @@
-import React, {Fragment, useEffect} from "react";
+import React, { Fragment, useEffect } from "react";
 import PageWrapper from "../../../components/common/PageWrapper";
 import RichTextEditor from "../../../components/common/rich_text_editor/slate/RichTextEditor";
-import {useManualQuery, useMutation} from "graphql-hooks";
-import {ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT} from "../../../utils/GraphQLConstants";
-import Router, {useRouter} from "next/router";
-import {Affix, message} from "antd";
-import {handleGraphQLAPIErrors} from "../../../utils/helpers";
-import {withAuthSync} from "../../../utils/withAuthSync";
+import { useManualQuery, useMutation } from "graphql-hooks";
+import { ADD_DATA_OBJECT, DATA_OBJECT_BY_ID, UPDATE_DATA_OBJECT } from "../../../utils/GraphQLConstants";
+import Router, { useRouter } from "next/router";
+import { Affix, message } from "antd";
+import { handleGraphQLAPIErrors } from "../../../utils/helpers";
+import { withAuthSync } from "../../../utils/withAuthSync";
 import RoutesInfo from "../../../constants/RoutesInfo";
 import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
-import {MenuContext} from "../../../contexts/MenuContextProvider";
+import { MenuContext } from "../../../contexts/MenuContextProvider";
 
-const Editor = () => {
+const PostEditor = () => {
     const router = useRouter();
     const menuContext = React.useContext(MenuContext);
 
@@ -162,4 +162,4 @@ const Editor = () => {
     );
 };
 
-export default withAuthSync(Editor);
+export default withAuthSync(PostEditor);

@@ -4,9 +4,9 @@ import { Layout } from "antd";
 // eslint-disable-next-line react/prop-types
 const Footer = ({ children }) => {
     return (
-        <Layout.Header>
+        <Layout.Footer>
             {children}
-        </Layout.Header>
+        </Layout.Footer>
     );
 };
 export default Footer;

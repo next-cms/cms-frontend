@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { Menu, Icon } from "antd";
+import { Menu } from "antd";
 import Link from "next/link";
 
 
@@ -38,7 +37,7 @@ const TopNavWithSubMenu = ({ menu }) => {
                 }}
                 key={item.subMenu.key}
             >
-                {item.subMenu, map(item => getMenuItem(item))}
+                {item.subMenu.map(item => getMenuItem(item))}
             </SubMenu>
         );
     };
