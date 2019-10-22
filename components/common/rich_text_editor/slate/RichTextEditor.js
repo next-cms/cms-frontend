@@ -2,7 +2,7 @@ import React from "react";
 import RTEContextProvider from "./RTEContextProvider";
 import EditorViewModeSwitcher from "./core/EditorViewModeSwitcher";
 
-const RichTextEditor = ({onSave, projectId, postId, post}) => {
+const RichTextEditor = ({ onSave, projectId, postId, post }) => {
 
     const _onSave = (_post) => {
         onSave({

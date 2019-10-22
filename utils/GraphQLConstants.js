@@ -390,3 +390,19 @@ mutation deleteDataObject($id: String!, $projectId: String!) {
     id
   }
 }`;
+
+export const ALL_LAYOUT_TEMPLATES = `
+ query allLayoutTemplates($limit: Int, $skip: Int){
+   allLayoutTemplates(limit: $limit, skip: $skip){
+     id
+     name
+     fileName
+     image
+     header
+     footer
+     sider
+   }
+   _allLayoutTemplatesMeta{
+     count
+   }
+ }`;

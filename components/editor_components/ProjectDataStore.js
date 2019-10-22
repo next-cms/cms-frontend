@@ -1,9 +1,9 @@
-import React, {Fragment, useEffect, useState} from "react";
-import {Button, Icon, message, Table} from "antd";
-import {useQuery} from "graphql-hooks";
-import {ALL_DATA_OBJECTS_BY_TYPE} from "../../utils/GraphQLConstants";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
-import {useRouter} from "next/router";
+import React, { Fragment, useEffect, useState } from "react";
+import { Button, Icon, message, Table } from "antd";
+import { useQuery } from "graphql-hooks";
+import { ALL_DATA_OBJECTS_BY_TYPE } from "../../utils/GraphQLConstants";
+import { handleGraphQLAPIErrors } from "../../utils/helpers";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import RoutesInfo from "../../constants/RoutesInfo";
 
@@ -20,8 +20,8 @@ const ProjectDataStore = () => {
     //     skipCache: true
     // });
 
-    const {loading, error, data, refetch} = useQuery(ALL_DATA_OBJECTS_BY_TYPE, {
-        variables: {projectId, type: "post", skip, limit: pageSize},
+    const { loading, error, data, refetch } = useQuery(ALL_DATA_OBJECTS_BY_TYPE, {
+        variables: { projectId, type: "post", skip, limit: pageSize },
         skipCache: true
     });
 
@@ -42,7 +42,7 @@ const ProjectDataStore = () => {
     }, [error, loading]);
 
     if (error || !data) return null;
-    const {allDataObjectsByType} = data;
+    const { allDataObjectsByType } = data;
 
     const columns = [
         {
@@ -72,7 +72,7 @@ const ProjectDataStore = () => {
                 <span>
                     <Link href={`${RoutesInfo.PostEditor.path}?projectId=${projectId}&postId=${record.id}`}>
                         <a>
-                            <Icon style={{color: "blue"}} type="edit"/>
+                            <Icon style={{ color: "blue" }} type="edit" />
                         </a>
                     </Link>
                     {/*<Divider type="vertical"/>*/}
@@ -95,7 +95,7 @@ const ProjectDataStore = () => {
                     <Button type="primary">Add Post</Button>
                 </div>
             </Link>
-            <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"}/>
+            <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"} />
         </Fragment>
     );
 };
