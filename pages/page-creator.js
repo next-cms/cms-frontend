@@ -1,116 +1,103 @@
-import React, { useState } from "react";
-import { Select, Button } from "antd";
-
+import React, { useState, useEffect } from "react";
+import { Select, Button, message, Radio, Divider } from "antd";
+import { useQuery } from "graphql-hooks";
+import { ALL_LAYOUT_TEMPLATES } from "../utils/GraphQLConstants";
 
 const { Option } = Select;
 
 const PageCreator = () => {
-    const [footerOn, setFooterOn] = useState(true);
-    const [headerOn, setHeaderOn] = useState(true);
-    const [layout, setLayout] = useState({
-        name: "",
-        header: headerOn,
-        footer: footerOn,
-        content: {},
-        sider: false
 
+    const [skip, setSkip] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+    const [isHeaderOn, setIsHeaderOn] = useState(true);
+    const [isFooterOn, setIsFooterOn] = useState(true);
+    const [isSider, setIsSider] = useState(false);
+    const [currentLayout, setCurrentLayout] = useState("layout1");
+
+    const { loading, error, data, refetch } = useQuery(ALL_LAYOUT_TEMPLATES, {
+        variables: { skip, limit: pageSize },
+        skipCache: true
     });
 
-    const handleChange = (value) => {
-        console.log(`selected ${value}`);
-        if (value === "layoutwithOnlyHeader" || value === "siderLayoutwithOnlyHeader") {
-            setFooterOn(false);
-            setHeaderOn(true);
+    useEffect(() => {
+        if (error) {
+            handleGraphQLAPIErrors(error);
+        }
+        console.log("loading:", loading);
+        let hideMessage;
+        if (loading && !data) {
+            hideMessage && hideMessage();
+            hideMessage = message.loading("Loading all available layout...", 0);
+        } else {
+            hideMessage && hideMessage();
+            hideMessage = null;
+        }
+        if (hideMessage) return hideMessage;
+    }, [error, loading]);
 
-            setLayout({
-                name: value,
-                header: true,
-                footer: false,
-                content: {},
-                sider: value.includes("sider") ? true : false
-            });
-        }
-        else if (value === "layoutwithOnlyFooter" || value === "siderLayoutwithOnlyFooter") {
-            console.log("Values: ", headerOn, footerOn, sider);
-            setHeaderOn(false);
-            setFooterOn(true);
-            setLayout({
-                name: value,
-                header: false,
-                footer: true,
-                content: {},
-                sider: value.includes("sider") ? true : false
-            });
-        }
-        else if (value === "layoutOnly" || value === "siderLayoutOnly") {
-            setFooterOn(false);
-            setHeaderOn(false);
-            setLayout({
-                name: value,
-                header: false,
-                footer: false,
-                content: {},
-                sider: value.includes("sider") ? true : false
-            });
-        }
-        else {
-            setFooterOn(true);
-            setHeaderOn(true);
-            setLayout({
-                name: value,
-                header: true,
-                footer: true,
-                content: {},
-                sider: value.includes("sider") ? true : false
-            });
-        }
+    if (error || !data) return null;
+    const { allLayoutTemplates, _allLayoutTemplatesMeta } = data;
+
+    const handleChange = (e) => {
+        console.log(`selected ${e.target.value}`);
+        setCurrentLayout(e.target.value);
+        allLayoutTemplates.map(item => {
+            if (e.target.value === item.name) {
+                setIsHeaderOn(item.header);
+                setIsFooterOn(item.footer);
+                setIsSider(item.sider);
+            }
+        });
+
+
+
     };
 
-    console.log("model: ", layout);
-    const onHeaderChange = (header) => {
-        if (header === "") {
-
-        }
-        else {
-
-        }
-    };
-    const onFooterChange = (footer) => {
-        if (footer === "footer") {
-
-        }
-        else {
-
-        }
-    };
     return (
         <div>
             <div>
-                <h3>Select a layout</h3>
-                <Select defaultValue="Select a layout" style={{ width: 290 }} onChange={handleChange}>
-                    <Option value="layoutwithHeaderFooter">Layout With Header and Footer</Option>
-                    <Option value="layoutwithOnlyHeader">Layout With Only Header</Option>
-                    <Option value="layoutwithOnlyFooter">Layout With Only Footer</Option>
-                    <Option value="layoutOnly">Only Layout</Option>
-                    <Option value="siderLayoutwithHeaderFooter">Layout With Sider, Header and Footer</Option>
-                    <Option value="siderLayoutwithOnlyHeader">Layout With Sider, Only Header</Option>
-                    <Option value="siderLayoutwithOnlyFooter">Layout With Sider, Only Footer</Option>
-                    <Option value="siderLayoutOnly">Only Sider Layout</Option>
-                </Select>
+                <h3>Layout</h3>
+                <Radio.Group onChange={handleChange} value={currentLayout}>
+                    {allLayoutTemplates.map(item => (
+                        <Radio key={item.name} value={item.name}>
+                            {item.name}
+                            <div style={{ width: "250px", height: "150px", marginLeft: "25px", marginTop: "20px" }}><img width="100%" height="100%" src="../static/layout/layout1.png" /></div>
+                        </Radio>
+                    ))}
+                </Radio.Group>
             </div>
-            {headerOn ? (<div>
+            {isHeaderOn ? (<div style={{ marginTop: "20px" }}>
                 <h3>Select header</h3>
-                <Select defaultValue="Select a header" style={{ width: 250 }} onChange={onHeaderChange}>
-                    <Option value="header1">Header 1</Option>
-                    <Option value="header2">Header 2</Option>
-                </Select>
+                <div style={{ display: "flex" }}>
+                    <Select defaultValue="Select a header" style={{ width: 250, marginRight: "10px" }} >
+                        <Option value="header1">Header 1</Option>
+                        <Option value="header2">Header 2</Option>
+                    </Select>
+                    <Divider style={{ width: "8%", minWidth: "0%" }}>OR</Divider>
+                    <Button style={{ marginLeft: "10px" }}>Create Custom Header</Button>
+                </div>
             </div>) : ""}
-            {footerOn ? (<div>
+            {isFooterOn ? (<div style={{ marginTop: "20px" }}>
                 <h3>Select footer</h3>
-                <Select defaultValue="Select a footer" style={{ width: 250 }} onChange={onFooterChange}>
-                    <Option value="footer1">Footer 1</Option>
-                    <Option value="footer2">Footer 2</Option>
-                </Select>
+                <div style={{ display: "flex" }}>
+                    <Select defaultValue="Select a footer" style={{ width: 250, marginRight: "10px" }} >
+                        <Option value="footer1">Footer 1</Option>
+                        <Option value="footer2">Footer 2</Option>
+                    </Select>
+                    <Divider style={{ width: "8%", minWidth: "0%" }}>OR</Divider>
+                    <Button style={{ marginLeft: "10px" }}>Create Custom Footer</Button>
+                </div>
+            </div>) : ""}
+            {isSider ? (<div style={{ marginTop: "20px" }}>
+                <h3>Select sider</h3>
+                <div style={{ display: "flex" }}>
+                    <Select defaultValue="Select a sider" style={{ width: 250, marginRight: "10px" }} >
+                        <Option value="footer1">Sider 1</Option>
+                        <Option value="footer2">Sider 2</Option>
+                    </Select>
+                    <Divider style={{ width: "8%", minWidth: "0%" }}>OR</Divider>
+                    <Button style={{ marginLeft: "10px" }}>Create Custom Sider</Button>
+                </div>
             </div>) : ""}
             <div><Button type="primary" style={{ margin: "10px 0px" }}>Save</Button></div>
         </div>

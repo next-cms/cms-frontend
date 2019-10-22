@@ -8,6 +8,7 @@ import RoutesInfo from "../../constants/RoutesInfo";
 import RichTextEditor from "../../components/common/rich_text_editor/slate/RichTextEditor";
 import RichTextViewer from "../../components/common/rich_text_editor/slate/RichTextViewer";
 import PageCreator from "../page-creator";
+import InlineNav from "../../components/create_layout/navbar/InlineNav";
 
 
 export const DataStore = (props) => {
