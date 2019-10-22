@@ -1,10 +1,8 @@
 import React from "react";
-
-import StandardToolBar from "./tools/StandardToolBar.js";
 import RTEContextProvider from "./RTEContextProvider";
-import EditorCore from "./core/EditorCore";
+import EditorViewModeSwitcher from "./core/EditorViewModeSwitcher";
 
-const RichTextEditor = ({onSave, projectId, postId, post}) => {
+const RichTextEditor = ({ onSave, projectId, postId, post }) => {
 
     const _onSave = (_post) => {
         onSave({
@@ -17,14 +15,7 @@ const RichTextEditor = ({onSave, projectId, postId, post}) => {
 
     return (
         <RTEContextProvider value={post ? post.contents : null} title={post ? post.title : null}>
-            <StandardToolBar
-                onSave={_onSave}
-                postId={postId}
-                post={post}
-                projectId={projectId}
-            />
-            {/*<TableToolBar/>*/}
-            <EditorCore />
+            <EditorViewModeSwitcher onSave={_onSave} {...{projectId, postId, post}}/>
         </RTEContextProvider>
     );
 };

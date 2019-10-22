@@ -5,7 +5,7 @@ import RoutesInfo from "../../../constants/RoutesInfo";
 
 export const getProjectMenuItems = (params) => {
     const menuItems = {
-        "settings": {
+        settings: {
             key: RoutesInfo.ProjectSettings.slug,
             title: RoutesInfo.ProjectSettings.title,
             icon: <Icon type="setting"/>,
@@ -19,11 +19,11 @@ export const getProjectMenuItems = (params) => {
             path: RoutesInfo.ProjectPages.path,
             subMenu: null
         },
-        datastore: {
-            key: RoutesInfo.DataStore.slug,
-            title: RoutesInfo.DataStore.title,
+        posts: {
+            key: RoutesInfo.Posts.slug,
+            title: RoutesInfo.Posts.title,
             icon: <Icon type="database"/>,
-            path: RoutesInfo.DataStore.path,
+            path: RoutesInfo.Posts.path,
             subMenu: null
         },
         gallery: {

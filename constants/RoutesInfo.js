@@ -29,12 +29,6 @@ export default {
         pathAs: "/project/available-components",
         title: "Browse Components"
     },
-    DataStore: {
-        slug: "datastore",
-        path: "/project/datastore",
-        pathAs: "/project/datastore",
-        title: "Data Store"
-    },
     GalleryPage: {
         slug: "gallery",
         path: "/project/gallery",
@@ -79,9 +73,16 @@ export default {
         path: "/profile",
         pathAs: "/profile"
     },
-    Post: {
+    PostEditor: {
+        slug: "editor",
+        path: "/project/posts/editor",
+        pathAs: "/project/posts/editor",
+        title: "Post Editor"
+    },
+    Posts: {
         slug: "posts",
-        path: "/project/datastore/posts",
-        pathAs: "/project/datastore/posts"
+        path: "/project/posts",
+        pathAs: "/project/posts",
+        title: "Posts"
     },
 };

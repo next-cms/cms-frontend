@@ -111,7 +111,7 @@ const ProjectPages = ({projectId}) => {
 
     return (
         <Fragment>
-            <div>
+            <div style={{alignSelf: "flex-end", marginBottom: "5px"}}>
                 <Button type="primary" onClick={onAddPageClick}>Add Page</Button>
             </div>
             <Table dataSource={allPages} columns={columns} rowKey={"slug"}/>

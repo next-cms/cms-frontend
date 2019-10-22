@@ -1,7 +1,7 @@
-import React, {Fragment} from "react";
-import {css, cx} from "emotion";
+import React, { Fragment } from "react";
+import { css, cx } from "emotion";
 import * as PropTypes from "prop-types";
-import {Popover} from "antd";
+import { Popover } from "antd";
 import TableToolBar from "./tools/TableToolBar";
 
 export class Table extends React.Component {
@@ -10,16 +10,17 @@ export class Table extends React.Component {
     };
 
     getChildContext() {
-        return {isInTable: true};
+        return { isInTable: true };
     }
 
     render() {
-        const {attributes, children, isSelected} = this.props;
+        // eslint-disable-next-line react/prop-types
+        const { attributes, children, isSelected } = this.props;
         return (
             <Popover
                 content={
                     <Fragment>
-                        <TableToolBar/>
+                        <TableToolBar />
                     </Fragment>
                 }
                 trigger="click"
@@ -35,19 +36,19 @@ export class Table extends React.Component {
 
 export class TableRow extends React.Component {
     render() {
-        const {attributes, children} = this.props;
+        const { attributes, children } = this.props;
         return <tr {...attributes}>{children}</tr>;
     }
 }
 
 export class TableCell extends React.Component {
     render() {
-        const {attributes, children, node} = this.props;
+        const { attributes, children, node } = this.props;
 
         const textAlign = node.get("data").get("align", "left");
 
         return (
-            <td style={{textAlign, minWidth: "50px", border: "1px solid black"}} {...attributes}>
+            <td style={{ textAlign, minWidth: "50px", border: "1px solid black" }} {...attributes}>
                 {children}
             </td>
         );
@@ -60,10 +61,10 @@ export class Paragraph extends React.Component {
     };
 
     render() {
-        const {attributes, children} = this.props;
-        const {isInTable} = this.context;
+        const { attributes, children } = this.props;
+        const { isInTable } = this.context;
 
-        const style = isInTable ? {margin: 0} : {};
+        const style = isInTable ? { margin: 0 } : {};
 
         return (
             <p style={style} {...attributes}>
@@ -74,7 +75,7 @@ export class Paragraph extends React.Component {
 }
 
 export const Button = React.forwardRef(
-    ({className, active, reversed, ...props}, ref) => (
+    ({ className, active, reversed, ...props }, ref) => (
         <span
             {...props}
             ref={ref}
@@ -83,8 +84,8 @@ export const Button = React.forwardRef(
                 css`
           cursor: pointer;
           color: ${reversed
-                    ? active ? "white" : "#aaa"
-                    : active ? "black" : "#ccc"};
+                        ? active ? "white" : "#aaa"
+                        : active ? "black" : "#ccc"};
         `
             )}
         />
@@ -92,7 +93,7 @@ export const Button = React.forwardRef(
 );
 
 export const EditorValue = React.forwardRef(
-    ({className, value, ...props}, ref) => {
+    ({ className, value, ...props }, ref) => {
         const textLines = value.document.nodes
             .map(node => node.text)
             .toArray()
@@ -137,7 +138,7 @@ export const EditorValue = React.forwardRef(
     }
 );
 
-export const Icon = React.forwardRef(({className, ...props}, ref) => (
+export const Icon = React.forwardRef(({ className, ...props }, ref) => (
     <span
         {...props}
         ref={ref}
@@ -152,7 +153,7 @@ export const Icon = React.forwardRef(({className, ...props}, ref) => (
     />
 ));
 
-export const Instruction = React.forwardRef(({className, ...props}, ref) => (
+export const Instruction = React.forwardRef(({ className, ...props }, ref) => (
     <div
         {...props}
         ref={ref}
@@ -169,7 +170,7 @@ export const Instruction = React.forwardRef(({className, ...props}, ref) => (
     />
 ));
 
-export const Menu = React.forwardRef(({className, ...props}, ref) => (
+export const Menu = React.forwardRef(({ className, ...props }, ref) => (
     <div
         {...props}
         ref={ref}
@@ -187,7 +188,7 @@ export const Menu = React.forwardRef(({className, ...props}, ref) => (
     />
 ));
 
-export const Toolbar = React.forwardRef(({className, ...props}, ref) => (
+export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
     <Menu
         {...props}
         ref={ref}
