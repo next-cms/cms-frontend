@@ -129,7 +129,7 @@ export const renderMarkButton = (type, icon, { value, editor }) => {
 
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{ fontSize: "24px", boxShadow: "0px 0px 10px #888888" }}
             shape="circle"
             type={isActive ? "primary" : "default"}
             onMouseDown={event => onClickMark(event, type, { editor })}
@@ -152,20 +152,18 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
     }
 
     const button = isPopover ? (
-        <Menu>
-            <Menu.Item
-                style={{
-                    backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
-                    color: `${isActive ? "#ffffff" : "#1890ff"}`,
-                }}
-                onMouseDown={event => onClickBlock(event, type, { value, editor })}
-            >
-                {icon}
-            </Menu.Item>
-        </Menu>
+        <Menu.Item
+            style={{
+                backgroundColor: `${isActive ? "#1890ff" : "transparent"}`,
+                color: `${isActive ? "#ffffff" : "#1890ff"}`,
+            }}
+            onMouseDown={event => onClickBlock(event, type, { value, editor })}
+        >
+            {icon}
+        </Menu.Item>
     ) : (
         <Button
-                style={{ fontSize: "24px" }}
+                style={{ fontSize: "24px", boxShadow: "0px 0px 10px #888888" }}
                 shape="circle"
                 type={isActive ? "primary" : "default"}
                 onMouseDown={event => onClickBlock(event, type, { value, editor })}
@@ -180,7 +178,7 @@ export const renderBlockButton = (type, icon, { value, editor }, isPopover) => {
 export const renderInsertableBlockButton = (type, icon, { value, editor, showModal }) => {
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{ fontSize: "24px", boxShadow: "0px 0px 10px #888888" }}
             type="primary"
             shape="circle"
             onMouseDown={event => onClickInsertable(event, type, { value, editor, showModal })}
@@ -193,7 +191,7 @@ export const renderInsertableBlockButton = (type, icon, { value, editor, showMod
 export const renderAlignmentButton = (alignType, icon, { value, editor }) => {
     return (
         <Button
-            style={{ fontSize: "24px" }}
+            style={{ fontSize: "24px", boxShadow: "0px 0px 10px #888888" }}
             shape="circle"
             type="dashed"
             onMouseDown={event => onClickAlignment(event, alignType, { value, editor })}
@@ -235,7 +233,7 @@ export const onDropOrPaste = (event, editor, next) => {
         editor.insertImage(text, target);
         return;
     }
-
+    const { value } = editor;
     if (value.startBlock.type === "table-cell") {
         if (text) {
             const lines = text.split("\n");

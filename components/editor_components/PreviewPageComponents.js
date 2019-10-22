@@ -68,6 +68,7 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     useEffect(() => {
         if (dataStoreContext.pageDetailsUpdated) {
             refetch({variables: {projectId: projectId, page: pageName}});
+            dataStoreContext.setPageDetailsUpdated(false);
             if (ref.current) {
                 ref.current.src = `${API_NEXT_PROJECT_URL}/${pageName}?projectId=${projectId}`;
                 setStyle({
@@ -126,8 +127,8 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
             }
         });
         if (!result.error) {
-            menuContext.deleteFromPageMenu(menuContext.selectedKeys && menuContext.selectedKeys[0]);
-            await redirectTo(`${RoutesInfo.ProjectSettings.path}?projectId=${projectId}`);
+            dataStoreContext.setProjectPagesListUpdated(true);
+            await redirectTo(`${RoutesInfo.ProjectPages.path}?projectId=${projectId}`);
             message.success(`Deleted page '${pageName}' successfully!`);
         } else {
             handleGraphQLAPIErrors(result.error);

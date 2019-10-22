@@ -1,7 +1,7 @@
 import React, {Fragment, useContext, useEffect, useState} from "react";
-import {Button, Divider, Icon, message, PageHeader, Table, Typography} from "antd";
+import {Affix, Button, Divider, Icon, message, PageHeader, Table, Typography} from "antd";
 import Link from "next/link";
-import "../static/scss/dashboard.scss";
+import "../styles/scss/dashboard.scss";
 import PageWrapper from "../components/common/PageWrapper";
 import RecentProjects from "../components/projects/RecentProjects";
 import {withAuthSync} from "../utils/withAuthSync";
@@ -12,10 +12,17 @@ import {ALL_PROJECTS_QUERY} from "../utils/GraphQLConstants";
 import {MenuContext} from "../contexts/MenuContextProvider";
 import {handleGraphQLAPIErrors} from "../utils/helpers";
 import RoutesInfo from "../constants/RoutesInfo";
+import {MetaRedirect} from "../components/common/Redirect";
+import DefaultNavHeader from "../components/layout/header/DefaultNavHeader";
 
 const {Title} = Typography;
 
 const Dashboard = () => {
+    if (process.env.SINGLE_PROJECT_MODE === "true") {
+        return (
+            <MetaRedirect to={RoutesInfo.Home.path}/>
+        );
+    }
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const dataStoreContext = useContext(DataStoreContext);
@@ -133,34 +140,41 @@ const Dashboard = () => {
     );
 
     return (
-        <PageWrapper pageHeader={pageHeader}>
-            <Fragment>
-                <Title level={3}>Recent Project</Title>
-                <RecentProjects/>
+        <Fragment>
+            <Affix>
+                <div>
+                    <DefaultNavHeader/>
+                </div>
+            </Affix>
+            <PageWrapper pageHeader={pageHeader}>
+                <Fragment>
+                    <Title level={3}>Recent Project</Title>
+                    <RecentProjects/>
 
-                <Divider/>
+                    <Divider/>
 
-                <Title level={3}>All Project</Title>
-                <Table
-                    dataSource={projects}
-                    columns={columns}
-                    pagination={{
-                        pageSize: pageSize,
-                        total: _projectsMeta.count,
-                        current,
-                        onChange
-                    }}
-                    rowKey="id"
-                />
-                <DeleteWarningModal
-                    visible={visible}
-                    project={project}
-                    handleCancel={onCancel}
-                    onSuccess={onDeleteProjectSuccess}
+                    <Title level={3}>All Project</Title>
+                    <Table
+                        dataSource={projects}
+                        columns={columns}
+                        pagination={{
+                            pageSize: pageSize,
+                            total: _projectsMeta.count,
+                            current,
+                            onChange
+                        }}
+                        rowKey="id"
+                    />
+                    <DeleteWarningModal
+                        visible={visible}
+                        project={project}
+                        handleCancel={onCancel}
+                        onSuccess={onDeleteProjectSuccess}
 
-                />
-            </Fragment>
-        </PageWrapper>
+                    />
+                </Fragment>
+            </PageWrapper>
+        </Fragment>
     );
 };
 

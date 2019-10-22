@@ -63,11 +63,16 @@ const SelectedImage = ({
         if (singleSelect) {
             setIsSelected(selectedItems[index]);
         } else {
-            setIsSelected(selectedAll);
-            onSelectPhoto(index, selectedAll, photo);
+            setIsSelected(selectedItems[index]);
+            // onSelectPhoto(index, selectedAll, photo);
         }
 
-    }, [selectedAll, selectedItems]);
+    }, [selectedItems]);
+
+    useEffect(() => {
+        setIsSelected(selectedAll);
+        onSelectPhoto(index, selectedAll, photo);
+    }, [selectedAll]);
 
     return (
         <div

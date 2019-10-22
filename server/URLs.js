@@ -15,6 +15,7 @@ module.exports = function getURLConstants(env) {
     const API_LOGIN_URL = `${API_BASE_URL}/auth/login`;
     const UPLOAD_IMAGE_URL = `${API_BASE_URL}/files/upload/image`;
     const UPLOAD_MULTIPLE_IMAGE_URL = `${API_BASE_URL}/files/upload/images`;
+    const DEPLOY_PROJECT_URL = `${API_BASE_URL}/project/deploy`;
 
     return {
         API_BASE_URL,
@@ -23,6 +24,7 @@ module.exports = function getURLConstants(env) {
         RESOLVE_USER_URL,
         API_LOGIN_URL,
         UPLOAD_IMAGE_URL,
-        UPLOAD_MULTIPLE_IMAGE_URL
+        UPLOAD_MULTIPLE_IMAGE_URL,
+        DEPLOY_PROJECT_URL
     };
 };

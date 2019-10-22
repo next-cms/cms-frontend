@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Toolbar } from "../SlateComponet";
 import { opts, renderAlignmentButton, renderBlockButton, renderInsertableBlockButton, renderMarkButton } from "../core";
 import { RTEContext } from "../RTEContextProvider";
 import {
     MdBorderAll,
+    MdBrush,
     MdCode,
+    MdFlip,
     MdFormatAlignCenter,
     MdFormatAlignLeft,
     MdFormatAlignRight,
@@ -14,43 +16,50 @@ import {
     MdFormatListNumbered,
     MdFormatQuote,
     MdFormatUnderlined,
+    MdInsertLink,
     MdInsertPhoto,
     MdLooksOne,
     MdLooksTwo,
-    MdStrikethroughS,
-    MdInsertLink,
-    MdFlip,
     MdRemove,
-    MdBrush
+    MdStrikethroughS
 } from "react-icons/md";
-import { Button, Divider, Input, Popover } from "antd";
+import { Affix, Button, Checkbox, Divider, Input, Menu, Popover } from "antd";
 import { isSelectionOutOfTable } from "../plugins/Table/utils";
 import { renderLinkButton } from "../core/Actions/InlineButton";
 
-// eslint-disable-next-line react/prop-types
-const StandardToolBar = ({ onSave }) => {
+const StandardToolBar = ({ onSave, projectId, post }) => {
 
     const rteContext = useContext(RTEContext);
 
     const { value } = rteContext;
     const [title, setTitle] = useState();
+    const [slug, setSlug] = useState(post && post.slug);
+    const [isDraft, setIsDraft] = useState(post && post.isDraft);
 
     const isOutTable = isSelectionOutOfTable(opts, value);
 
     const onSaveClick = () => {
 
-        let post = {
+        let newPost = {
             title,
-            content: rteContext.value.toJSON()
+            slug,
+            isDraft,
+            contents: rteContext.value.toJSON(),
         };
 
-        onSave(post);
+        onSave(newPost);
     };
+
+    useEffect(() => {
+        if (!post) return;
+        setSlug(post.slug);
+        setIsDraft(post.isDraft);
+    }, [post]);
 
     return (
         <div>
-            <div>
-                <Toolbar>
+            <Affix offsetTop={80}>
+                <Toolbar style={{ padding: "0 20px 10px 20px" }}>
                     {renderMarkButton("bold", <MdFormatBold />, rteContext)}
                     {renderMarkButton("italic", <MdFormatItalic />, rteContext)}
                     {renderMarkButton("underline", <MdFormatUnderlined />, rteContext)}
@@ -64,32 +73,44 @@ const StandardToolBar = ({ onSave }) => {
                     {renderBlockButton("bulleted-list", <MdFormatListBulleted />, rteContext)}
                     <Popover placement="bottom" title="Divider"
                         content={
-                            <div>
+                            <Menu>
                                 {renderBlockButton("divider-with-text", "Divider with text", rteContext, true)}
                                 {renderBlockButton("divider", "Divider", rteContext, true)}
-                            </div>
+                            </Menu>
                         }
                         trigger="click"
                     >
-                        <Button style={{ fontSize: "24px" }} shape="circle"><MdRemove /></Button>
+                        <Button style={{ fontSize: "24px", boxShadow: "0px 0px 10px #888888" }} shape="circle"><MdRemove /></Button>
                     </Popover>
 
                     {renderBlockButton("split", <MdFlip />, rteContext)}
-                    <Divider style={{ height: "50px", width: "2px" }} type="vertical" />
+                    <Divider style={{ height: "30px", width: "2px", top: "-8px" }} type="vertical" />
                     {renderLinkButton("link", <MdInsertLink />, rteContext)}
                     {renderInsertableBlockButton("image", <MdInsertPhoto />, rteContext)}
                     {isOutTable && renderInsertableBlockButton("table", <MdBorderAll />, rteContext)}
-                    <Divider style={{ height: "50px", width: "2px" }} type="vertical" />
+                    <Divider style={{ height: "30px", width: "2px", top: "-8px" }} type="vertical" />
                     {renderAlignmentButton("left", <MdFormatAlignLeft />, rteContext)}
                     {renderAlignmentButton("center", <MdFormatAlignCenter />, rteContext)}
                     {renderAlignmentButton("right", <MdFormatAlignRight />, rteContext)}
-                    <Divider style={{ height: "50px", width: "2px" }} type="vertical" />
-                    <Button type="primary" shape="round" onClick={onSaveClick}>Save</Button>
+                    <Divider style={{ height: "30px", width: "2px", top: "-8px" }} type="vertical" />
+                    <Popover placement="bottom" title="Save"
+                        content={
+                            <div style={{ display: "flow-root" }}>
+                                <Input placeholder="Slug" onChange={(e) => setSlug(e.target.value)} value={slug} />
+                                <Checkbox checked={isDraft} onChange={(e) => setIsDraft(!isDraft)}
+                                    style={{ marginTop: "10px" }}>Draft</Checkbox>
+                                <Button type="primary" shape="round" style={{ marginTop: "5px", float: "right" }}
+                                    onClick={onSaveClick}>Save</Button>
+                            </div>
+                        }
+                        trigger="click">
+                        <div style={{ position: "relative" }}>
+                            <Button type="primary" shape="round"
+                                style={{ top: "-5px", boxShadow: "0px 0px 10px #888888" }}>Publish</Button></div>
+                    </Popover>
                 </Toolbar>
-            </div>
-            <div>
-                <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)} />
-            </div>
+            </Affix>
+            <Input placeholder="Title" allowClear onChange={(e) => setTitle(e.target.value)} style={{ top: "16px" }} />
         </div>
     );
 };

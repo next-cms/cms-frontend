@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import {Alert, Button, Checkbox, Form, Icon, Input} from "antd";
 /* SCSS */
-import "../static/scss/login.scss";
+import "../styles/scss/login.scss";
 import {AuthContext} from "../contexts/AuthContextProvider";
 import {ClientContext} from "graphql-hooks";
 import * as PropTypes from "prop-types";

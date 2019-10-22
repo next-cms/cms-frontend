@@ -26,6 +26,6 @@ const ViewCore = () => {
             />
         </Fragment>
     );
-}
+};
 
 export default ViewCore;

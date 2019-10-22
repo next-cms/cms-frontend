@@ -119,9 +119,12 @@ export const PROJECT_DETAILS = `
 query projectDetailsQuery($projectId: String!) {
     project(id: $projectId) {
         id
+        name
         title
         description
         websiteUrl
+        siteName
+        port
         brand {
             icon
             siteTitle
@@ -132,7 +135,7 @@ query projectDetailsQuery($projectId: String!) {
 }`;
 
 export const DELETE_PROJECT = `
-mutation DeleteProject($id: ID!){
+mutation DeleteProject($id: String!){
     deleteProject(id: $id)
 }`;
 
@@ -148,10 +151,15 @@ mutation createProject($title: String!, $description: String, $websiteUrl: Strin
 }`;
 
 export const UPDATE_PROJECT = `
-mutation UpdateProject($id: String!, $title: String!, $description: String, $websiteUrl: String!, $siteMeta: String, $brand: BrandInput) {
-  updateProject(id: $id, title: $title, description: $description, websiteUrl: $websiteUrl, siteMeta: $siteMeta, brand: $brand) {
+mutation UpdateProject($project: ProjectInput!) {
+  updateProject(project: $project) {
     id
   }
+}`;
+
+export const DEPLOY_PROJECT = `
+mutation deployProject($id: ID!) {
+  deployProject(id: $id)
 }`;
 
 export const RECENT_PROJECTS = `
@@ -272,7 +280,10 @@ export const ALL_DATA_OBJECTS = `
 query allDataObjects($projectId: String!, $limit: Int!, $skip: Int!) {
   allDataObjects(projectId: $projectId, limit: $limit, skip: $skip) {
     id
+    title
     projectId
+    isDraft
+    slug
     type
     templateTypeId
     fields
@@ -289,7 +300,10 @@ export const ALL_DATA_OBJECTS_BY_TYPE = `
 query allDataObjectsByType($projectId: String!, $type: String!, $limit: Int!, $skip: Int!) {
   allDataObjectsByType(projectId: $projectId, type: $type, limit: $limit, skip: $skip) {
     id
+    title
     projectId
+    isDraft
+    slug
     type
     templateTypeId
     fields
@@ -302,11 +316,48 @@ query allDataObjectsByType($projectId: String!, $type: String!, $limit: Int!, $s
   }
 }`;
 
+export const DATA_OBJECT_BY_SLUG = `
+query dataObjectsBySlug($projectId: String!, $slug: String!) {
+  dataObjectsBySlug(projectId: $projectId, slug: $slug) {
+    id
+    title
+    slug
+    isDraft
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+}`;
+
+export const DATA_OBJECT_BY_ID = `
+query dataObjectsByPostId($projectId: String!, $postId: String!) {
+  dataObjectsByPostId(projectId: $projectId, postId: $postId) {
+    id
+    title
+    slug
+    isDraft
+    projectId
+    type
+    templateTypeId
+    fields
+    contents
+    createdAt
+    modifiedAt
+  }
+}`;
+
 export const ADD_DATA_OBJECT = `
 mutation addDataObject($dataObject: DataObjectInput!, $projectId: String!) {
   addDataObject(dataObject: $dataObject, projectId: $projectId) {
     id
+    title
     projectId
+    slug
+    isDraft
     type
     templateTypeId
     fields
@@ -320,8 +371,11 @@ export const UPDATE_DATA_OBJECT = `
 mutation updateDataObject($dataObject: DataObjectInput!, $projectId: String!) {
   updateDataObject(dataObject: $dataObject, projectId: $projectId) {
     id
+    title
     projectId
     type
+    slug
+    isDraft
     templateTypeId
     fields
     contents

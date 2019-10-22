@@ -14,7 +14,7 @@ import {DataStoreContext} from "../../../contexts/DataStoreContextProvider";
 const {publicRuntimeConfig} = getConfig();
 const {UPLOAD_IMAGE_URL, API_BASE_URL} = publicRuntimeConfig;
 
-const MediaGallery = ({isSingleSelect, onSelect}) => {
+const MediaGallery = ({isSingleSelect, onSelect, projectId}) => {
     const authContext = useContext(AuthContext);
     const dataStoreContext = useContext(DataStoreContext);
     const [selectAll, setSelectAll] = useState(false);
@@ -26,7 +26,9 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
     const [skip, setSkip] = useState(0);
     const [limit, setLimit] = useState(20);
 
-    const projectId = dataStoreContext.currentProject.id;
+    if (!projectId) {
+        projectId = dataStoreContext.currentProject.id;
+    }
 
     const {loading, error, data, refetch} = useQuery(
         ALL_MEDIA,
@@ -59,15 +61,15 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
     };
 
     const onSelectPhoto = (index, isSelected, photo) => {
-
+        console.log("onselectphoto");
         if (!isSelected) {
-
+            // if (selectedImage[index]) {
             setSelectedImage(prevState => {
                 const a = {...prevState};
                 delete a[index];
                 return a;
             });
-
+            // }
         } else {
             if (isSingleSelect) {
                 setSelectedImage({
@@ -82,7 +84,11 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
         }
 
         if (onSelect) {
-            onSelect({...photo, src: `${API_BASE_URL}${photo.src}`});
+            if (isSelected) {
+                onSelect({...photo, src: `${API_BASE_URL}${photo.src}?projectId=${projectId}`});
+            } else {
+                onSelect(null);
+            }
         }
     };
 
@@ -105,7 +111,7 @@ const MediaGallery = ({isSingleSelect, onSelect}) => {
     const imageRenderer = useCallback(
         ({index, left, top, key, photo}) => (
             <SelectedImage
-                selectAll={selectAll}
+                selectedAll={selectAll}
                 singleSelect={isSingleSelect}
                 selectedItems={selectedImage}
                 key={key}

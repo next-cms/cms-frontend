@@ -9,8 +9,8 @@ const PageCreator = () => {
 
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
-    const [isHeaderOn, setIsHeaderOn] = useState(true);
-    const [isFooterOn, setIsFooterOn] = useState(true);
+    const [isHeader, setisHeader] = useState(true);
+    const [isFooter, setisFooter] = useState(true);
     const [isSider, setIsSider] = useState(false);
     const [currentLayout, setCurrentLayout] = useState("layout1");
 
@@ -43,8 +43,8 @@ const PageCreator = () => {
         setCurrentLayout(e.target.value);
         allLayoutTemplates.map(item => {
             if (e.target.value === item.name) {
-                setIsHeaderOn(item.header);
-                setIsFooterOn(item.footer);
+                setisHeader(item.header);
+                setisFooter(item.footer);
                 setIsSider(item.sider);
             }
         });
@@ -66,26 +66,26 @@ const PageCreator = () => {
                     ))}
                 </Radio.Group>
             </div>
-            {isHeaderOn ? (<div style={{ marginTop: "20px" }}>
+            {isHeader ? (<div style={{ marginTop: "20px" }}>
                 <h3>Select header</h3>
                 <div style={{ display: "flex" }}>
                     <Select defaultValue="Select a header" style={{ width: 250, marginRight: "10px" }} >
                         <Option value="header1">Header 1</Option>
                         <Option value="header2">Header 2</Option>
                     </Select>
-                    <Divider style={{ width: "8%", minWidth: "0%" }}>OR</Divider>
-                    <Button style={{ marginLeft: "10px" }}>Create Custom Header</Button>
+                    <Divider style={{ width: "8%", minWidth: "0%", margin: "5px 10px" }}>OR</Divider>
+                    <Button>Create Custom Header</Button>
                 </div>
             </div>) : ""}
-            {isFooterOn ? (<div style={{ marginTop: "20px" }}>
+            {isFooter ? (<div style={{ marginTop: "20px" }}>
                 <h3>Select footer</h3>
                 <div style={{ display: "flex" }}>
                     <Select defaultValue="Select a footer" style={{ width: 250, marginRight: "10px" }} >
                         <Option value="footer1">Footer 1</Option>
                         <Option value="footer2">Footer 2</Option>
                     </Select>
-                    <Divider style={{ width: "8%", minWidth: "0%" }}>OR</Divider>
-                    <Button style={{ marginLeft: "10px" }}>Create Custom Footer</Button>
+                    <Divider style={{ width: "8%", minWidth: "0%", margin: "5px 10px" }}>OR</Divider>
+                    <Button>Create Custom Footer</Button>
                 </div>
             </div>) : ""}
             {isSider ? (<div style={{ marginTop: "20px" }}>
@@ -95,8 +95,8 @@ const PageCreator = () => {
                         <Option value="footer1">Sider 1</Option>
                         <Option value="footer2">Sider 2</Option>
                     </Select>
-                    <Divider style={{ width: "8%", minWidth: "0%" }}>OR</Divider>
-                    <Button style={{ marginLeft: "10px" }}>Create Custom Sider</Button>
+                    <Divider style={{ width: "8%", minWidth: "0%", margin: "5px 10px" }}>OR</Divider>
+                    <Button>Create Custom Sider</Button>
                 </div>
             </div>) : ""}
             <div><Button type="primary" style={{ margin: "10px 0px" }}>Save</Button></div>

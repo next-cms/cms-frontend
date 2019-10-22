@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { Table, message, Button } from "antd";
+import React, { Fragment, useEffect, useState } from "react";
+import { Button, Icon, message, Table } from "antd";
 import { useQuery } from "graphql-hooks";
-import { ALL_DATA_OBJECTS_BY_TYPE, ALL_DATA_MODELS } from "../../utils/GraphQLConstants";
+import { ALL_DATA_OBJECTS_BY_TYPE } from "../../utils/GraphQLConstants";
 import { handleGraphQLAPIErrors } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -33,7 +33,7 @@ const ProjectDataStore = () => {
         let hideMessage;
         if (loading && !data) {
             hideMessage && hideMessage();
-            hideMessage = message.loading("Loading recent projects...", 0);
+            hideMessage = message.loading("Loading posts...", 0);
         } else {
             hideMessage && hideMessage();
             hideMessage = null;
@@ -41,26 +41,14 @@ const ProjectDataStore = () => {
         if (hideMessage) return hideMessage;
     }, [error, loading]);
 
-    const dataSource = [
-        {
-            projectId: "1",
-            type: "Mike",
-            createdAt: 32,
-            modifiedAt: "10 Downing Street",
-        },
-        {
-            projectId: "2",
-            type: "John",
-            createdAt: 42,
-            modifiedAt: "10 Downing Street",
-        },
-    ];
+    if (error || !data) return null;
+    const { allDataObjectsByType } = data;
 
     const columns = [
         {
-            title: "Project Id",
-            dataIndex: "projectId",
-            key: "projectId",
+            title: "Slug",
+            dataIndex: "slug",
+            key: "slug",
         },
         {
             title: "Type",
@@ -77,15 +65,35 @@ const ProjectDataStore = () => {
             dataIndex: "modifiedAt",
             key: "modifiedAt",
         },
+        {
+            title: "Action",
+            key: "action",
+            render: (text, record) => (
+                <span>
+                    <Link href={`${RoutesInfo.Post.path}?projectId=${projectId}&postId=${record.id}`}>
+                        <a>
+                            <Icon style={{ color: "blue" }} type="edit" />
+                        </a>
+                    </Link>
+                    {/*<Divider type="vertical"/>*/}
+                    {/*<Fragment>*/}
+                    {/*<a onClick={() => handleClick(record)}>*/}
+                    {/*<Icon style={{color: "red"}} type="delete"/>*/}
+                    {/*</a>*/}
+
+                    {/*</Fragment>*/}
+                </span>
+            )
+        }
     ];
 
 
     return (
         <Fragment>
-            <Link href={`${RoutesInfo.Post.slug}?projectId=${projectId}&postId=new`}>
+            <Link href={`${RoutesInfo.Post.path}?projectId=${projectId}&postId=new`}>
                 <Button type="primary">Add Post</Button>
             </Link>
-            <Table dataSource={dataSource} columns={columns} rowKey={"projectId"} />
+            <Table dataSource={allDataObjectsByType} columns={columns} rowKey={"id"} />
         </Fragment>
     );
 };

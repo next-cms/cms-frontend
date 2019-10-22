@@ -1,4 +1,4 @@
-import {AutoComplete, Button, Col, Form, Input, message, Row,} from "antd";
+import {AutoComplete, Button, Form, Input, message,} from "antd";
 import React, {useContext, useEffect, useState} from "react";
 // SCSS
 import "./ProjectForm.scss";
@@ -7,6 +7,7 @@ import {useMutation} from "graphql-hooks";
 import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
 import * as PropTypes from "prop-types";
 import {UPDATE_PROJECT} from "../../utils/GraphQLConstants";
+import {AuthContext} from "../../contexts/AuthContextProvider";
 
 const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;
@@ -16,6 +17,7 @@ const ProjectSettingForm = (props) => {
     const [updateProject, project] = useMutation(UPDATE_PROJECT);
     const [autoCompleteResult, setAutoCompleteResult] = useState([]);
     const dataStoreContext = useContext(DataStoreContext);
+    const authContext = useContext(AuthContext);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -25,14 +27,11 @@ const ProjectSettingForm = (props) => {
             if (!err) {
                 const result = await updateProject({
                     variables: {
-                        id: currentProject.id,
-                        title: values.title,
-                        description: values.description,
-                        websiteUrl: values.websiteUrl,
-                        siteMeta: values.siteMeta,
-                        brand: {
-                            icon: values.icon,
-                            siteTitle: values.siteTitle,
+                        project: {
+                            id: currentProject.id,
+                            ownerId: authContext.user.id,
+                            ...dataStoreContext.project,
+                            ...values
                         }
                     }
                 });
@@ -71,18 +70,39 @@ const ProjectSettingForm = (props) => {
     useEffect(() => {
         if (currentProject) {
             setFieldsValue({
+                name: currentProject.name,
                 title: currentProject.title,
                 description: currentProject.description,
-                websiteUrl: currentProject.websiteUrl,
-                siteMeta: currentProject.siteMeta,
-                icon: currentProject.brand.icon,
-                siteTitle: currentProject.brand.siteTitle,
+                siteName: currentProject.siteName,
+                port: currentProject.port
             });
         }
     }, [currentProject]);
 
     return (
         <Form className="pi_cms_form project_form" onSubmit={handleSubmit}>
+            <FormItem label="Name" extra={
+                <ul>
+                    <li>The name must be less than or equal to 214 characters. This includes the scope for
+                        scoped packages.
+                    </li>
+                    <li>The name can’t start with a dot or an underscore.</li>
+                    <li>New packages must not have uppercase letters in the name.</li>
+                    <li>The name ends up being part of a URL, an argument on the command line, and a
+                        folder name. Therefore, the name can’t contain any non-URL-safe characters.
+                    </li>
+                </ul>
+            }>
+                {getFieldDecorator("name", {
+                    rules: [
+                        {
+                            required: true,
+                            message: "Please input your project name!",
+
+                        },
+                    ],
+                })(<Input placeholder="Name"/>)}
+            </FormItem>
             <FormItem label="Title">
                 {getFieldDecorator("title", {
                     rules: [
@@ -91,7 +111,7 @@ const ProjectSettingForm = (props) => {
                             message: "Please input your Project title!",
                         },
                     ],
-                })(<Input placeholder="title"/>)}
+                })(<Input placeholder="Title"/>)}
             </FormItem>
             <FormItem label="Description">
                 {getFieldDecorator("description", {
@@ -100,58 +120,31 @@ const ProjectSettingForm = (props) => {
                             required: false,
                         }
                     ],
-                })(<Input.TextArea placeholder="description"/>)}
+                })(<Input.TextArea placeholder="Description"/>)}
             </FormItem>
-            <FormItem label="Website URL" extra="Used to create canonical URL.">
-                {getFieldDecorator("websiteUrl", {
-                    rules: [{required: true, message: "Please input website!"}],
-                })(
-                    <AutoComplete
-                        dataSource={websiteUrlOptions}
-                        onChange={handleWebsiteUrlChange}
-                        placeholder="website URL"
-                    >
-                        <Input/>
-                    </AutoComplete>,
-                )}
+            <FormItem label="Site Name" extra={
+                <p>Site Name will be used to create nginx configuration. Multiple names must be space separated. There
+                    must not be any spaces within a single name. <a
+                        href="https://nginx.org/en/docs/http/server_names.html">See here</a> for more information.</p>
+            }>
+                {getFieldDecorator("siteName", {
+                    rules: [{required: true, message: "Please input sitename!"}],
+                })(<Input placeholder="Site Name"/>)}
             </FormItem>
 
-            <Row type="flex" justify="space-between">
-                <Col span={11}>
-                    <FormItem label="Icon">
+            {/*<FormItem label="Port" extra={*/}
+            {/*<p>Specify the port in which the application will be mapped and be discoverable. Without the port you*/}
+            {/*will not be able to access the site.</p>*/}
+            {/*}>*/}
 
-                        {getFieldDecorator("icon", {
-                            rules: [
-                                {
-                                    required: false,
-                                }
-                            ],
-                        })(<Input placeholder="icon"/>)}
-                    </FormItem>
-
-                </Col>
-                <Col span={12}>
-                    <FormItem label="Site Title">
-                        {getFieldDecorator("siteTitle", {
-                            rules: [
-                                {
-                                    required: false,
-                                }
-                            ],
-                        })(<Input placeholder="site title"/>)}
-                    </FormItem>
-                </Col>
-            </Row>
-
-            <FormItem label="Site Meta">
-                {getFieldDecorator("siteMeta", {
-                    rules: [
-                        {
-                            required: false,
-                        }
-                    ],
-                })(<Input placeholder="sitemeta"/>)}
-            </FormItem>
+            {/*{getFieldDecorator("port", {*/}
+            {/*rules: [*/}
+            {/*{*/}
+            {/*required: false,*/}
+            {/*}*/}
+            {/*],*/}
+            {/*})(<Input placeholder="Port"/>)}*/}
+            {/*</FormItem>*/}
 
             <FormItem>
                 <Button type="primary" htmlType="submit">Save</Button>

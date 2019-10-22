@@ -4,17 +4,24 @@ import StandardToolBar from "./tools/StandardToolBar.js";
 import RTEContextProvider from "./RTEContextProvider";
 import EditorCore from "./core/EditorCore";
 
-// eslint-disable-next-line react/prop-types
-const RichTextEditor = ({ onSave }) => {
+const RichTextEditor = ({ onSave, projectId, postId, post }) => {
 
-    const _onSave = (value) => {
-        onSave(value);
+    const _onSave = (_post) => {
+        onSave({
+            ...post,
+            ..._post,
+            type: "post",
+            projectId
+        });
     };
 
     return (
-        <RTEContextProvider>
+        <RTEContextProvider value={post ? post.contents : null} title={post ? post.title : null}>
             <StandardToolBar
                 onSave={_onSave}
+                postId={postId}
+                post={post}
+                projectId={projectId}
             />
             {/*<TableToolBar/>*/}
             <EditorCore />

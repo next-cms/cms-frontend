@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { Fragment } from "react";
 import { css, cx } from "emotion";
 import * as PropTypes from "prop-types";
@@ -189,7 +188,6 @@ export const Menu = React.forwardRef(({ className, ...props }, ref) => (
     />
 ));
 
-// eslint-disable-next-line react/prop-types
 export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
     <Menu
         {...props}

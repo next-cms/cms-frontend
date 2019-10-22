@@ -9,16 +9,20 @@ export const RTEContext = React.createContext();
 /* Then create a provider Component */
 class RTEContextProvider extends Component {
     /* State */
-    state = {
-        value: Value.fromJSON(initialValue),
-        modalVisible: false,
-        modalResolve: () => {
-        },
-        modalReject: () => {
-        },
-        gallerySelectedItem: null,
-        editor: null
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: Value.fromJSON(props.value || initialValue),
+            title: props.title,
+            modalVisible: false,
+            modalResolve: () => {
+            },
+            modalReject: () => {
+            },
+            gallerySelectedItem: null,
+            editor: null
+        };
+    }
 
     /* Actions */
     showModal = () => {

@@ -46,7 +46,7 @@ class AuthContextProvider extends Component {
             user: user,
             token: token,
         });
-        return await redirectTo(RoutesInfo.Dashboard.path, {status: 301});
+        return await redirectTo(RoutesInfo.Home.path, {status: 301});
     };
 
     loginFailed = async (err) => {

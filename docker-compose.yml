@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+    frontend:
+        container_name: pi-cms-frontend
+        image: pi-cms-frontend:0.1.0
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+        network_mode: host
+        volumes:
+            - ./.env:/usr/src/app/.env
+        restart: 'always'
