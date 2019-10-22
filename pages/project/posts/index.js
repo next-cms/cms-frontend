@@ -1,18 +1,18 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PageWrapper from "../../../components/common/PageWrapper";
-import {withAuthSync} from "../../../utils/withAuthSync";
+import { withAuthSync } from "../../../utils/withAuthSync";
 import * as PropTypes from "prop-types";
-import {MenuContext} from "../../../contexts/MenuContextProvider";
+import { MenuContext } from "../../../contexts/MenuContextProvider";
 import RoutesInfo from "../../../constants/RoutesInfo";
 import ProjectDataStore from "../../../components/editor_components/ProjectDataStore";
-import {Affix} from "antd";
+import { Affix } from "antd";
 import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
 
 export const DataStore = (props) => {
     const menuContext = React.useContext(MenuContext);
 
     React.useEffect(() => {
-        menuContext.setSelectedKeys([RoutesInfo.Posts.slug]);
+        menuContext.setSelectedKeys([ RoutesInfo.ProjectPosts.slug ]);
         menuContext.setOpenedKeys([]);
     }, []);
 

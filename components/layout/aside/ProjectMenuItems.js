@@ -1,6 +1,6 @@
 import React from "react";
-import {Icon} from "antd";
-import {injectParams} from "../../../utils/helpers";
+import { Icon } from "antd";
+import { injectParams } from "../../../utils/helpers";
 import RoutesInfo from "../../../constants/RoutesInfo";
 
 export const getProjectMenuItems = (params) => {
@@ -12,6 +12,13 @@ export const getProjectMenuItems = (params) => {
             path: RoutesInfo.ProjectSettings.path,
             subMenu: null
         },
+        layouts: {
+            key: RoutesInfo.ProjectLayouts.slug,
+            title: RoutesInfo.ProjectLayouts.title,
+            icon: <Icon type="snippets"/>,
+            path: RoutesInfo.ProjectLayouts.path,
+            subMenu: null
+        },
         pages: {
             key: RoutesInfo.ProjectPages.slug,
             title: RoutesInfo.ProjectPages.title,
@@ -19,11 +26,32 @@ export const getProjectMenuItems = (params) => {
             path: RoutesInfo.ProjectPages.path,
             subMenu: null
         },
+        menus: {
+            key: RoutesInfo.ProjectMenus.slug,
+            title: RoutesInfo.ProjectMenus.title,
+            icon: <Icon type="snippets"/>,
+            path: RoutesInfo.ProjectMenus.path,
+            subMenu: null
+        },
+        headers: {
+            key: RoutesInfo.ProjectHeaders.slug,
+            title: RoutesInfo.ProjectHeaders.title,
+            icon: <Icon type="snippets"/>,
+            path: RoutesInfo.ProjectHeaders.path,
+            subMenu: null
+        },
+        footers: {
+            key: RoutesInfo.ProjectFooters.slug,
+            title: RoutesInfo.ProjectFooters.title,
+            icon: <Icon type="snippets"/>,
+            path: RoutesInfo.ProjectFooters.path,
+            subMenu: null
+        },
         posts: {
-            key: RoutesInfo.Posts.slug,
-            title: RoutesInfo.Posts.title,
+            key: RoutesInfo.ProjectPosts.slug,
+            title: RoutesInfo.ProjectPosts.title,
             icon: <Icon type="database"/>,
-            path: RoutesInfo.Posts.path,
+            path: RoutesInfo.ProjectPosts.path,
             subMenu: null
         },
         gallery: {

@@ -41,11 +41,53 @@ export default {
         pathAs: "/project/pages",
         title: "Pages"
     },
+    ProjectPageEditor: {
+        slug: "editor",
+        path: "/project/pages/editor",
+        pathAs: "/project/pages/editor",
+        title: "Page Editor"
+    },
     ProjectSettings: {
         slug: "settings",
         path: "/project/settings",
         pathAs: "/project/settings",
         title: "Project Settings"
+    },
+    ProjectPosts: {
+        slug: "posts",
+        path: "/project/posts",
+        pathAs: "/project/posts",
+        title: "Posts"
+    },
+    ProjectPostEditor: {
+        slug: "editor",
+        path: "/project/posts/editor",
+        pathAs: "/project/posts/editor",
+        title: "Post Editor"
+    },
+    ProjectLayouts: {
+        slug: "layouts",
+        path: "/project/layouts",
+        pathAs: "/project/layouts",
+        title: "Layouts"
+    },
+    ProjectHeaders: {
+        slug: "headers",
+        path: "/project/headers",
+        pathAs: "/project/headers",
+        title: "Headers"
+    },
+    ProjectFooters: {
+        slug: "footers",
+        path: "/project/footers",
+        pathAs: "/project/footers",
+        title: "Footers"
+    },
+    ProjectMenus: {
+        slug: "menus",
+        path: "/project/menus",
+        pathAs: "/project/menus",
+        title: "Menus"
     },
     About: {
         slug: "about",
@@ -72,17 +114,5 @@ export default {
         slug: "profile",
         path: "/profile",
         pathAs: "/profile"
-    },
-    PostEditor: {
-        slug: "editor",
-        path: "/project/posts/editor",
-        pathAs: "/project/posts/editor",
-        title: "Post Editor"
-    },
-    Posts: {
-        slug: "posts",
-        path: "/project/posts",
-        pathAs: "/project/posts",
-        title: "Posts"
     },
 };

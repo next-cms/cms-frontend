@@ -26,7 +26,7 @@ const PostEditor = () => {
     });
 
     useEffect(() => {
-        menuContext.setSelectedKeys([RoutesInfo.Posts.slug]);
+        menuContext.setSelectedKeys([ RoutesInfo.ProjectPosts.slug ]);
         menuContext.setOpenedKeys([]);
     }, []);
 
@@ -80,8 +80,8 @@ const PostEditor = () => {
                 } else if (result.updateDataObject) {
                     postId = result.updateDataObject.id;
                 }
-                Router.push(`${RoutesInfo.PostEditor.slug}?projectId=${projectId}&postId=${postId}`,
-                    `${RoutesInfo.PostEditor.slug}?projectId=${projectId}&postId=${postId}`);
+                Router.push(`${RoutesInfo.ProjectPostEditor.slug}?projectId=${projectId}&postId=${postId}`,
+                    `${RoutesInfo.ProjectPostEditor.slug}?projectId=${projectId}&postId=${postId}`);
             }
         } else {
             handleGraphQLAPIErrors(result.error);
