@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Select, Input, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Input, message, Select } from "antd";
 import { ALL_DATAMODEL_TEMPLATES } from "../../utils/GraphQLConstants";
-const { Option } = Select;
 import { useQuery } from "graphql-hooks";
 import { handleGraphQLAPIErrors } from "../../utils/helpers";
 
-const CreateNewModel = props => {
+const { Option } = Select;
+
+const CreateNewDataModel = props => {
     const [modelData, setmodelData] = useState({
         type: "",
         name: "",
@@ -95,4 +96,4 @@ const CreateNewModel = props => {
         </div>
     );
 };
-export default CreateNewModel;
+export default CreateNewDataModel;

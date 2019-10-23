@@ -1,34 +1,31 @@
 import React, { useState } from "react";
-import { Button, Divider, Select, Empty, PageHeader, Card } from "antd";
+import { Button, Card, Divider, Empty, PageHeader, Select } from "antd";
 import { startCase } from "lodash";
-import ModalComponent from "../common/ModalComponent";
-import PageEditorComponent from "./PageEditorComponent";
+import LayoutTemplateSelectionModal from "./LayoutTemplateSelectionModal";
 
 const { Option } = Select;
 
-const LayoutEditorComponent = ({ pageName, projectId }) => {
+const LayoutEditorComponent = ({ projectId }) => {
 
     const [visible, setVisible] = useState(false);
-    const [selectedLayout, setselectedLayout] = useState({});
+    const [ selectedLayout, setSelectedLayout ] = useState();
 
     const showModal = () => {
         setVisible(true);
     };
 
-    const _handleOk = () => {
+    const handleOk = (layout) => {
         setVisible(false);
+        setSelectedLayout(layout);
+        // TODO API call/Mutation
     };
 
-    const _handleCancel = () => {
+    const handleCancel = () => {
         setVisible(false);
-    };
-
-    const getLayout = (value) => {
-        setselectedLayout(value);
     };
 
     return (
-        <div>
+        <React.Fragment>
             <PageHeader
                 title="Layout"
                 subTitle="Choose a new layout"
@@ -37,9 +34,9 @@ const LayoutEditorComponent = ({ pageName, projectId }) => {
                     <Button type="primary" onClick={showModal}>Create New Layout</Button>
                 }
             />
-            {selectedLayout.name === undefined ? (
+            {!selectedLayout ? (
                 <Empty
-                    image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                    image="/images/empty.png"
                     imageStyle={{
                         height: 60,
                     }}
@@ -50,7 +47,7 @@ const LayoutEditorComponent = ({ pageName, projectId }) => {
                     }
                 />) : (<div>
                     <Card title={startCase(selectedLayout.name)} >
-                        <img width="100%" height="100%" src={`/static/layout/${selectedLayout.name}.png`} />
+                        <img width="100%" height="100%" src={`/images/layout/${selectedLayout.name}.png`} alt={""}/>
                     </Card>
                     {selectedLayout.header ? (<div style={{ marginTop: "20px" }}>
                         <h3>Select header</h3>
@@ -88,11 +85,9 @@ const LayoutEditorComponent = ({ pageName, projectId }) => {
                     <div><Button type="primary" style={{ margin: "10px 0px" }}>Save</Button></div>
                 </div>)
             }
-
-            <ModalComponent title="Available Layouts" okText="Ok" visible={visible} handleOk={_handleOk} handleCancel={_handleCancel}>
-                <PageEditorComponent layout={getLayout} />
-            </ModalComponent>
-        </div>
+            <LayoutTemplateSelectionModal visible={visible} handleOk={handleOk} handleCancel={handleCancel}
+                                          currentLayout={selectedLayout}/>
+        </React.Fragment>
     );
 };
 export default LayoutEditorComponent;

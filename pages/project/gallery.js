@@ -1,13 +1,12 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PageWrapper from "../../components/common/PageWrapper";
-import {withAuthSync} from "../../utils/withAuthSync";
-import * as PropTypes from "prop-types";
-import {MenuContext} from "../../contexts/MenuContextProvider";
+import { withAuthSync } from "../../utils/withAuthSync";
+import { MenuContext } from "../../contexts/MenuContextProvider";
 import MediaGallery from "../../components/common/media_gallery/MediaGallery";
 import RoutesInfo from "../../constants/RoutesInfo";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import EditorNavHeader from "../../components/layout/header/EditorNavHeader";
-import {Affix} from "antd";
+import { Affix } from "antd";
 
 const GalleryPage = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -37,10 +36,6 @@ const GalleryPage = (props) => {
             </PageWrapper>
         </Fragment>
     );
-};
-
-GalleryPage.propTypes = {
-    project: PropTypes.object
 };
 
 export default withAuthSync(GalleryPage);

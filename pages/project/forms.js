@@ -1,11 +1,11 @@
 import React from "react";
 import { withAuthSync } from "../../utils/withAuthSync";
 
-const ProjectFooters = ({ brand, navbar }) => {
+const ProjectForms = ({ brand, navbar }) => {
     return (
         <div>
-            footer
+            forms
         </div>
     );
 };
-export default withAuthSync(ProjectFooters);
+export default withAuthSync(ProjectForms);

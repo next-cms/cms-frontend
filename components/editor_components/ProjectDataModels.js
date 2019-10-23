@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Table, Button, Icon, Divider, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Divider, Icon, message, Row, Table } from "antd";
 import ModalComponent from "../common/ModalComponent";
-import CreateNewModel from "../common/CreateNewModel";
-import { ALL_DATAMODELS, ADD_DATAMODEL } from "../../utils/GraphQLConstants";
-import { useQuery, useMutation } from "graphql-hooks";
+import CreateNewDataModel from "../common/CreateNewDataModel";
+import { ADD_DATAMODEL, ALL_DATA_MODELS } from "../../utils/GraphQLConstants";
+import { useMutation, useQuery } from "graphql-hooks";
 import { withRouter } from "next/router";
 import { handleGraphQLAPIErrors } from "../../utils/helpers";
 
@@ -20,7 +20,7 @@ const ProjectDataModels = ({ router }) => {
     const projectId = router.query.projectId;
     console.log("route: ", projectId);
 
-    const { loading, error, data, refetch } = useQuery(ALL_DATAMODELS, {
+    const { loading, error, data, refetch } = useQuery(ALL_DATA_MODELS, {
         variables: { projectId, skip, limit: pageSize }
     });
 
@@ -140,7 +140,7 @@ const ProjectDataModels = ({ router }) => {
                 okText="Next"
                 title="Data Model Form"
             >
-                <CreateNewModel templateData={getTemplateData} />
+                <CreateNewDataModel templateData={getTemplateData}/>
             </ModalComponent>
         </div>
     );

@@ -54,6 +54,13 @@ export const getProjectMenuItems = (params) => {
             path: RoutesInfo.ProjectPosts.path,
             subMenu: null
         },
+        forms: {
+            key: RoutesInfo.ProjectForms.slug,
+            title: RoutesInfo.ProjectForms.title,
+            icon: <Icon type="database"/>,
+            path: RoutesInfo.ProjectForms.path,
+            subMenu: null
+        },
         gallery: {
             key: RoutesInfo.GalleryPage.slug,
             title: RoutesInfo.GalleryPage.title,

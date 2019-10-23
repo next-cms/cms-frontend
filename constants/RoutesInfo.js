@@ -29,6 +29,12 @@ export default {
         pathAs: "/project/available-components",
         title: "Browse Components"
     },
+    ProjectForms: {
+        slug: "forms",
+        path: "/project/forms",
+        pathAs: "/project/forms",
+        title: "Forms"
+    },
     GalleryPage: {
         slug: "gallery",
         path: "/project/gallery",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Divider, message, Radio, Select } from "antd";
+import { message, Radio, Select } from "antd";
 import { useQuery } from "graphql-hooks";
 import { ALL_LAYOUT_TEMPLATES } from "../../utils/GraphQLConstants";
 import { handleGraphQLAPIErrors } from "../../utils/helpers";
@@ -11,12 +11,7 @@ const PageEditorComponent = ({ layout, pageName, projectId }) => {
     const [skip, setSkip] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const [currentLayout, setCurrentLayout] = useState("layout1");
-    const [layoutData, setLayoutData] = useState({
-        name: "",
-        header: false,
-        footer: false,
-        sider: false
-    });
+    const [ layoutData, setLayoutData ] = useState(null);
 
     const { loading, error, data, refetch } = useQuery(ALL_LAYOUT_TEMPLATES, {
         variables: { skip, limit: pageSize },
@@ -63,7 +58,7 @@ const PageEditorComponent = ({ layout, pageName, projectId }) => {
                         <Radio key={item.name} value={item.name}>
                             {item.name}
                             <div style={{ width: "250px", height: "150px", marginLeft: "25px", marginTop: "20px" }}>
-                                <img width="100%" height="100%" src={`/static/layout/${item.name}.png`} />
+                                <img width="100%" height="100%" src={`/images/layout/${item.name}.png`} alt={""}/>
                             </div>
                         </Radio>
                     ))}

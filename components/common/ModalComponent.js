@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 
 // eslint-disable-next-line react/prop-types
 const ModalComponent = ({ title, okText, visible, handleOk, handleCancel, children }) => {
-
     const _handleOk = (e) => {
         handleOk(e);
     };

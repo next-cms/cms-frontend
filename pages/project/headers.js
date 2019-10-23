@@ -1,4 +1,5 @@
 import React from "react";
+import { withAuthSync } from "../../utils/withAuthSync";
 
 const ProjectHeaders = ({ brand, navbar }) => {
     return (
@@ -7,4 +8,4 @@ const ProjectHeaders = ({ brand, navbar }) => {
         </div>
     );
 };
-export default ProjectHeaders;
+export default withAuthSync(ProjectHeaders);

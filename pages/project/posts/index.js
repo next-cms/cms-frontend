@@ -30,9 +30,7 @@ export const DataStore = (props) => {
                 minHeight: "calc(100vh - 80px)",
                 padding: "20px"
             }}>
-                {/* <RichTextEditor/> */}
                 <ProjectDataStore project={props.project}/>
-                {/* <RichTextViewer /> */}
             </PageWrapper>
         </Fragment>
     );

@@ -6,6 +6,7 @@ import LayoutEditorComponent from "../../components/editor_components/LayoutEdit
 import { useRouter } from "next/router";
 import RoutesInfo from "../../constants/RoutesInfo";
 import { MenuContext } from "../../contexts/MenuContextProvider";
+import { withAuthSync } from "../../utils/withAuthSync";
 
 const ProjectLayouts = ({}) => {
     const menuContext = React.useContext(MenuContext);
@@ -36,4 +37,5 @@ const ProjectLayouts = ({}) => {
         </Fragment>
     );
 };
-export default ProjectLayouts;
+
+export default withAuthSync(ProjectLayouts);

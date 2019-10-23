@@ -62,7 +62,7 @@ const SimplePageBuilder = ({ pageDetails, pageName }) => {
         setStyle({
             ...initStyle,
             visibility: "visible",
-            background: "url(/static/loader.gif) center center no-repeat"
+            background: "url(/images/loader.gif) center center no-repeat"
         });
     }, [pageName, tab]);
 
@@ -75,7 +75,7 @@ const SimplePageBuilder = ({ pageDetails, pageName }) => {
                 setStyle({
                     ...initStyle,
                     visibility: "visible",
-                    background: "url(/static/loader.gif) center center no-repeat"
+                    background: "url(/images/loader.gif) center center no-repeat"
                 });
             }
         }
@@ -91,7 +91,7 @@ const SimplePageBuilder = ({ pageDetails, pageName }) => {
             setStyle({
                 ...initStyle,
                 visibility: "visible",
-                background: "url(/static/loader.gif) center center no-repeat"
+                background: "url(/images/loader.gif) center center no-repeat"
             });
         }
     };
