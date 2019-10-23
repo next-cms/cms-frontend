@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import { Affix } from "antd";
-import EditorNavHeader from "../../components/layout/header/EditorNavHeader";
-import PageWrapper from "../../components/common/PageWrapper";
-import LayoutEditorComponent from "../../components/editor_components/LayoutEditorComponent";
+import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
+import PageWrapper from "../../../components/common/PageWrapper";
+import LayoutEditorComponent from "../../../components/editor_components/LayoutEditorComponent";
 import { useRouter } from "next/router";
-import RoutesInfo from "../../constants/RoutesInfo";
-import { MenuContext } from "../../contexts/MenuContextProvider";
-import { withAuthSync } from "../../utils/withAuthSync";
+import RoutesInfo from "../../../constants/RoutesInfo";
+import { MenuContext } from "../../../contexts/MenuContextProvider";
+import { withAuthSync } from "../../../utils/withAuthSync";
 
 const ProjectLayouts = ({}) => {
     const menuContext = React.useContext(MenuContext);

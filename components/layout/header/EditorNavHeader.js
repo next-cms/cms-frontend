@@ -1,9 +1,9 @@
 import React from "react";
-import {Button, Layout, message, Modal} from "antd";
+import { Button, Layout, message, Modal } from "antd";
 import Link from "next/link";
 import "./nav_header.scss";
 import RoutesInfo from "../../../constants/RoutesInfo";
-import Router, {useRouter} from "next/router";
+import Router, { useRouter } from "next/router";
 import ProjectService from "../../../services/ProjectService";
 
 const {Header} = Layout;
@@ -53,12 +53,12 @@ const EditorNavHeader = ({children}) => {
     return (
         <Header className="nav_header editor_nav_header">
             <div className="left">
-                <Button type="danger" onClick={() => Router.back()}>Back</Button>
-                {children}
-            </div>
-            <div className="right">
+                <Button type="danger" onClick={() => Router.back()} style={{ marginRight: "5px" }}>Back</Button>
                 {!process.env.SINGLE_PROJECT_MODE &&
                 <Link href={RoutesInfo.Dashboard.path}><Button type="danger">Close Project</Button></Link>}
+            </div>
+            <div className="right">
+                {children}
                 {/*<Button type="primary" onClick={confirm}>Publish</Button>*/}
                 {/*<Button style={{marginLeft: "5px"}} ghost>Preview</Button>*/}
             </div>

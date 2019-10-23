@@ -7,7 +7,7 @@ const { Option } = Select;
 
 const LayoutEditorComponent = ({ projectId }) => {
 
-    const [visible, setVisible] = useState(false);
+    const [ visible, setVisible ] = useState(false);
     const [ selectedLayout, setSelectedLayout ] = useState();
 
     const showModal = () => {
@@ -29,24 +29,27 @@ const LayoutEditorComponent = ({ projectId }) => {
             <PageHeader
                 title="Layout"
                 subTitle="Choose a new layout"
-                extra={
-
-                    <Button type="primary" onClick={showModal}>Create New Layout</Button>
-                }
             />
-            {!selectedLayout ? (
+            {!selectedLayout ?
                 <Empty
                     image="/images/empty.png"
                     imageStyle={{
                         height: 60,
                     }}
                     description={
-                        <span>
-                            You have no layout
-                        </span>
+                        <React.Fragment>
+                            <span style={{ display: "block", marginBottom: "10px" }}>
+                                First select a layout template
+                            </span>
+                            <Button type="primary" onClick={showModal}>Choose a Layout Template</Button>
+                        </React.Fragment>
                     }
-                />) : (<div>
-                    <Card title={startCase(selectedLayout.name)} >
+                /> :
+                <React.Fragment>
+                    <Card title={startCase(selectedLayout.name)} extra={
+                        <Button type="primary" onClick={showModal} style={{ marginTop: "10px" }}>Change Layout
+                            Template</Button>
+                    }>
                         <img width="100%" height="100%" src={`/images/layout/${selectedLayout.name}.png`} alt={""}/>
                     </Card>
                     {selectedLayout.header ? (<div style={{ marginTop: "20px" }}>
@@ -83,7 +86,7 @@ const LayoutEditorComponent = ({ projectId }) => {
                         </div>
                     </div>) : ""}
                     <div><Button type="primary" style={{ margin: "10px 0px" }}>Save</Button></div>
-                </div>)
+                </React.Fragment>
             }
             <LayoutTemplateSelectionModal visible={visible} handleOk={handleOk} handleCancel={handleCancel}
                                           currentLayout={selectedLayout}/>

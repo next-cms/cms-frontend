@@ -77,6 +77,12 @@ export default {
         pathAs: "/project/layouts",
         title: "Layouts"
     },
+    ProjectLayoutEditor: {
+        slug: "editor",
+        path: "/project/layouts/editor",
+        pathAs: "/project/layouts/editor",
+        title: "Layout Editor"
+    },
     ProjectHeaders: {
         slug: "headers",
         path: "/project/headers",
