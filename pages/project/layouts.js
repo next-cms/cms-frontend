@@ -2,8 +2,21 @@ import React, { Fragment } from "react";
 import { Affix } from "antd";
 import EditorNavHeader from "../../components/layout/header/EditorNavHeader";
 import PageWrapper from "../../components/common/PageWrapper";
+import LayoutEditorComponent from "../../components/editor_components/LayoutEditorComponent";
+import { useRouter } from "next/router";
+import RoutesInfo from "../../constants/RoutesInfo";
+import { MenuContext } from "../../contexts/MenuContextProvider";
 
 const ProjectLayouts = ({}) => {
+    const menuContext = React.useContext(MenuContext);
+    const router = useRouter();
+
+    const projectId = router.query.projectId;
+
+    React.useEffect(() => {
+        menuContext.setOpenedKeys([ RoutesInfo.ProjectLayouts.slug ]);
+    }, []);
+
     return (
         <Fragment>
             <Affix>
@@ -18,7 +31,7 @@ const ProjectLayouts = ({}) => {
                 minHeight: "calc(100vh - 80px)",
                 padding: "20px"
             }}>
-                Layouts
+                <LayoutEditorComponent projectId={projectId}/>
             </PageWrapper>
         </Fragment>
     );
