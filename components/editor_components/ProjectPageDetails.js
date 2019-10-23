@@ -1,13 +1,10 @@
-import React, {useEffect} from "react";
-import {message, Row} from "antd";
-import ListPageComponents from "./ListPageComponents";
-import PreviewPageComponents from "./PreviewPageComponents";
-import {useQuery} from "graphql-hooks";
-import {SplitPanel} from "../common/SplitPanel";
-import ListComponentProperties from "./ListComponentProperties";
-import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
-import {PAGE_DETAILS} from "../../utils/GraphQLConstants";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import React, { useEffect } from "react";
+import { message, Row } from "antd";
+import SimplePageBuilder from "./SimplePageBuilder";
+import { useQuery } from "graphql-hooks";
+import { DataStoreContext } from "../../contexts/DataStoreContextProvider";
+import { PAGE_DETAILS } from "../../utils/GraphQLConstants";
+import { handleGraphQLAPIErrors } from "../../utils/helpers";
 
 const ProjectPageDetails = ({pageName, projectId}) => {
     // console.log("router", router);
@@ -43,12 +40,15 @@ const ProjectPageDetails = ({pageName, projectId}) => {
 
     if (error || !data) return <Row gutter={4}/>;
 
+    // return (
+    //     <SplitPanel>
+    //         <ListPageComponents pageDetails={data.page}/>
+    //         <SimplePageBuilder pageDetails={data.page} pageName={pageName}/>
+    //         <ListComponentProperties pageDetails={data.page}/>
+    //     </SplitPanel>
+    // );
     return (
-        <SplitPanel>
-            <ListPageComponents pageDetails={data.page}/>
-            <PreviewPageComponents pageDetails={data.page} pageName={pageName}/>
-            <ListComponentProperties pageDetails={data.page}/>
-        </SplitPanel>
+        <SimplePageBuilder pageDetails={data.page} pageName={pageName}/>
     );
 };
 

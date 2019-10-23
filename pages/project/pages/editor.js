@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import RoutesInfo from "../../../constants/RoutesInfo";
 import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
 import { Affix } from "antd";
-import PageEditorComponent from "../../../components/editor_components/PageEditorComponent";
+import ProjectPageDetails from "../../../components/editor_components/ProjectPageDetails";
 
 const Pages = (props) => {
     const menuContext = React.useContext(MenuContext);
@@ -30,8 +30,9 @@ const Pages = (props) => {
                 display: "flex",
                 flex: "0 0 100%",
                 minHeight: "calc(100vh - 80px)",
+                padding: "5px"
             }}>
-                <PageEditorComponent pageName={pageName} projectId={projectId}/>
+                <ProjectPageDetails pageName={pageName} projectId={projectId}/>
             </PageWrapper>
         </Fragment>
     );

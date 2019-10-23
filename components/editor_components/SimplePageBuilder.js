@@ -1,17 +1,18 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import * as PropTypes from "prop-types";
 
 import getConfig from "next/config";
-import {useRouter} from "next/router";
-import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
-import {Button, Col, message, Row, Tabs} from "antd";
-import {useMutation, useQuery} from "graphql-hooks";
+import { useRouter } from "next/router";
+import { DataStoreContext } from "../../contexts/DataStoreContextProvider";
+import { Button, Col, message, Row, Tabs } from "antd";
+import { useMutation, useQuery } from "graphql-hooks";
 import dynamic from "next/dynamic";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
-import {DELETE_PAGE, PAGE_SOURCE_CODE, SAVE_PAGE_SOURCE_CODE} from "../../utils/GraphQLConstants";
-import {MenuContext} from "../../contexts/MenuContextProvider";
-import {redirectTo} from "../common/Redirect";
+import { handleGraphQLAPIErrors } from "../../utils/helpers";
+import { DELETE_PAGE, PAGE_SOURCE_CODE, SAVE_PAGE_SOURCE_CODE } from "../../utils/GraphQLConstants";
+import { MenuContext } from "../../contexts/MenuContextProvider";
+import { redirectTo } from "../common/Redirect";
 import RoutesInfo from "../../constants/RoutesInfo";
+import PageEditorComponent from "./PageEditorComponent";
 
 const {TabPane} = Tabs;
 const {publicRuntimeConfig} = getConfig();
@@ -24,10 +25,10 @@ const initStyle = {
     height: "calc(100vh - 174px)"
 };
 
-const PreviewPageComponents = ({pageDetails, pageName}) => {
+const SimplePageBuilder = ({ pageDetails, pageName }) => {
     const ref = useRef();
     const [style, setStyle] = React.useState(initStyle);
-    const [tab, setTab] = React.useState("2");
+    const [ tab, setTab ] = React.useState("1");
     const dataStoreContext = useContext(DataStoreContext);
     const menuContext = useContext(MenuContext);
 
@@ -139,13 +140,8 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
     return (
         <Tabs onChange={onTabChange} type="card" style={{flex: "1 1 auto"}} activeKey={tab}
               tabBarExtraContent={deleteButton}>
-            <TabPane tab="Preview" key="1">
-                <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>
-                <Row>
-                    <Col>
-                        <Button type="primary" onClick={onRefreshClick}>Refresh/Reload</Button>
-                    </Col>
-                </Row>
+            <TabPane tab="Properties" key="1">
+                <PageEditorComponent pageName={pageName} projectId={projectId}/>
             </TabPane>
             <TabPane tab="Source Code" key="2">
                 <CodeEditor
@@ -157,13 +153,21 @@ const PreviewPageComponents = ({pageDetails, pageName}) => {
                     width="100%"
                 />
             </TabPane>
+            <TabPane tab="Preview" key="3">
+                <iframe ref={ref} id="ifPageComponents" width="100%" height="100%" style={style} onLoad={onLoad}/>
+                <Row>
+                    <Col>
+                        <Button type="primary" onClick={onRefreshClick}>Refresh/Reload</Button>
+                    </Col>
+                </Row>
+            </TabPane>
         </Tabs>
     );
 };
 
-PreviewPageComponents.propTypes = {
+SimplePageBuilder.propTypes = {
     pageDetails: PropTypes.object,
     pageName: PropTypes.string,
 };
 
-export default PreviewPageComponents;
+export default SimplePageBuilder;
