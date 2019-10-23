@@ -1,12 +1,12 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
-import {Button, Divider, Icon, message, Table} from "antd";
-import {useMutation, useQuery} from "graphql-hooks";
-import {ADD_PAGE, DELETE_PAGE, PROJECT_PAGES} from "../../utils/GraphQLConstants";
-import {handleGraphQLAPIErrors} from "../../utils/helpers";
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { Button, Divider, Icon, message, Table } from "antd";
+import { useMutation, useQuery } from "graphql-hooks";
+import { ADD_PAGE, DELETE_PAGE, PROJECT_PAGES } from "../../utils/GraphQLConstants";
+import { handleGraphQLAPIErrors } from "../../utils/helpers";
 import Link from "next/link";
 import RoutesInfo from "../../constants/RoutesInfo";
 import Router from "next/router";
-import {DataStoreContext} from "../../contexts/DataStoreContextProvider";
+import { DataStoreContext } from "../../contexts/DataStoreContextProvider";
 
 const ProjectPages = ({projectId}) => {
     const [skip, setSkip] = useState(0);
@@ -43,8 +43,8 @@ const ProjectPages = ({projectId}) => {
         });
         if (!result.error) {
             const newPage = result.data.addPage;
-            Router.push(`${RoutesInfo.ProjectPages.path}?projectId=${projectId}&pageName=${newPage.slug}`,
-                `${RoutesInfo.ProjectPages.path}/?projectId=${projectId}&pageName=${newPage.slug}`);
+            Router.push(`${RoutesInfo.ProjectPageEditor.path}?projectId=${projectId}&pageName=${newPage.slug}`,
+                `${RoutesInfo.ProjectPageEditor.path}/?projectId=${projectId}&pageName=${newPage.slug}`);
         } else {
             handleGraphQLAPIErrors(result.error);
         }
@@ -92,7 +92,7 @@ const ProjectPages = ({projectId}) => {
             key: "action",
             render: (text, record) => (
                 <span>
-                    <Link href={`${RoutesInfo.ProjectPages.path}?projectId=${projectId}&pageName=${record.slug}`}>
+                    <Link href={`${RoutesInfo.ProjectPageEditor.path}?projectId=${projectId}&pageName=${record.slug}`}>
                         <a>
                             <Icon style={{color: "blue"}} type="edit"/>
                         </a>

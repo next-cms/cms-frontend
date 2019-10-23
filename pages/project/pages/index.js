@@ -40,6 +40,13 @@ const Pages = (props) => {
         );
     }
 
+    /**
+     * We are now redirecting to a simpler page builder for editing.
+     * Holding the creation of the complex one. Simpler builder's path
+     * is {RoutesInfo.ProjectPageEditor.path} and the complex one
+     * is {RoutesInfo.ProjectPages.path}?pageName=<pageName>
+     */
+
     return (
         <Fragment>
             <Affix>
