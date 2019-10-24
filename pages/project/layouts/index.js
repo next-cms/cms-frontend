@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Affix, Button, PageHeader } from "antd";
+import { Affix, Button, PageHeader, Table, Divider, Icon, } from "antd";
 import EditorNavHeader from "../../../components/layout/header/EditorNavHeader";
 import PageWrapper from "../../../components/common/PageWrapper";
 import { useRouter } from "next/router";
@@ -8,14 +8,64 @@ import { MenuContext } from "../../../contexts/MenuContextProvider";
 import { withAuthSync } from "../../../utils/withAuthSync";
 import Link from "next/link";
 
-const ProjectLayouts = ({}) => {
+const ProjectLayouts = ({ }) => {
+
+    const dataSource = [];
+
+    const onDeleteLayout = (layout) => {
+        console.log("Deleted layout", layout);
+    };
+
+    const columns = [
+        {
+            title: "Layout Name",
+            dataIndex: "name",
+            key: "name",
+        },
+        {
+            title: "Header",
+            dataIndex: "header",
+            key: "header",
+        },
+        {
+            title: "Footer",
+            dataIndex: "footer",
+            key: "footer",
+        },
+        {
+            title: "Sider",
+            dataIndex: "sider",
+            key: "sider",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (text, record) => (
+                <span>
+                    <Link href={`${RoutesInfo.ProjectLayoutEditor.path}?projectId=${projectId}&layoutId=${record.id}`}>
+                        <a>
+                            <Icon style={{ color: "blue" }} type="edit" />
+                        </a>
+                    </Link>
+                    <Divider type="vertical" />
+                    <Fragment>
+                        <a onClick={() => onDeleteLayout(record)}>
+                            <Icon style={{ color: "red" }} type="delete" />
+                        </a>
+
+                    </Fragment>
+                </span>
+            )
+        }
+    ];
+
     const menuContext = React.useContext(MenuContext);
     const router = useRouter();
 
     const projectId = router.query.projectId;
 
     React.useEffect(() => {
-        menuContext.setOpenedKeys([ RoutesInfo.ProjectLayouts.slug ]);
+        menuContext.setOpenedKeys([RoutesInfo.ProjectLayouts.slug]);
     }, []);
 
     return (
@@ -42,7 +92,7 @@ const ProjectLayouts = ({}) => {
                     title="Layout"
                     subTitle="Choose a new layout"
                 />
-                {/* TODO Create a table view to show all available layouts. Not the layout templates. */}
+                <Table dataSource={dataSource} columns={columns} />;
             </PageWrapper>
         </Fragment>
     );

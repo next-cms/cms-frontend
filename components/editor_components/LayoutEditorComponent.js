@@ -7,8 +7,8 @@ const { Option } = Select;
 
 const LayoutEditorComponent = ({ projectId }) => {
 
-    const [ visible, setVisible ] = useState(false);
-    const [ selectedLayout, setSelectedLayout ] = useState();
+    const [visible, setVisible] = useState(false);
+    const [selectedLayout, setSelectedLayout] = useState();
 
     const showModal = () => {
         setVisible(true);
@@ -17,6 +17,7 @@ const LayoutEditorComponent = ({ projectId }) => {
     const handleOk = (layout) => {
         setVisible(false);
         setSelectedLayout(layout);
+        console.log("layout: ", layout);
         // TODO API call/Mutation
     };
 
@@ -50,7 +51,7 @@ const LayoutEditorComponent = ({ projectId }) => {
                         <Button type="primary" onClick={showModal} style={{ marginTop: "10px" }}>Change Layout
                             Template</Button>
                     }>
-                        <img width="100%" height="100%" src={`/images/layout/${selectedLayout.name}.png`} alt={""}/>
+                        <img width="100%" height="100%" src={`/images/layout/${selectedLayout.name}.png`} alt={""} />
                     </Card>
                     {selectedLayout.header ? (<div style={{ marginTop: "20px" }}>
                         <h3>Select header</h3>
@@ -89,7 +90,7 @@ const LayoutEditorComponent = ({ projectId }) => {
                 </React.Fragment>
             }
             <LayoutTemplateSelectionModal visible={visible} handleOk={handleOk} handleCancel={handleCancel}
-                                          currentLayout={selectedLayout}/>
+                currentLayout={selectedLayout} />
         </React.Fragment>
     );
 };
