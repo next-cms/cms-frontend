@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { Button, Card, Divider, Empty, PageHeader, Select } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Card, Divider, Empty, PageHeader, Select, message } from "antd";
 import { startCase } from "lodash";
 import LayoutTemplateSelectionModal from "./LayoutTemplateSelectionModal";
+import { CREATE_LAYOUT } from "../../utils/GraphQLConstants";
+import { useMutation } from "graphql-hooks";
 
 const { Option } = Select;
 
@@ -9,6 +11,11 @@ const LayoutEditorComponent = ({ projectId }) => {
 
     const [visible, setVisible] = useState(false);
     const [selectedLayout, setSelectedLayout] = useState();
+    const [header, setHeader] = useState(null);
+    const [footer, setFooter] = useState(null);
+    const [leftSider, setLeftSider] = useState(null);
+    const [rightSider, setRightSider] = useState(null);
+    const [createLayout, setCreateLayout] = useMutation(CREATE_LAYOUT);
 
     const showModal = () => {
         setVisible(true);
@@ -17,8 +24,23 @@ const LayoutEditorComponent = ({ projectId }) => {
     const handleOk = (layout) => {
         setVisible(false);
         setSelectedLayout(layout);
-        console.log("layout: ", layout);
-        // TODO API call/Mutation
+    };
+
+    const name = !selectedLayout ? "" : startCase(selectedLayout.name);
+    const layoutTemplateId = !selectedLayout ? "" : selectedLayout.id;
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        const result = await createLayout({
+            variables: {
+                layout: { name, header, footer, leftSider, rightSider, layoutTemplateId, projectId },
+                projectId: projectId
+            }
+        });
+        if (!result.error) {
+            message.success("WOW! You have created a layout!");
+        }
+
     };
 
     const handleCancel = () => {
@@ -56,7 +78,7 @@ const LayoutEditorComponent = ({ projectId }) => {
                     {selectedLayout.header ? (<div style={{ marginTop: "20px" }}>
                         <h3>Select header</h3>
                         <div style={{ display: "flex" }}>
-                            <Select defaultValue="Select a header" style={{ width: 250, marginRight: "10px" }}>
+                            <Select defaultValue="Select a header" style={{ width: 250, marginRight: "10px" }} onChange={(value) => setHeader(value)}>
                                 <Option value="header1">Header 1</Option>
                                 <Option value="header2">Header 2</Option>
                             </Select>
@@ -67,7 +89,7 @@ const LayoutEditorComponent = ({ projectId }) => {
                     {selectedLayout.footer ? (<div style={{ marginTop: "20px" }}>
                         <h3>Select footer</h3>
                         <div style={{ display: "flex" }}>
-                            <Select defaultValue="Select a footer" style={{ width: 250, marginRight: "10px" }}>
+                            <Select defaultValue="Select a footer" style={{ width: 250, marginRight: "10px" }} onChange={value => setFooter(value)}>
                                 <Option value="footer1">Footer 1</Option>
                                 <Option value="footer2">Footer 2</Option>
                             </Select>
@@ -78,15 +100,18 @@ const LayoutEditorComponent = ({ projectId }) => {
                     {selectedLayout.sider ? (<div style={{ marginTop: "20px" }}>
                         <h3>Select sider</h3>
                         <div style={{ display: "flex" }}>
-                            <Select defaultValue="Select a sider" style={{ width: 250, marginRight: "10px" }}>
-                                <Option value="footer1">Sider 1</Option>
-                                <Option value="footer2">Sider 2</Option>
+                            <Select defaultValue="Select a sider" style={{ width: 250, marginRight: "10px" }} onChange={value => {
+                                setLeftSider(value);
+                                setRightSider(value);
+                            }}>
+                                <Option value="sider 1">Sider 1</Option>
+                                <Option value="sider 2">Sider 2</Option>
                             </Select>
                             <Divider style={{ width: "8%", minWidth: "0%", margin: "5px 10px" }}>OR</Divider>
                             <Button>Create Custom Sider</Button>
                         </div>
                     </div>) : ""}
-                    <div><Button type="primary" style={{ margin: "10px 0px" }}>Save</Button></div>
+                    <div><Button type="primary" style={{ margin: "10px 0px" }} onClick={handleSave}>Save</Button></div>
                 </React.Fragment>
             }
             <LayoutTemplateSelectionModal visible={visible} handleOk={handleOk} handleCancel={handleCancel}

@@ -406,3 +406,49 @@ export const ALL_LAYOUT_TEMPLATES = `
      count
    }
  }`;
+
+export const ALL_CREATED_LAYOUTS = `
+  query allLayoutsByProject($projectId: String!, $limit: Int, $skip: Int){
+    allLayoutsByProject(projectId: $projectId, limit: $limit, skip: $skip){
+      id
+      name
+      header
+      footer
+      leftSider
+      rightSider
+      layoutTemplateId
+      projectId
+    }
+  }`;
+
+export const CREATE_LAYOUT = `
+    mutation createLayout($layout: LayoutInput, $projectId: String!){
+      createLayout(layout: $layout, projectId: $projectId){
+        id
+        name
+        header
+        footer
+        leftSider
+        rightSider
+        layoutTemplateId
+        projectId
+      }
+  }`;
+
+export const UPDATE_LAYOUT = `
+  mutation updateLayout($layout: LayoutInput, $projectId: String!){
+    updateLayout(layout: $layout, projectId: $projectId){
+      id
+      name
+      header
+      footer
+      leftSider
+      rightSider
+      layoutTemplateId
+      projectId
+    }
+  }`;
+export const DELETE_LAYOUT = `
+mutation DeleteLayout($id: ID!, $projectId: String!){
+    deleteLayout(id: $id, projectId: $projectId)
+}`;
