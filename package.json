@@ -16,7 +16,7 @@
         "eslint": "^5.16.0",
         "eslint-config-standard-jsx": "^7.0.0",
         "eslint-plugin-react": "^7.14.3",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "graphql-hooks": "^4.0.1",
         "graphql-hooks-memcache": "^1.2.3",
         "graphql-hooks-ssr": "^1.1.3",
